@@ -1,0 +1,30 @@
+# Ignore everything Git ignores
+.git
+.gitignore
+
+# Node / frontend
+frontend/node_modules
+frontend/.next
+frontend/out
+frontend/.turbo
+frontend/dist
+frontend/.env.local
+
+# Gradle
+.gradle
+**/build
+**/out
+**/classes
+
+# VSCode and editor files
+.vscode
+.idea
+*.iml
+
+# OS / temp files
+.DS_Store
+Thumbs.db
+
+# Docker & Compose artifacts
+docker-compose.override.yml
+.docker/

@@ -1,0 +1,9 @@
+subprojects {
+  repositories {
+    mavenCentral()
+  }
+
+  group = "p3.group"
+  version = "1.0.0"
+  description = 'AAU football league backend'
+}
