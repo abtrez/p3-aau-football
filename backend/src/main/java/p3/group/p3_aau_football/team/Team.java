@@ -1,6 +1,7 @@
 package p3.group.p3_aau_football.team;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import p3.group.p3_aau_football.people.Person;
 
@@ -9,8 +10,18 @@ public class Team {
     private String abbreviation;
     private LocalDate established;
     private List<Person> members;
-    private String contactPerson;
-    private String institute; // consider institute/education, if there can be more teams pr. institute
+    private Person contactPerson;
+    private String instituteName; // consider institute/education, if there can be more teams pr. institute
+
+    public Team(String name, LocalDate established, Person contactPerson, String instituteName) {
+        this.name = name;
+        this.established = established;
+        this.contactPerson = contactPerson;
+        this.instituteName = instituteName;
+        this.members = new ArrayList<Person>();
+    }
+    public Team() {
+    }
 
     public String getName() {
         return this.name;
@@ -27,9 +38,7 @@ public class Team {
     public LocalDate getEstablished() {
         return this.established;
     }
-    public void setEstablished(LocalDate date) {
-        this.established = date;
-    }
+
     public List<Person> getMembers() {
         return this.members;
     }
@@ -41,4 +50,17 @@ public class Team {
         members.remove(member);
     }
 
+    public Person getContactPerson() {
+        return this.contactPerson;
+    }
+    public void setContactPerson(Person contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+    public String getInstituteName() {
+        return this.instituteName;
+    }
+    public void setInstituteName(String instituteName) {
+        this.instituteName = instituteName;
+    }
 }
