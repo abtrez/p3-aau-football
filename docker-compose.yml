@@ -11,8 +11,8 @@ services:
     environment:
       - MONGODB_URI=mongodb://root:root@database:27017/football?authSource=admin
     # Uncomment ports for development:
-    ports:
-      - "8080:8080"
+    #ports:
+    #  - "8080:8080"
     restart: always
 
   frontend:
@@ -37,8 +37,8 @@ services:
     networks:
       - p3-aau-football
     # Uncomment ports for development:
-    ports:
-      - "27018:27017"
+    #ports:
+    #  - "27018:27017"
     volumes:
       - "./db:/data/db:rw"
     healthcheck:
