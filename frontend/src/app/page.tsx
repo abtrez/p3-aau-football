@@ -1,5 +1,11 @@
 import Image from "next/image";
+import MatchCard from "@/app/components/MatchCard";
 
 export default function Home() {
-  <p>Hello World</p>;
+  return (
+    <>
+      <p>Hello World</p>
+      <MatchCard />
+    </>
+  );
 }
