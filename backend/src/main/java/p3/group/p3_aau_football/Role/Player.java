@@ -2,7 +2,7 @@ package p3.group.p3_aau_football.Role;
 
 import p3.group.p3_aau_football.team.Team;
 
-public class Player {
+public class Player extends Role {
 
     private Team team;
     private int shirtNumber;

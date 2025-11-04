@@ -1,6 +1,6 @@
 package p3.group.p3_aau_football.Role;
 
-public class ContactPerson {
+public class ContactPerson extends Role {
 
     private String phoneNumber;
 
