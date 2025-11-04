@@ -1,8 +1,9 @@
 package p3.group.p3_aau_football.Role;
 
+import p3.group.p3_aau_football.Permission.Permission;
 import p3.group.p3_aau_football.team.Team;
 
-public class Coach {
+public class Coach extends Role implements Permission {
 
     private Team team;
     private Boolean isAssistant;
