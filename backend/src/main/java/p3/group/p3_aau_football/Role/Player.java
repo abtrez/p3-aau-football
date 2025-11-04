@@ -1,4 +1,5 @@
 package p3.group.p3_aau_football.Role;
 
-public class Player {
+public class Player extends Role{
+
 }
