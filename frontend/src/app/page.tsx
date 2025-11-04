@@ -1,11 +1,10 @@
-import Image from "next/image";
-import MatchCard from "@/app/components/MatchCard";
+import MatchOverview from "@/app/components/MatchOverview";
 
 export default function Home() {
   return (
     <>
-      <p>Hello World</p>
-      <MatchCard />
+      <h1 className="text-2xl text-center mb-3">Match Overview</h1>
+      <MatchOverview />
     </>
   );
 }
