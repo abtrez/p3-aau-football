@@ -17,9 +17,7 @@ export default function TeamBadge({ name, logo }: TeamBadgeInterface) {
           height={50}
         />
       </div>
-      <span className="w-full text-center text-sm font-medium text-gray-700 leading-tight">
-        {name}
-      </span>
+      <span className="text-center text-sm text-gray-700">{name}</span>
     </div>
   );
 }
