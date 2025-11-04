@@ -8,7 +8,9 @@ import java.util.List;
 
 public abstract class Competition {
     protected String name;
-    Season season;
-    List<Team> participatingTeams;
-    List<Match> matches;
+    protected Season season;
+    protected List<Team> participatingTeams;
+    protected List<Match> matches;
+
+
 }

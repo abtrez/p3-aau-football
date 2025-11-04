@@ -13,7 +13,7 @@ public class Match {
     //Score & Events
     private int homeScore;
     private int awayScore;
-    List<MatchEvent> matchEvents;
+    private List<MatchEvent> matchEvents;
 
     //Details
     /*

@@ -11,5 +11,5 @@ public class Season {
     // (dateTime) toDate
 
     //Within this season
-    List<Competition> competitions;
+    private List<Competition> competitions;
 }
