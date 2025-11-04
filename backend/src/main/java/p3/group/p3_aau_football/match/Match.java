@@ -1,21 +1,27 @@
 package p3.group.p3_aau_football.match;
 
 
+import p3.group.p3_aau_football.team.Team;
+
 public class Match {
-    private String homeTeam;
-    private String awayTeam;
+    private int id;
+    private Team homeTeam;
+    private Team awayTeam;
 
 
-    public Match(String homeTeam, String awayTeam) {
+
+
+
+    public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
     }
 
-    public String getHomeTeam(){
+    public Team getHomeTeam(){
         return this.homeTeam;
     }
 
-    public String getAwayTeam(){
+    public Team getAwayTeam(){
         return this.awayTeam;
     }
 }
