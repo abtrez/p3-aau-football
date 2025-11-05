@@ -2,6 +2,7 @@ package p3.group.p3_aau_football.team;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -19,17 +20,18 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @GetMapping("/teams")
+    @GetMapping("/get")
     public List<Team> getTeams() {
         return this.teamService.getTeams();
     }
 
     /**
      * This method gets an id, and returns the corresponding team
+     *
      * @param id of the team
      * @return The team that corresponds to the id
      */
-    @GetMapping("/teams/{id}")
+    @GetMapping("/get/{id}")
     public Optional<Team> getTeam(@PathVariable("id") String id) {
         return this.teamService.getTeamById(id);
     }
