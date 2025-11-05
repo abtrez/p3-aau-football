@@ -16,8 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/match")
 public class MatchController {
 
+    private MatchService matchService;
+
     @Autowired
-    MatchService matchService;
+    public MatchController(MatchService matchService) {
+        this.matchService = matchService;
+    }
 
     @GetMapping("/overview")
     public List<Match> getMatches() {
