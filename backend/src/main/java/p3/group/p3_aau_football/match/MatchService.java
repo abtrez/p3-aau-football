@@ -6,15 +6,18 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import p3.group.p3_aau_football.team.Team;
+import p3.group.p3_aau_football.team.TeamRepository;
 
 @Service
 public class MatchService {
 
-    MatchRepository matchRepository;
+    private MatchRepository matchRepository;
+    private TeamService teamService;
 
     @Autowired
-    public MatchService(MatchRepository matchRepository) {
+    public MatchService(MatchRepository matchRepository, TeamService teamService) {
         this.matchRepository = matchRepository;
+        this.teamService = teamService;
     }
 
     public List<Match> getOverview() {
@@ -25,7 +28,10 @@ public class MatchService {
         return this.matchRepository.findById(id);
     }
 
-    public Match insertMatch(Team homeTeam, Team awayTeam) {
+    public Match insertMatch(String homeTeamName, String awayTeamName) {
+        Team homeTeam = teamService.findByName(homeTeamName);
+        Team awayTeam = teamService.findByName(awayTeamName);
+
         Match insertedMatch = new Match(homeTeam, awayTeam);
 
         return this.matchRepository.insert(insertedMatch);

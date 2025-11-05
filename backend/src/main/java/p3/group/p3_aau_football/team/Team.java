@@ -24,6 +24,7 @@ public class Team {
         this.instituteName = instituteName;
         this.members = new ArrayList<Person>();
     }
+
     public Team() {
     }
 
@@ -33,15 +34,19 @@ public class Team {
     public String getName() {
         return this.name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getAbbreviation() {
         return this.abbreviation;
     }
+
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
     }
+
     public LocalDate getEstablished() {
         return this.established;
     }
@@ -49,9 +54,11 @@ public class Team {
     public List<Person> getMembers() {
         return this.members;
     }
+
     public void addMember(Person member) {
         this.members.add(member);
     }
+
     public void removeMember(Person member) {
         List<Person> members = this.members;
         members.remove(member);
@@ -60,6 +67,7 @@ public class Team {
     public Person getContactPerson() {
         return this.contactPerson;
     }
+
     public void setContactPerson(Person contactPerson) {
         this.contactPerson = contactPerson;
     }
@@ -67,6 +75,7 @@ public class Team {
     public String getInstituteName() {
         return this.instituteName;
     }
+
     public void setInstituteName(String instituteName) {
         this.instituteName = instituteName;
     }
