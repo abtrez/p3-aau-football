@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "team1": "CSSC",
+    "team2": "MOS",
+    "team1logo": "/placeholder-logo.png",
+    "team2logo": "/placeholder-logo.png",
+    "location": "Aalborg Stadium",
+    "time": "2025-11-06T18:30:00Z"
+  },
+  {
+    "id": 2,
+    "team1": "POLIS",
+    "team2": "FEM Bold",
+    "team1logo": "/placeholder-logo.png",
+    "team2logo": "/placeholder-logo.png",
+    "location": "AAU Sports Field",
+    "time": "2025-11-07T20:00:00Z"
+  },
+  {
+    "id": 3,
+    "team1": "Dragon Alphaflies",
+    "team2": "E2X",
+    "team1logo": "/placeholder-logo.png",
+    "team2logo": "/placeholder-logo.png",
+    "location": "Aarhus Sports Park",
+    "time": "2025-11-08T15:00:00Z"
+  },
+  {
+    "id": 4,
+    "team1": "SOFIA",
+    "team2": "CSSC",
+    "team1logo": "/placeholder-logo.png",
+    "team2logo": "/placeholder-logo.png",
+    "location": "Odense Field",
+    "time": "2025-11-09T14:00:00Z"
+  },
+  {
+    "id": 5,
+    "team1": "MOS",
+    "team2": "FEM Bold",
+    "team1logo": "/placeholder-logo.png",
+    "team2logo": "/placeholder-logo.png",
+    "location": "Aalborg Stadium",
+    "time": "2025-11-10T19:45:00Z"
+  }
+]
