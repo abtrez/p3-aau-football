@@ -10,21 +10,25 @@ import p3.group.p3_aau_football.team.Team;
 @Service
 public class MatchService {
 
-    @Autowired
     MatchRepository matchRepository;
 
+    @Autowired
+    public MatchService(MatchRepository matchRepository) {
+        this.matchRepository = matchRepository;
+    }
+
     public List<Match> getOverview() {
-        return matchRepository.findAll();
+        return this.matchRepository.findAll();
     }
 
     public Optional<Match> getMatch(String id) {
-        return matchRepository.findById(id);
+        return this.matchRepository.findById(id);
     }
 
     public Match insertMatch(Team homeTeam, Team awayTeam) {
         Match insertedMatch = new Match(homeTeam, awayTeam);
 
-        return matchRepository.insert(insertedMatch);
+        return this.matchRepository.insert(insertedMatch);
     }
 
 }

@@ -3,9 +3,13 @@ package p3.group.p3_aau_football.team;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.annotation.Id;
 import p3.group.p3_aau_football.people.Person;
 
 public class Team {
+    @Id
+    private String id;
     private String name;
     private String abbreviation;
     private LocalDate established;
@@ -23,6 +27,9 @@ public class Team {
     public Team() {
     }
 
+    public String getId() {
+        return this.id;
+    }
     public String getName() {
         return this.name;
     }
