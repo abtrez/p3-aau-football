@@ -40,7 +40,16 @@ public class MatchController {
     }
 
     /* @PatchMapping("/{id}/edit")
-    public String editMatch(@PathVariable("id") String id, @RequestParam("test1") String test1, @RequestParam("test2") String test2) {
-        return test1 + " " + test2;
-    } */
+    public RespondEntity<Match> editMatch(
+    @PathVariable("id") String id,
+    @RequestParam(required = false) String Date,
+    @RequestParam(required = false) String Venue,
+    @RequestParam(required = false) Boolean Cancel
+    )
+    {
+    Optional <Match> updatedMatch = Matchservice.updateMatch(id, Date, Venue, Cancel);
+
+        return ResponseEntity.ok(updatedMatch);
+    }
+     */
 }
