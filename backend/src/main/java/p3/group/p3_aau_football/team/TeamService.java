@@ -1,11 +1,29 @@
 package p3.group.p3_aau_football.team;
 
 
-import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class TeamService {
+
+    TeamRepository teamRepository;
+
+    @Autowired
+    public TeamService(TeamRepository teamRepository) {
+        this.teamRepository = teamRepository;
+    }
     public List<Team> getTeams() {
-        return new ArrayList<>();
+        return this.teamRepository.findAll();
+    }
+
+    public Optional<Team> getTeamById(String id) {
+        return this.teamRepository.findById(id);
+    }
+
+    public Team addTeam(Team team) {
+        return this.teamRepository.insert(team);
     }
 }
