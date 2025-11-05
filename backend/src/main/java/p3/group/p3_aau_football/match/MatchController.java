@@ -16,27 +16,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/match")
 public class MatchController {
 
+    private MatchService matchService;
+
     @Autowired
-    MatchService matchService;
-
-    @GetMapping("/overview")
-    public List<Match> getMatches() {
-
-        List<Match> matchOverview = matchService.getOverview();
-
-        return matchOverview;
+    public MatchController(MatchService matchService) {
+        this.matchService = matchService;
     }
+
+    @GetMapping("/get")
+    public List<Match> getMatches() {
+        return this.matchService.getOverview();
+    }
+
+    @GetMapping("/get/{id}")
+    public Optional<Match> getMatch(@PathVariable("id") String id) {
+        return matchService.getMatch(id);
+    }
+
 
     @PostMapping("/add")
     public ResponseEntity<Match> addMatch(@RequestParam("homeTeam") String homeTeam, @RequestParam("awayTeam") String awayTeam) {
         Match insertedMatch = matchService.insertMatch(homeTeam, awayTeam);
 
         return ResponseEntity.ok(insertedMatch);
-    }
-
-    @GetMapping("/{id}")
-    public Optional<Match> getMatch(@PathVariable("id") String id) {
-        return matchService.getMatch(id);
     }
 
     /* @PatchMapping("/{id}/edit")

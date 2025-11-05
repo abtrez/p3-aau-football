@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-
 import p3.group.p3_aau_football.people.Person;
 
 public class Team {
@@ -29,6 +28,9 @@ public class Team {
     public Team() {
     }
 
+    public String getId() {
+        return this.id;
+    }
     public String getName() {
         return this.name;
     }

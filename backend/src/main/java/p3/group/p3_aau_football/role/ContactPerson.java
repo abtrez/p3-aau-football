@@ -1,4 +1,4 @@
-package p3.group.p3_aau_football.Role;
+package p3.group.p3_aau_football.role;
 
 public class ContactPerson extends Role {
 
