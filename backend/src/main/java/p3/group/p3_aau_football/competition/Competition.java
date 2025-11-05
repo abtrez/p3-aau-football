@@ -6,9 +6,11 @@ import p3.group.p3_aau_football.team.Team;
 
 import java.util.List;
 
-public abstract class Competition {
+public class Competition {
     protected String name;
     protected Season season;
     protected List<Team> participatingTeams;
     protected List<Match> matches;
+
+    protected Format format;
 }
