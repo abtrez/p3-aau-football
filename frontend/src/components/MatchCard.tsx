@@ -1,4 +1,4 @@
-import TeamBadge from "@/app/components/Team/TeamBadge";
+import TeamBadge from "@/components/Team/TeamBadge";
 
 export interface MatchCardInterface {
   id: number;
