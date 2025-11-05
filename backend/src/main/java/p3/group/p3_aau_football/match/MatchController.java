@@ -25,10 +25,7 @@ public class MatchController {
 
     @GetMapping("/overview")
     public List<Match> getMatches() {
-
-        List<Match> matchOverview = matchService.getOverview();
-
-        return matchOverview;
+        return this.matchService.getOverview();
     }
 
     @PostMapping("/add")
