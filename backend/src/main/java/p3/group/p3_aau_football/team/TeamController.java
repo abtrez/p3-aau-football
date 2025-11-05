@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/team")
 public class TeamController {
 
-    @GetMapping("/overview")
+    //
+    @GetMapping("/teams")
     public String getTeams() {
+        // List<Team> teams = TeamService.getTeams();
         return "teams";
     }
 
@@ -19,7 +21,9 @@ public class TeamController {
      */
     @GetMapping("/{id}")
     public Team getTeam(@PathVariable("id") String id) {
+        // Team team = TeamService.getTeamById()
         return new Team();
     }
 
+    //handle team creation or edits POST & other requests.
 }
