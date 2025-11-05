@@ -23,12 +23,18 @@ public class Match {
     int squadSize
     */
 
-    //Constructor, should possibly have date
+    //Constructor, should probably have date, venue
     public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
+        //date
+        //venue
     }
 
+    //Getters
+    public int getId() {
+        return this.id;
+    }
 
     public Team getHomeTeam(){
         return this.homeTeam;
@@ -37,4 +43,27 @@ public class Match {
     public Team getAwayTeam(){
         return this.awayTeam;
     }
+
+    public int getHomeScore()  {
+        return this.homeScore;
+    }
+
+    public int getAwayScore() {
+        return this.awayScore;
+    }
+
+    public List<MatchEvent> getMatchEvents() {
+        return this.matchEvents;
+    }
+
+    //Setters
+    public void setHomeScore(int homeScore){
+        this.homeScore = homeScore;
+    }
+
+    public void setAwayScore(int awayScore) {
+        this.awayScore = awayScore;
+    }
+
+    // set date, venue, referees
 }

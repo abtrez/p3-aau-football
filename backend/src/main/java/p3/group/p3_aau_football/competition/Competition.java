@@ -11,6 +11,4 @@ public abstract class Competition {
     protected Season season;
     protected List<Team> participatingTeams;
     protected List<Match> matches;
-
-
 }
