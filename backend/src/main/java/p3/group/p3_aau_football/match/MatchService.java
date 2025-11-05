@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import p3.group.p3_aau_football.team.Team;
 
 @Service
 public class MatchService {
@@ -20,7 +21,7 @@ public class MatchService {
         return matchRepository.findById(id);
     }
 
-    public Match insertMatch(String homeTeam, String awayTeam) {
+    public Match insertMatch(Team homeTeam, Team awayTeam) {
         Match insertedMatch = new Match(homeTeam, awayTeam);
 
         return matchRepository.insert(insertedMatch);

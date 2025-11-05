@@ -1,10 +1,11 @@
 package p3.group.p3_aau_football.match;
 
 
+import org.springframework.data.mongodb.core.mapping.Document;
 import p3.group.p3_aau_football.team.Team;
 
 import java.util.List;
-
+@Document(collection = "matches")
 public class Match {
     private int id;
     private final Team homeTeam;
