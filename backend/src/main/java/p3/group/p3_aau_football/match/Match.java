@@ -1,31 +1,70 @@
 package p3.group.p3_aau_football.match;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+import p3.group.p3_aau_football.team.Team;
+
+import java.util.List;
 @Document(collection = "matches")
 public class Match {
+    private int id;
+    private final Team homeTeam;
+    private final Team awayTeam;
 
-    @Id
-    private String id;
+    //Score & Events
+    private int homeScore;
+    private int awayScore;
+    private List<MatchEvent> matchEvents;
 
-    private String homeTeam;
-    private String awayTeam;
+    //Details
+    /*
+    (dateTime) date and time - kick-offtime splittes?
+    Venue venue
+    List<Referee> referees
+    int squadSize
+    */
 
-    public Match(String homeTeam, String awayTeam) {
+    //Constructor, should probably have date, venue
+    public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
+        //date
+        //venue
     }
 
-    public String getHomeTeam() {
+    //Getters
+    public int getId() {
+        return this.id;
+    }
+
+    public Team getHomeTeam(){
         return this.homeTeam;
     }
 
-    public String getAwayTeam() {
+    public Team getAwayTeam(){
         return this.awayTeam;
     }
 
-    public String getId() {
-        return this.id;
+    public int getHomeScore()  {
+        return this.homeScore;
     }
+
+    public int getAwayScore() {
+        return this.awayScore;
+    }
+
+    public List<MatchEvent> getMatchEvents() {
+        return this.matchEvents;
+    }
+
+    //Setters
+    public void setHomeScore(int homeScore){
+        this.homeScore = homeScore;
+    }
+
+    public void setAwayScore(int awayScore) {
+        this.awayScore = awayScore;
+    }
+
+    // set date, venue, referees
 }
