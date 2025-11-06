@@ -26,4 +26,9 @@ public class MatchService {
         return matchRepository.insert(insertedMatch);
     }
 
+    public Optional<Match> updateMatch(String, id, String Date, String Venue, Boolean Cancel) {
+        Optional<Match> optionalMatch = matchRepository.findById(id);
+
+    }
+
 }
