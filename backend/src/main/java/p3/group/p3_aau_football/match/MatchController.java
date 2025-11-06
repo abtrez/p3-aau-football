@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import p3.group.p3_aau_football.team.Team;
 
 @RestController // flags class, so it is ready for use by Spring MVC to handle web requests.
 @RequestMapping("/api/match")
@@ -36,9 +37,14 @@ public class MatchController {
 
     @PostMapping("/add")
     public ResponseEntity<Match> addMatch(@RequestParam("homeTeam") String homeTeam, @RequestParam("awayTeam") String awayTeam) {
-        Match insertedMatch = matchService.insertMatch(homeTeam, awayTeam);
+        try {
+            Match insertedMatch = matchService.insertMatch(homeTeam, awayTeam);
+            return ResponseEntity.ok(insertedMatch);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
 
-        return ResponseEntity.ok(insertedMatch);
     }
 
     /* @PatchMapping("/{id}/edit")
