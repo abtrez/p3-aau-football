@@ -6,7 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import p3.group.p3_aau_football.team.Team;
-import p3.group.p3_aau_football.team.TeamRepository;
+import p3.group.p3_aau_football.team.TeamService;
+
 
 @Service
 public class MatchService {
@@ -28,13 +29,17 @@ public class MatchService {
         return this.matchRepository.findById(id);
     }
 
-    public Match insertMatch(String homeTeamName, String awayTeamName) {
-        Team homeTeam = teamService.findByName(homeTeamName);
-        Team awayTeam = teamService.findByName(awayTeamName);
+    public Match insertMatch(String homeTeamName, String awayTeamName) throws Exception {
+        Optional<Team> homeTeam = teamService.findByName(homeTeamName);
+        Optional<Team> awayTeam = teamService.findByName(awayTeamName);
 
-        Match insertedMatch = new Match(homeTeam, awayTeam);
+        if (homeTeam.isPresent() && awayTeam.isPresent()) {
+            Match insertedMatch = new Match(homeTeam.get(), awayTeam.get());
+            return this.matchRepository.insert(insertedMatch);
+        } else {
+            throw new Exception("Team not found");
+        }
 
-        return this.matchRepository.insert(insertedMatch);
     }
 
 }
