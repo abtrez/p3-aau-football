@@ -1,6 +1,6 @@
-package p3.group.p3_aau_football.Role;
+package p3.group.p3_aau_football.role;
 
-import p3.group.p3_aau_football.Permission.Permission;
+import p3.group.p3_aau_football.permission.Permission;
 import p3.group.p3_aau_football.team.Team;
 
 public class Leader extends Role implements Permission {

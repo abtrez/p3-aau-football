@@ -1,6 +1,6 @@
 package p3.group.p3_aau_football.people;
 
-import p3.group.p3_aau_football.Role.Role;
+import p3.group.p3_aau_football.role.Role;
 
 import java.util.List;
 
