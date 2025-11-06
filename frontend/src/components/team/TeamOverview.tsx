@@ -4,5 +4,11 @@ import teamCard, { TeamCardInterface } from "@/components/team/TeamCard";
 const footballTeams = teams as TeamCardInterface[];
 
 export default function TeamCard() {
-  return <div></div>;
+  return (
+    <div className="grid gap-4">
+      {footballTeams.map((t: TeamCardInterface) => (
+        <TeamCard key={t.id} team={t} />
+      ))}
+    </div>
+  );
 }
