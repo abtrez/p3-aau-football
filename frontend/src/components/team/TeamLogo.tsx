@@ -9,7 +9,7 @@ interface TeamLogoInterface {
 export default function TeamLogo({ logo, height, width }: TeamLogoInterface) {
   return (
     <Image
-      className="rounded-full h-[50] object-cover"
+      className={`rounded-full object-cover h-[${height}]`}
       src={logo}
       height={height}
       width={width}
