@@ -6,7 +6,7 @@ if (!BACKEND_URL) {
 }
 
 export async function fetchMatchOverview() {
-  const res = await fetch(`${BACKEND_URL}/api/match/overview`);
+  const res = await fetch(`${BACKEND_URL}/api/match/get`);
   if (!res.ok) {
     throw new Error(
       `Failed to fetch match overview: ${res.status} ${res.statusText}`
@@ -16,7 +16,7 @@ export async function fetchMatchOverview() {
 }
 
 export async function fetchMatchById(matchId: string) {
-  const res = await fetch(`${BACKEND_URL}/api/match/${matchId}`);
+  const res = await fetch(`${BACKEND_URL}/api/match/get/${matchId}`);
   if (!res.ok) {
     throw new Error(
       `Failed to fetch match ${matchId}: ${res.status} ${res.statusText}`
