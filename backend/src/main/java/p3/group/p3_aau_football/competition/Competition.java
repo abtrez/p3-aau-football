@@ -12,5 +12,5 @@ public class Competition {
     protected List<Team> participatingTeams;
     protected List<Match> matches;
 
-    protected Format format;
+    protected FormatPolicy format;
 }

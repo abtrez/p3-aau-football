@@ -1,6 +1,4 @@
-package p3.group.p3_aau_football.competition;
-
-import java.util.Set;
+package p3.group.p3_aau_football.competition.stats;
 
 public class TeamStats extends Stats {
     //team
