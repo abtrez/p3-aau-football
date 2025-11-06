@@ -1,4 +1,4 @@
-import MatchOverview from "@/components/MatchOverview";
+import MatchOverview from "@/components/match/MatchOverview";
 
 export default function Home() {
   return (

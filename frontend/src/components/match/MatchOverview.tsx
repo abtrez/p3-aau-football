@@ -1,5 +1,5 @@
 import dummyMatches from "@/data/matches.json";
-import MatchCard, { MatchCardInterface } from "@/components/MatchCard";
+import MatchCard, { MatchCardInterface } from "@/components/match/MatchCard";
 
 const matches = dummyMatches as MatchCardInterface[];
 
