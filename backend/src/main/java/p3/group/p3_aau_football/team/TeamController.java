@@ -32,7 +32,7 @@ public class TeamController {
      * @return The team that corresponds to the id
      */
     @GetMapping("/get/{id}")
-    public Optional<Team> getTeam(@PathVariable("id") String id) {
+    public Optional<Team> getTeam(@PathVariable("id") Long id) {
         return this.teamService.getTeamById(id);
     }
 

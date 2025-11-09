@@ -25,7 +25,7 @@ public class MatchService {
         return this.matchRepository.findAll();
     }
 
-    public Optional<Match> getMatch(String id) {
+    public Optional<Match> getMatch(Long id) {
         return this.matchRepository.findById(id);
     }
 

@@ -4,19 +4,36 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.*;
 import p3.group.p3_aau_football.people.Person;
 
+@Entity
+@Table(name = "teams")
 public class Team {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
     private String name;
     private String abbreviation;
     private LocalDate established;
-    private List<Person> members;
+
+    @ManyToMany
+    @JoinTable(
+        name = "team_members",
+        joinColumns = @JoinColumn(name = "team_id"),
+        inverseJoinColumns = @JoinColumn(name = "person_id")
+    )
+    private List<Person> members = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "contact_person_id", nullable = false)
     private Person contactPerson;
+
     private String instituteName; // consider institute/education, if there can be more teams pr. institute
 
+    protected Team() {} // JPA
+    
     public Team(String name, LocalDate established, Person contactPerson, String instituteName) {
         this.name = name;
         this.established = established;
@@ -25,10 +42,7 @@ public class Team {
         this.members = new ArrayList<Person>();
     }
 
-    public Team() {
-    }
-
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
     public String getName() {

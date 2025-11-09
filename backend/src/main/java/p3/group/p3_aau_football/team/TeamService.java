@@ -21,12 +21,12 @@ public class TeamService {
         return this.teamRepository.findAll();
     }
 
-    public Optional<Team> getTeamById(String id) {
+    public Optional<Team> getTeamById(Long id) {
         return this.teamRepository.findById(id);
     }
 
     public Team addTeam(Team team) {
-        return this.teamRepository.insert(team);
+        return this.teamRepository.save(team);
     }
 
     public Optional<Team> findByName(String teamName) {
