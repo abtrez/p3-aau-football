@@ -30,7 +30,7 @@ public class MatchController {
     }
 
     @GetMapping("/get/{id}")
-    public Optional<Match> getMatch(@PathVariable("id") String id) {
+    public Optional<Match> getMatch(@PathVariable("id") Long id) {
         return matchService.getMatch(id);
     }
 

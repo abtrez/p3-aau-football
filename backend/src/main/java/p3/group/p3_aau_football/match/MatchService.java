@@ -35,7 +35,7 @@ public class MatchService {
 
         if (homeTeam.isPresent() && awayTeam.isPresent()) {
             Match insertedMatch = new Match(homeTeam.get(), awayTeam.get());
-            return this.matchRepository.insert(insertedMatch);
+            return this.matchRepository.save(insertedMatch);
         } else {
             throw new Exception("Team not found");
         }

@@ -9,7 +9,9 @@ services:
     networks:
       - p3-aau-football
     environment:
-      - MONGODB_URI=mongodb://root:root@database:27017/football?authSource=admin
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/football
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
     # Uncomment ports for development:
     #ports:
     #  - "8080:8080"
@@ -32,21 +34,22 @@ services:
       - backend
 
   database:
-    image: mongo:8
+    image: postgres
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
-      MONGO_INITDB_DATABASE: football
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: football
+      PGDATA: /data/postgres
     networks:
       - p3-aau-football
     # Uncomment ports for development:
     #ports:
     #  - "27018:27017"
     volumes:
-      - "./db:/data/db:rw"
+      - "./db:/data/postgres:rw"
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "pg_isready", "-U", "root", "-d", "football"]
       interval: 5s
       timeout: 3s
       retries: 10

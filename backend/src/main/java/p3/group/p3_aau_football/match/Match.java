@@ -1,20 +1,36 @@
 package p3.group.p3_aau_football.match;
 
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.*;
 import p3.group.p3_aau_football.team.Team;
 
 import java.util.List;
-@Document(collection = "matches")
+
+
+@Entity
+@Table(name = "matches")
 public class Match {
-    private int id;
-    private final Team homeTeam;
-    private final Team awayTeam;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @ManyToOne
+    @JoinColumn(name = "home_team_id", nullable = false)
+    private Team homeTeam;
+
+    @ManyToOne
+    @JoinColumn(name = "away_team_id", nullable = false)
+    private Team awayTeam;
 
     //Score & Events
     private int homeScore;
     private int awayScore;
+    
+    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
     private List<MatchEvent> matchEvents;
+
+    protected Match() {} // JPA
 
     //Details
     /*
@@ -33,7 +49,7 @@ public class Match {
     }
 
     //Getters
-    public int getId() {
+    public Long getId() {
         return this.id;
     }
 
