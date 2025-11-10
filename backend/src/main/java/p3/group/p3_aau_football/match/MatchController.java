@@ -43,11 +43,11 @@ public class MatchController {
     @PatchMapping("/{id}/edit")
     public ResponseEntity<Match> editMatch(
             @PathVariable("id") String id,
-            @RequestParam(name = "date", required = false) String Date,
-            @RequestParam(required = false) String Venue,
-            @RequestParam(required = false) Boolean Cancel
+            @RequestParam(name = "date", required = false) String date,
+            @RequestParam(name = "venue", required = false) String venue,
+            @RequestParam(name = "cancel", required = false) Boolean cancel
     ) {
-        Optional<Match> updatedMatch = matchService.updateMatch(id, Date, Venue, Cancel);
+        Optional<Match> updatedMatch = matchService.updateMatch(id, date, venue, cancel);
 
         if (updatedMatch.isPresent()) {
             return ResponseEntity.ok(updatedMatch.get());

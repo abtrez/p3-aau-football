@@ -26,10 +26,29 @@ public class MatchService {
         return matchRepository.insert(insertedMatch);
     }
 
-    public Optional<Match> updateMatch(String id, String Date, String Venue, Boolean Cancel) {
+    public Optional<Match> updateMatch(String id, String date, String venue, Boolean cancel) {
         Optional<Match> optionalMatch = matchRepository.findById(id);
 
-        return optionalMatch;
+        if (optionalMatch.isEmpty()) {
+            return Optional.empty();
+        }
+        Match match = optionalMatch.get();
+
+        if (date != null) {
+            match.setDate(date);
+        }
+
+        if (venue != null) {
+            match.setVenue(venue);
+        }
+
+        if (cancel != null) {
+            match.setCancel(cancel);
+        }
+
+        Match updatedMatch = matchRepository.save(match);
+
+        return Optional.of(updatedMatch);
     }
 
 }

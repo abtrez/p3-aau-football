@@ -12,6 +12,10 @@ public class Match {
     private String homeTeam;
     private String awayTeam;
 
+    private String Date;
+    private String Venue;
+    private Boolean Cancel;
+
     public Match(String homeTeam, String awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -27,5 +31,17 @@ public class Match {
 
     public String getId() {
         return this.id;
+    }
+
+    public void setDate(String date) {
+        this.Date = date;
+    }
+
+    public void setVenue(String venue) {
+        this.Venue = venue;
+    }
+
+    public void setCancel(Boolean cancel) {
+        this.Cancel = cancel;
     }
 }
