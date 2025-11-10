@@ -9,6 +9,7 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EmojiEventsOutlinedIcon from "@mui/icons-material/EmojiEventsOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
+import Link from "next/link";
 
 export default function BottomBarNavigation() {
   const [value, setValue] = useState(0);
@@ -25,18 +26,28 @@ export default function BottomBarNavigation() {
         }}
       >
         <BottomNavigationAction
+          component={Link}
+          href="/"
           label="Matches"
           icon={<CalendarTodayIcon />}
         ></BottomNavigationAction>
+
         <BottomNavigationAction
+          component={Link}
+          href="/competitions"
           label="Competitions"
           icon={<EmojiEventsOutlinedIcon />}
         ></BottomNavigationAction>
+
         <BottomNavigationAction
+          component={Link}
+          href="/teams"
           label="Teams"
           icon={<GroupsOutlinedIcon />}
         ></BottomNavigationAction>
         <BottomNavigationAction
+          component={Link}
+          href="/my-team"
           label="My team"
           icon={<StarBorderOutlinedIcon />}
         ></BottomNavigationAction>
