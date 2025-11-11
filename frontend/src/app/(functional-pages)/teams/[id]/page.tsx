@@ -1,6 +1,7 @@
 "use client";
 
 import NotFound from "@/app/not-found";
+import InfoItem from "@/components/statistics/InfoItem";
 import TeamLogo from "@/components/team/TeamLogo";
 
 import Divider from "@mui/material/Divider";
@@ -16,32 +17,32 @@ export default function Page() {
     <div className="container">
       <div className="flex flex-col items-center gap-4">
         <TeamLogo logo={"/placeholder-logo.png"} height={120} width={120} />
-        <h2 className="text-3xl text-center mb-3">{id}</h2>
+        <h1 className="text-2xl font-semibold  text-neutral-900 text-center">
+          {id}
+        </h1>
       </div>
-      <Divider sx={{ borderBottomWidth: 3 }} />
-      <div className="grid grid-rows-2 grid-cols-3 gap-3 mt-4">
-        <div className="flex flex-col justify-center items-center bg-white p-4 gap-2 rounded-xl">
-          <span className="text-sm text-center text-text-secondary">
-            Contact Person
-          </span>
-          <span className="text-sm text-text font-bold">Peter Pan</span>
-        </div>
-        <div className="flex flex-col justify-center items-center bg-white p-4 rounded">
-          4
-        </div>
-        <div className="flex flex-col justify-center items-center bg-white p-4 rounded">
-          4
-        </div>
-        <div className="flex flex-col justify-center items-center bg-white p-4 rounded">
-          4
-        </div>
-        <div className="flex flex-col justify-center items-center bg-white p-4 rounded">
-          5
-        </div>
-        <div className="flex flex-col justify-center items-center bg-white p-4 rounded">
-          6
-        </div>
+      <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
+      <div className="grid grid-cols-2 gap-3">
+        <InfoItem label="Contact Person" value="Peter Pan" />
+        <InfoItem label="Leader" value="John Doe" />
+        <InfoItem label="Coach" value="Jane Doe" />
+        <InfoItem label="Established" value="2025" />
+        <InfoItem label="Squad Size" value="25" />
+        <InfoItem label="Assistant" value="John Doe" />
       </div>
+      <section className="rounded-2xl border border-neutral-200 bg-white p-4 my-4">
+        <h3 className="text-base font-semibold text-neutral-900 mb-1">
+          Description
+        </h3>
+        <p className="text-sm leading-6 text-neutral-700">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+      </section>
+      <section className="rounded-2xl border border-neutral-200 bg-white p-4 my-4">
+        <h3 className="text-base font-semibold text-neutral-900 mb-1">Players</h3>
+        
+      </section>
     </div>
   );
 }
