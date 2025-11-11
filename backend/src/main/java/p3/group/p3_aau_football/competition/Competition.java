@@ -12,6 +12,6 @@ public class Competition {
     @Id private String id;
     private String name;
     private Season season;
+    private List<Stage> stages;
     private List<Team> participatingTeams;
-    private List<Match> matches;
 }
