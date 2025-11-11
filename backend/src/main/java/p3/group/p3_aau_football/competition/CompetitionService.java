@@ -16,4 +16,6 @@ public class CompetitionService {
         return competitionRepository.findById(id);
     }
 
+
+
 }

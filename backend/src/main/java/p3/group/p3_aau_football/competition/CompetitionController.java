@@ -20,4 +20,7 @@ public class CompetitionController {
     public Optional<Competition> getCompetition(@PathVariable("id") String id) {
         return competitionService.getCompetition(id);
     }
+
+
+    // @GetMapping("/{scopeId}/standings")
 }

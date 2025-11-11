@@ -6,8 +6,7 @@ import p3.group.p3_aau_football.season.Season;
 import p3.group.p3_aau_football.team.Team;
 
 import java.util.List;
-import java.util.UUID;
-
+//use composition, pg. 788 javafundamentals
 @Document(collection = "competition")
 public class Competition {
     @Id private String id;
