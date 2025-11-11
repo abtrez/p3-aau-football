@@ -8,7 +8,10 @@ interface TeamLogoInterface {
 
 export default function TeamLogo({ logo, height, width }: TeamLogoInterface) {
   return (
-    <div className={"overflow-hidden rounded-full"} style={{ width, height }}>
+    <div
+      className={"overflow-hidden rounded-full border border-neutral-300"}
+      style={{ width, height }}
+    >
       <Image
         src={logo}
         alt="team logo"

@@ -17,7 +17,7 @@ export default function Page() {
     <div className="container">
       <div className="flex flex-col items-center gap-4">
         <TeamLogo logo={"/placeholder-logo.png"} height={120} width={120} />
-        <h1 className="text-2xl font-semibold  text-neutral-900 text-center">
+        <h1 className="text-4xl font-semibold  text-neutral-900 text-center">
           {id}
         </h1>
       </div>
