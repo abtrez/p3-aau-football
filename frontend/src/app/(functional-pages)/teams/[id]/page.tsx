@@ -30,7 +30,7 @@ export default function Page() {
         <InfoItem label="Squad Size" value="25" />
         <InfoItem label="Assistant" value="John Doe" />
       </div>
-      <section className="rounded-2xl border border-neutral-200 bg-white p-4 my-4">
+      <section className="rounded-2xl bg-white p-4 my-4">
         <h3 className="text-base font-semibold text-neutral-900 mb-1">
           Description
         </h3>
@@ -39,9 +39,10 @@ export default function Page() {
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </p>
       </section>
-      <section className="rounded-2xl border border-neutral-200 bg-white p-4 my-4">
-        <h3 className="text-base font-semibold text-neutral-900 mb-1">Players</h3>
-        
+      <section className="rounded-2xl bg-white p-4 my-4">
+        <h3 className="text-base font-semibold text-neutral-900 mb-1">
+          Players
+        </h3>
       </section>
     </div>
   );
