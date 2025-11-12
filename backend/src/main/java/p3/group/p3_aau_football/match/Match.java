@@ -37,11 +37,11 @@ public class Match {
         return this.id;
     }
 
-    public String getHomeTeam(){
+    public Team getHomeTeam(){
         return this.homeTeam;
     }
 
-    public String getAwayTeam(){
+    public Team getAwayTeam(){
         return this.awayTeam;
     }
 
