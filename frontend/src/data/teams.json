@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "CS Sports Club",
+    "department": "Dep. of Computer Science",
+    "established": 2025,
+    "size": 31,
+    "logo": "/placeholder-logo.png"
+  },
+  {
+    "id": 2,
+    "name": "Alpha Dragonflies",
+    "department": "Medis, Medicin",
+    "established": 2025,
+    "size": 27,
+    "logo": "/placeholder-logo.png"
+  },
+  {
+    "id": 3,
+    "name": "E2X FC",
+    "department": "Dep. of Energy",
+    "established": 2025,
+    "size": 25,
+    "logo": "/placeholder-logo.png"
+  },
+  {
+    "id": 4,
+    "name": "MOS Bold",
+    "department": "Dep. of Chemistry & Bioscience",
+    "established": 2024,
+    "size": 41,
+    "logo": "/placeholder-logo.png"
+  },
+  {
+    "id": 5,
+    "name": "FEM Fodbold",
+    "department": "Dep. of Materials & Production",
+    "established": 2025,
+    "size": 15,
+    "logo": "/placeholder-logo.png"
+  },
+  {
+    "id": 6,
+    "name": "Polis IK",
+    "department": "Dep. of Politics & Society",
+    "established": 2021,
+    "size": 14,
+    "logo": "/placeholder-logo.png"
+  },
+  {
+    "id": 7,
+    "name": "SoFiA FC",
+    "department": "Dep. of Sociology & Social Work",
+    "established": 2025,
+    "size": 38,
+    "logo": "/placeholder-logo.png"
+  }
+]
