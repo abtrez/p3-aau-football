@@ -14,3 +14,13 @@ export async function fetchTeamById(teamId: string) {
   }
   return res.json();
 }
+
+export async function fetchTeams() {
+    const res = await fetch(`${BACKEND_URL}/api/team/get`);
+    if (!res.ok) {
+        throw new Error(
+            `Failed to fetch teams: ${res.status} ${res.statusText}`
+        );
+    }
+    return res.json();
+}
