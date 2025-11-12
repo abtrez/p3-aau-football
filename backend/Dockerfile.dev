@@ -1,0 +1,18 @@
+FROM eclipse-temurin:21-jdk-alpine
+
+WORKDIR /app
+
+RUN apk add --no-cache bash
+
+COPY ../gradlew ./gradlew
+COPY ../gradle ./gradle
+RUN chmod +x gradlew
+
+COPY . .
+
+RUN ./gradlew :backend:dependencies --no-daemon || true
+
+EXPOSE 8080
+
+ENV SPRING_PROFILES_ACTIVE=dev
+CMD ["./gradlew", ":backend:bootRun", "--no-daemon", "--stacktrace"]

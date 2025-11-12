@@ -110,3 +110,8 @@ yarn-error.log*
 next-env.d.ts
 
 db
+
+*.env
+
+gradle_chache/
+node_modules_cache/
