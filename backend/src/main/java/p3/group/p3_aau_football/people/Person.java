@@ -2,13 +2,20 @@ package p3.group.p3_aau_football.people;
 
 import p3.group.p3_aau_football.role.Role;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+
 import java.util.List;
 
+@Document(collection="person")
 public class Person {
-
+    @Id
     private int id;
     private String firstName;
     private String lastName;
+
+    @DocumentReference
     private List<Role> roles;
 
     public int getId() {
