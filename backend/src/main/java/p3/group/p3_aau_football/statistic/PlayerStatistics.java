@@ -5,5 +5,5 @@ public class PlayerStatistics extends Statistics {
     private int assists;
     private int yellowCards;
     private int redCards;
-
+    private int matchesPlayed;
 }
