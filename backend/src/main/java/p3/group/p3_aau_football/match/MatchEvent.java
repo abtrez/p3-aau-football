@@ -1,5 +1,6 @@
 package p3.group.p3_aau_football.match;
 
+import p3.group.p3_aau_football.role.Player;
 import p3.group.p3_aau_football.team.Team;
 
 public abstract class MatchEvent {
