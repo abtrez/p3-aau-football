@@ -16,7 +16,6 @@ export default function TeamOverview() {
                 setData(data)
                 setIsLoading(false)
             });
-        console.log("hello");
     }, []);
 
     if (isLoading) return <p>Is Loading</p>;
