@@ -8,8 +8,8 @@ import java.util.List;
 @Document(collection = "matches")
 public class Match {
     private int id;
-    private final String homeTeam;
-    private final String awayTeam;
+    private final Team homeTeam;
+    private final Team awayTeam;
 
     //Score & Events
     private int homeScore;
