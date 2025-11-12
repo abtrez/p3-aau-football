@@ -1,6 +1,5 @@
 package p3.group.p3_aau_football.team;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,16 +11,20 @@ public class Team {
     private String id;
     private String name;
     private String abbreviation;
-    private LocalDate established;
-    private List<Person> members;
-    private Person contactPerson;
-    private String instituteName; // consider institute/education, if there can be more teams pr. institute
+    private int yearEstablished;
+    private String department; // consider institute/education, if there can be more teams pr. institute
+    private List<String> studyPrograms;
 
-    public Team(String name, LocalDate established, Person contactPerson, String instituteName) {
+    private Person contactPerson; //consider implementing "contactable" interface, and only allowing that type
+    private List<Person> members;
+
+    public Team(String name, String abbreviation, int yearEstablished, Person contactPerson, String department, List<String> studyPrograms) {
         this.name = name;
-        this.established = established;
+        this.abbreviation = abbreviation;
+        this.yearEstablished = yearEstablished;
+        this.department = department;
+        this.studyPrograms = studyPrograms;
         this.contactPerson = contactPerson;
-        this.instituteName = instituteName;
         this.members = new ArrayList<Person>();
     }
 
@@ -42,14 +45,16 @@ public class Team {
     public String getAbbreviation() {
         return this.abbreviation;
     }
-
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
     }
 
-    public LocalDate getEstablished() {
-        return this.established;
+    public int getYearEstablished() {
+        return this.yearEstablished;
     }
+
+    public List<String> getStudyPrograms() {return this.studyPrograms;}
+    public void setStudyPrograms(List<String> studyPrograms) {this.studyPrograms = studyPrograms;}
 
     public List<Person> getMembers() {
         return this.members;
@@ -72,11 +77,11 @@ public class Team {
         this.contactPerson = contactPerson;
     }
 
-    public String getInstituteName() {
-        return this.instituteName;
+    public String getDepartment() {
+        return this.department;
     }
 
-    public void setInstituteName(String instituteName) {
-        this.instituteName = instituteName;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }
