@@ -2,10 +2,12 @@ package p3.group.p3_aau_football.team;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import p3.group.p3_aau_football.people.Person;
 
+@Document(collection = "team")
 public class Team {
     @Id
     private String id;
@@ -15,7 +17,9 @@ public class Team {
     private String department; // consider institute/education, if there can be more teams pr. institute
     private List<String> studyPrograms;
 
+    @DocumentReference
     private Person contactPerson; //consider implementing "contactable" interface, and only allowing that type
+    @DocumentReference
     private List<Person> members;
 
     public Team(String name, String abbreviation, int yearEstablished, Person contactPerson, String department, List<String> studyPrograms) {

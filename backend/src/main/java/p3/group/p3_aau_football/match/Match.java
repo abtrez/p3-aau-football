@@ -1,6 +1,7 @@
 package p3.group.p3_aau_football.match;
 
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import p3.group.p3_aau_football.team.Team;
 

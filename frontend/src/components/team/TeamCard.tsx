@@ -6,8 +6,8 @@ export interface TeamCardInterface {
   id: number;
   name: string;
   abbreviation: string;
-  instituteName: string;
-  established: string;
+  yearEstablished: string;
+  department: string;
   size: number;
   members: [];
   contactPerson: object;
@@ -25,10 +25,10 @@ export default function TeamCard({ team }: { team: TeamCardInterface }) {
         <div className="flex flex-col grow justify-center gap-2">
           <div>
             <h3 className="text-xl">{team.name}</h3>
-            <span className="text-gray-700">{team.instituteName}</span>
+            <span className="text-gray-700">{team.department}</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-gray-500">EST. {team.established}</span>
+            <span className="text-gray-500">EST. {team.yearEstablished}</span>
             <span className="text-gray-500">{team.size} members</span>
           </div>
         </div>
