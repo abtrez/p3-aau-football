@@ -4,6 +4,7 @@ import p3.group.p3_aau_football.role.Role;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Person {
     private String firstName;
     private String lastName;
 
+    @DocumentReference
     private List<Role> roles;
 
     public int getId() {
