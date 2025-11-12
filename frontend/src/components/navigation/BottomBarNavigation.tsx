@@ -47,7 +47,7 @@ export default function BottomBarNavigation() {
         ></BottomNavigationAction>
         <BottomNavigationAction
           component={Link}
-          href="/my-team"
+          href="/teams/cssc"
           label="My team"
           icon={<StarBorderOutlinedIcon />}
         ></BottomNavigationAction>
