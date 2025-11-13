@@ -32,6 +32,8 @@ public class MatchService {
     public Match insertMatch(String homeTeamName, String awayTeamName) throws Exception {
         Optional<Team> homeTeam = teamService.findByName(homeTeamName);
         Optional<Team> awayTeam = teamService.findByName(awayTeamName);
+        System.out.println(homeTeam);
+        System.out.println(homeTeam);
 
         if (homeTeam.isPresent() && awayTeam.isPresent()) {
             Match insertedMatch = new Match(homeTeam.get(), awayTeam.get());

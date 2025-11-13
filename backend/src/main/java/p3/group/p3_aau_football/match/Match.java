@@ -1,9 +1,6 @@
 package p3.group.p3_aau_football.match;
 
 import org.springframework.data.annotation.Id;
-
-
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import p3.group.p3_aau_football.role.Referee;
@@ -15,16 +12,19 @@ import java.util.List;
 public class Match {
     @Id
     private String id;
+
     @DocumentReference
     private final Team homeTeam;
     @DocumentReference
     private final Team awayTeam;
-    private int homeScore;
-    private int awayScore;
+
     @DocumentReference
     private Venue venue;
     private LocalDateTime kickoff;
     private List<Referee> referees;
+
+    private int homeScore;
+    private int awayScore;
     @DocumentReference
     private List<MatchEvent> matchEvents;
 

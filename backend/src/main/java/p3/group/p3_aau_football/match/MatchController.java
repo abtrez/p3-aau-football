@@ -44,7 +44,6 @@ public class MatchController {
             System.out.println(e.getMessage());
             return ResponseEntity.notFound().build();
         }
-
     }
 
     /* @PatchMapping("/{id}/edit")

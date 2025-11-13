@@ -6,6 +6,6 @@ public class Venue {
     @Id
     String id;
     String name;
-    String pichIdentifier; // Should be optional
+    String pitchIdentifier; // Should be optional
     String address;
 }
