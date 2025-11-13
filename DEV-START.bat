@@ -1,1 +1,1 @@
-docker-compose -f ./docker-compose-dev.yml up --build -d && cd frontend && npm install && npm run --env-file=../.env.local dev
+docker-compose -f ./docker-compose-dev.yml up --build -d && cd frontend && npm install && npm run dev
