@@ -1,6 +1,12 @@
 package p3.group.p3_aau_football.statistic;
 
-public class LeagueStatistic extends Statistics {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "league_statistics")
+public class LeagueStatistics extends Statistics {
+    @Id
+    private String id;
     private String teamId;
     private int matchesPlayed;
     private int won;
@@ -10,8 +16,11 @@ public class LeagueStatistic extends Statistics {
     private int goalsAgainst;
     private int points;
 
+    public String getId() {
+        return this.id;
+    }
 
-    public int calculatePoints(LeagueStatistic leagueStats) {
+    public int calculatePoints(LeagueStatistics leagueStats) {
         return (leagueStats.won * 3) + (leagueStats.drawn);
     }
 
