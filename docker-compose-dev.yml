@@ -17,6 +17,9 @@ services:
       - ./.env.local
     environment:
       - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+      - SPRING_DEVTOOLS_RESTART_POLL_INTERVAL=1000
+      - SPRING_DEVTOOLS_RESTART_QUIET_PERIOD=400
     ports:
       - "8080:8080"
     restart: always

@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine
+FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
@@ -11,5 +11,8 @@ COPY . .
 EXPOSE 8080
 
 ENV SPRING_PROFILES_ACTIVE=dev
+ENV SPRING_DEVTOOLS_RESTART_ENABLED=true
+ENV SPRING_DEVTOOLS_RESTART_POLL_INTERVAL=1000
+ENV SPRING_DEVTOOLS_RESTART_QUIET_PERIOD=400
 
-CMD ["./gradlew", ":backend:bootRun", "--no-daemon"]
+CMD ["./gradlew", ":backend:bootRun", "--no-daemon", "--continuous"]
