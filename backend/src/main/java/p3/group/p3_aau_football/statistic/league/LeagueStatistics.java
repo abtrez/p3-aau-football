@@ -1,13 +1,15 @@
-package p3.group.p3_aau_football.statistic;
+package p3.group.p3_aau_football.statistic.league;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import p3.group.p3_aau_football.statistic.common.Statistics;
 
 @Document(collection = "league_statistics")
 public class LeagueStatistics extends Statistics {
     @Id
     private String id;
     private String teamId;
+    private String seasonYearLabel;
     private int matchesPlayed;
     private int won;
     private int drawn;
@@ -18,6 +20,14 @@ public class LeagueStatistics extends Statistics {
 
     public String getId() {
         return this.id;
+    }
+
+    public String getSeasonYearLabel() {
+        return this.seasonYearLabel;
+    }
+
+    public void setSeasonYearLabel(String yearLabel) {
+        this.seasonYearLabel = yearLabel;
     }
 
     public int calculatePoints(LeagueStatistics leagueStats) {
