@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import p3.group.p3_aau_football.people.Person;
 
-@Document(collection = "team")
+@Document(collection = "teams")
 public class Team {
     @Id
     private String id;
@@ -38,10 +38,10 @@ public class Team {
     public String getId() {
         return this.id;
     }
+
     public String getName() {
         return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -57,35 +57,35 @@ public class Team {
         return this.yearEstablished;
     }
 
+    public String getDepartment() {
+        return this.department;
+    }
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     public List<String> getStudyPrograms() {return this.studyPrograms;}
     public void setStudyPrograms(List<String> studyPrograms) {this.studyPrograms = studyPrograms;}
+
+    public Person getContactPerson() {
+        return this.contactPerson;
+    }
+    public void setContactPerson(Person contactPerson) {
+        this.contactPerson = contactPerson;
+    }
 
     public List<Person> getMembers() {
         return this.members;
     }
-
     public void addMember(Person member) {
         this.members.add(member);
     }
-
     public void removeMember(Person member) {
         List<Person> members = this.members;
         members.remove(member);
     }
 
-    public Person getContactPerson() {
-        return this.contactPerson;
-    }
-
-    public void setContactPerson(Person contactPerson) {
-        this.contactPerson = contactPerson;
-    }
-
-    public String getDepartment() {
-        return this.department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
+    public int getSize() {
+        return this.members.size();
     }
 }
