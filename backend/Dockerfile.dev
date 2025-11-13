@@ -1,0 +1,15 @@
+FROM eclipse-temurin:21-jdk-alpine
+
+WORKDIR /app
+
+COPY ./gradlew ./gradlew
+COPY ./gradle ./gradle
+RUN chmod +x ./gradlew
+
+COPY . .
+
+EXPOSE 8080
+
+ENV SPRING_PROFILES_ACTIVE=dev
+
+CMD ["./gradlew", ":backend:bootRun", "--no-daemon"]
