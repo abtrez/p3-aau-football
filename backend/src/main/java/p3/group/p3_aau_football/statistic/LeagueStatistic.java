@@ -12,7 +12,7 @@ public class LeagueStatistic extends Statistics {
 
 
     public int calculatePoints(LeagueStatistic leagueStats) {
-        return (leagueStats.wins * 3) + (leagueStats.draws);
+        return (leagueStats.won * 3) + (leagueStats.drawn);
     }
 
     public int getPoints() {
@@ -40,27 +40,27 @@ public class LeagueStatistic extends Statistics {
     }
 
     public int getWins() {
-        return this.wins;
+        return this.won;
     }
 
     public void setWins(int wins) {
-        this.wins = wins;
+        this.won = wins;
     }
 
     public int getDraws() {
-        return this.draws;
+        return this.drawn;
     }
 
     public void setDraws(int draws) {
-        this.draws = draws;
+        this.drawn = draws;
     }
 
     public int getLosses() {
-        return this.losses;
+        return this.lost;
     }
 
     public void setLosses(int losses) {
-        this.losses = losses;
+        this.lost = losses;
     }
 
     public void setGoalsFor(int goalsFor) {
