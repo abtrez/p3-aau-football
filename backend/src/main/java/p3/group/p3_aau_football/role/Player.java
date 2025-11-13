@@ -21,6 +21,13 @@ public class Player extends Role {
 
     }
 
+    public Player(Team team, int shirtNumber, PositionGroup positionGroup, Position position) {
+        this.team = team;
+        this.shirtNumber = shirtNumber;
+        this.positionGroup = positionGroup;
+        this.position = position;
+    }
+
     public Team getTeam() {
         return this.team;
     }
