@@ -4,39 +4,22 @@ services:
       context: .
       dockerfile: backend/Dockerfile.dev
     volumes:
-      - ./backend:/app
+      - ./backend:/app/backend
+      - ./gradle:/app/gradle
+      - ./gradlew:/app/gradlew
+      - gradle_cache:/home/gradle/.gradle
     depends_on:
       dev-database:
         condition: service_healthy
     networks:
       - dev-p3-aau-football
     env_file:
-      - ./dev.env
+      - ./.env.local
     environment:
       - SPRING_PROFILES_ACTIVE=dev
     ports:
       - "8080:8080"
     restart: always
-
-  dev-frontend:
-    build:
-      context: frontend
-      dockerfile: Dockerfile.dev
-      args:
-        BACKEND_URI: http://dev-backend:8080
-    volumes:
-      - ./frontend:/app
-      - ./node_modules_cache:/app/node_modules
-    ports:
-      - "80:3000"
-    networks:
-      - dev-p3-aau-football
-    environment:
-      BACKEND_URI: http://dev-backend:8080
-      NODE_ENV: development
-    restart: always
-    depends_on:
-      - dev-backend
 
   dev-database:
     image: mongo:8
@@ -59,3 +42,6 @@ services:
 
 networks:
   dev-p3-aau-football:
+
+volumes:
+  gradle_cache:
