@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import p3.group.p3_aau_football.role.Referee;
 import p3.group.p3_aau_football.team.Team;
 import java.time.LocalDateTime;
 
@@ -43,7 +45,7 @@ public class Match {
     }
 
     //Getters
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
@@ -65,9 +67,9 @@ public class Match {
 
     public Venue getVenue() { return this.venue; }
 
-    public Date getKickoff() { return this.kickoff }
+    public LocalDateTime getKickoff() { return this.kickoff; }
 
-    public List<Referee> getReferees { return this.referees }
+    public List<Referee> getReferees() { return this.referees; }
 
     public List<MatchEvent> getMatchEvents() {
         return this.matchEvents;
