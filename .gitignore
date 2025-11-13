@@ -112,6 +112,7 @@ next-env.d.ts
 db
 
 *.env
+!.env.local.example
 
 gradle_chache/
 node_modules_cache/
