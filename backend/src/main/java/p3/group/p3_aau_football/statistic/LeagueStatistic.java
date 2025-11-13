@@ -3,9 +3,9 @@ package p3.group.p3_aau_football.statistic;
 public class LeagueStatistic extends Statistics {
     private String teamId;
     private int matchesPlayed;
-    private int wins;
-    private int draws;
-    private int losses;
+    private int won;
+    private int drawn;
+    private int lost;
     private int goalsFor;
     private int goalsAgainst;
     private int points;
