@@ -15,6 +15,9 @@ public class Match {
     private String Date;
     private String Venue;
     private Boolean Cancel;
+    private Boolean cancel = false;
+    private Boolean wasUpdated = false;
+    private String lastUpdated;
 
     public Match(String homeTeam, String awayTeam) {
         this.homeTeam = homeTeam;
@@ -44,4 +47,13 @@ public class Match {
     public void setCancel(Boolean cancel) {
         this.Cancel = cancel;
     }
+
+    public void setWasUpdated(Boolean wasUpdated) {
+        this.wasUpdated = wasUpdated;
+    }
+
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
 }
