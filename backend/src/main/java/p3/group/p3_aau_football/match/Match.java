@@ -1,17 +1,28 @@
 package p3.group.p3_aau_football.match;
 
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import p3.group.p3_aau_football.role.Referee;
 import p3.group.p3_aau_football.team.Team;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
 @Document(collection = "matches")
 public class Match {
-    private int id;
+    @Id
+    private String id;
+    @DocumentReference
     private final Team homeTeam;
+    @DocumentReference
     private final Team awayTeam;
 
-    //Score & Events
+    @DocumentReference
+    private Venue venue;
+    private LocalDateTime kickoff;
+    private List<Referee> referees;
     private int homeScore;
     private int awayScore;
     private List<MatchEvent> matchEvents;
@@ -33,19 +44,19 @@ public class Match {
     }
 
     //Getters
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
-    public Team getHomeTeam(){
+    public Team getHomeTeam() {
         return this.homeTeam;
     }
 
-    public Team getAwayTeam(){
+    public Team getAwayTeam() {
         return this.awayTeam;
     }
 
-    public int getHomeScore()  {
+    public int getHomeScore() {
         return this.homeScore;
     }
 
@@ -57,8 +68,20 @@ public class Match {
         return this.matchEvents;
     }
 
+    public Venue getVenue() {
+        return this.venue;
+    }
+
+    public LocalDateTime getKickoff() {
+        return this.kickoff;
+    }
+
+    public List<Referee> getReferees() {
+        return this.referees;
+    }
+
     //Setters
-    public void setHomeScore(int homeScore){
+    public void setHomeScore(int homeScore) {
         this.homeScore = homeScore;
     }
 
@@ -66,5 +89,12 @@ public class Match {
         this.awayScore = awayScore;
     }
 
-    // set date, venue, referees
+    public void setVenue(Venue venue) {
+        this.venue = venue;
+    }
+
+    public void setKickoff(LocalDateTime kickoff) {
+        this.kickoff = kickoff;
+    }
+
 }
