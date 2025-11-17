@@ -1,4 +1,6 @@
 "use server";
+import {matchSchema} from "@/lib/schemas/matchSchema";
+
 const BACKEND_URL = process.env.BACKEND_URI || "https://example.com/mock-api";
 
 if (!BACKEND_URL) {
@@ -22,5 +24,13 @@ export async function fetchMatchById(matchId: string) {
       `Failed to fetch match ${matchId}: ${res.status} ${res.statusText}`
     );
   }
-  return res.json();
+  //Validate returned json with Zod
+  const json = await res.json();
+  const result = matchSchema.safeParse(json);
+
+  if (!result.success) {
+      throw new Error("Backend returned invalid match data");
+  }
+
+  return result.data;
 }

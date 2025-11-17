@@ -17,7 +17,7 @@ const matchEventSchema = z.object({
   minute: z.number(),
 });
 
-const matchSchema = z.object({
+export const matchSchema = z.object({
   id: z.string(),
   homeTeam: teamSchema,
   awayTeam: teamSchema,
@@ -26,9 +26,9 @@ const matchSchema = z.object({
   referees: z.array(refereeSchema),
   homeScore: z.int(),
   awayScore: z.int(),
-  matchEvents: z.array(z.string()),
+  matchEvents: z.array(matchEventSchema),
 });
 
-export const MatchesArraySchema = z.array(teamSchema);
+export const matchesArraySchema = z.array(matchSchema);
 
-export type Match = z.infer<typeof teamSchema>;
+export type Match = z.infer<typeof matchSchema>;
