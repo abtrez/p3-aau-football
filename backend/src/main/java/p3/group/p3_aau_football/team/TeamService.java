@@ -1,6 +1,5 @@
 package p3.group.p3_aau_football.team;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
