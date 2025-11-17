@@ -28,3 +28,7 @@ const matchSchema = z.object({
   awayScore: z.int(),
   matchEvents: z.array(z.string()),
 });
+
+export const MatchesArraySchema = z.array(teamSchema);
+
+export type Match = z.infer<typeof teamSchema>;
