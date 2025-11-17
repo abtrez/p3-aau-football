@@ -40,7 +40,8 @@ public class LeagueStatisticsService implements StatisticsService {
     public void updateLeagueStats(LeagueStatistics leagueStats) {
         boolean exists = this.leagueStatisticsRepository.existsById(leagueStats.getId());
         if (exists) {
-            // update stuff
+            UpdateLeagueStatistics updateLeagueStats = new UpdateLeagueStatistics(); //logic is set up, but still need
+            leagueStats.update(updateLeagueStats); // to figure out where to get the update data from
         } else {
             String msg = String.format("A document with the provided ID does not exists in the collection: DocumentID: %s", leagueStats.getId());
             throw new DocumentNotFoundException(msg);

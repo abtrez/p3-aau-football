@@ -3,6 +3,7 @@ package p3.group.p3_aau_football.statistic.league;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import p3.group.p3_aau_football.statistic.common.Statistics;
+import p3.group.p3_aau_football.statistic.league.UpdateLeagueStatistics;
 
 @Document(collection = "league_statistics")
 public class LeagueStatistics extends Statistics {
@@ -10,6 +11,7 @@ public class LeagueStatistics extends Statistics {
     private String id;
     private String teamId;
     private String seasonYearLabel;
+    private String competition;
     private int matchesPlayed;
     private int won;
     private int drawn;
@@ -98,4 +100,21 @@ public class LeagueStatistics extends Statistics {
         this.goalsAgainst = goalsAgainst;
     }
 
+    public void setCompetition(String comp) {
+        this.competition = comp;
+    }
+
+    public String getCompetition() {
+        return this.competition;
+    }
+
+    public void update(UpdateLeagueStatistics updateLeagueStats) {
+        if (updateLeagueStats.matchesPlayed != null) this.matchesPlayed = updateLeagueStats.matchesPlayed;
+        if (updateLeagueStats.won != null) this.won = updateLeagueStats.won;
+        if (updateLeagueStats.drawn != null) this.drawn = updateLeagueStats.drawn;
+        if (updateLeagueStats.lost != null) this.lost = updateLeagueStats.lost;
+        if (updateLeagueStats.goalsFor != null) this.goalsFor = updateLeagueStats.goalsFor;
+        if (updateLeagueStats.goalsAgainst != null) this.goalsAgainst = updateLeagueStats.goalsAgainst;
+        if (updateLeagueStats.points != null) this.points = updateLeagueStats.points;
+    }
 }
