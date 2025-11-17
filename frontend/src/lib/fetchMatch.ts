@@ -23,6 +23,7 @@ export async function fetchMatchOverview() {
     throw new Error("Backend returned invalid match data");
   }
 
+  // Return validated match data
   return result.data;
 }
 
@@ -33,13 +34,14 @@ export async function fetchMatchById(matchId: string) {
       `Failed to fetch match ${matchId}: ${res.status} ${res.statusText}`,
     );
   }
-  //Validate returned json with Zod
+  // Validate returned json with Zod
   const json = await res.json();
   const result = matchSchema.safeParse(json);
 
   if (!result.success) {
+    console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
     throw new Error("Backend returned invalid match data");
   }
-
+  // Return validated single match data
   return result.data;
 }

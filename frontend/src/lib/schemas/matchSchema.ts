@@ -24,8 +24,8 @@ export const matchSchema = z.object({
   venue: venueSchema.nullish(),
   kickoff: z.string().nullish(),
   referees: z.array(refereeSchema).nullish(),
-  homeScore: z.int(),
-  awayScore: z.int(),
+  homeScore: z.number(),
+  awayScore: z.number(),
   matchEvents: z.array(matchEventSchema).nullish(),
 });
 
