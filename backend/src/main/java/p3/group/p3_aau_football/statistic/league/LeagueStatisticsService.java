@@ -2,10 +2,13 @@ package p3.group.p3_aau_football.statistic.league;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import p3.group.p3_aau_football.match.Match;
 import p3.group.p3_aau_football.statistic.common.StatisticsService;
 import p3.group.p3_aau_football.statistic.exception.DocumentAlreadyExistsException;
 import p3.group.p3_aau_football.statistic.exception.DocumentNotFoundException;
 import p3.group.p3_aau_football.team.TeamRepository;
+
+import java.util.Optional;
 
 @Service
 public class LeagueStatisticsService implements StatisticsService {
@@ -37,7 +40,12 @@ public class LeagueStatisticsService implements StatisticsService {
         }
     }
 
-    public void updateLeagueStats(LeagueStatistics leagueStats) {
+    /**
+     * This method is only responsible for directly updating the fields of the LeagueStatistics object
+     * not the entire process of updating from raw data.
+     *
+     */
+    public void updateLeagueStatsObject(LeagueStatistics leagueStats) {
         boolean exists = this.leagueStatisticsRepository.existsById(leagueStats.getId());
         if (exists) {
             UpdateLeagueStatistics updateLeagueStats = new UpdateLeagueStatistics(); //logic is set up, but still need
@@ -46,6 +54,21 @@ public class LeagueStatisticsService implements StatisticsService {
             String msg = String.format("A document with the provided ID does not exists in the collection: DocumentID: %s", leagueStats.getId());
             throw new DocumentNotFoundException(msg);
         }
+    }
+
+    /**
+     * This method is responsible for the entire process of getting a match as raw data, and updating the
+     * relevant LeagueStatistics documents in the database
+     *
+     */
+    public void updateLeagueStats(Match match) {
+        // fetch leagueStats for teams
+        LeagueStatistics homeTeam = this.leagueStatisticsRepository.findById(match.getHomeTeam().getId())
+                .orElseThrow(() -> new LeagueStatisticsNotFoundException("Home Team League Statistics Not Found"));
+        LeagueStatistics awayTeam = this.leagueStatisticsRepository.findById(match.getAwayTeam().getId())
+                .orElseThrow(() -> new LeagueStatisticsNotFoundException("Away Team League Statistics Not Found"));
+
+        // need to add new logic methods, call them here, then call the update method
     }
 
 }

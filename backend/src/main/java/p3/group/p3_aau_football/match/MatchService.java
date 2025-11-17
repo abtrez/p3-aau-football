@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import p3.group.p3_aau_football.team.Team;
 import p3.group.p3_aau_football.team.TeamService;
+import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
 
 
 @Service
@@ -14,11 +15,13 @@ public class MatchService {
 
     private MatchRepository matchRepository;
     private TeamService teamService;
+    private LeagueStatisticsService leagueStatsService;
 
     @Autowired
-    public MatchService(MatchRepository matchRepository, TeamService teamService) {
+    public MatchService(MatchRepository matchRepository, TeamService teamService, LeagueStatisticsService leagueStatsService) {
         this.matchRepository = matchRepository;
         this.teamService = teamService;
+        this.leagueStatsService = leagueStatsService;
     }
 
     public List<Match> getOverview() {
@@ -35,6 +38,7 @@ public class MatchService {
 
         if (homeTeam.isPresent() && awayTeam.isPresent()) {
             Match insertedMatch = new Match(homeTeam.get(), awayTeam.get());
+            this.leagueStatsService.updateLeagueStats(insertedMatch);
             return this.matchRepository.insert(insertedMatch);
         } else {
             throw new Exception("Team not found");
