@@ -1,29 +1,28 @@
-"use client";
-
 import NotFound from "@/app/not-found";
 import InfoItem from "@/components/statistics/InfoItem";
 import TeamLogo from "@/components/team/TeamLogo";
+import { fetchTeamById } from "@/lib/fetchTeam";
 
 import Divider from "@mui/material/Divider";
 
-import { useParams } from "next/navigation";
+import { Team } from "@/lib/schemas/teamSchema";
 
-export default function Page() {
-  const { id } = useParams();
-
-  /* return NotFound; */
+export default async function Page({ params }: any) {
+  const { id } = await params;
+  const team: Team = await fetchTeamById(id);
+  console.log(team);
 
   return (
-    <div className="container">
+    <div className="container mx-auto">
       <div className="flex flex-col items-center gap-4">
         <TeamLogo logo={"/placeholder-logo.png"} height={120} width={120} />
         <h1 className="text-4xl font-semibold  text-neutral-900 text-center">
-          {id}
+          {team.name}
         </h1>
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
-        <InfoItem label="Contact Person" value="Peter Pan" />
+        <InfoItem label="Contact Person" value={team.contactPerson} />
         <InfoItem label="Leader" value="John Doe" />
         <InfoItem label="Coach" value="Jane Doe" />
         <InfoItem label="Established" value="2025" />
