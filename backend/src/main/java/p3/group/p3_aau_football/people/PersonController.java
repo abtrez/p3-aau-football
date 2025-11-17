@@ -3,11 +3,6 @@ package p3.group.p3_aau_football.people;
 import java.util.List;
 import java.util.Optional;
 
-import p3.group.p3_aau_football.role.Role;
-import p3.group.p3_aau_football.role.Leader;
-import p3.group.p3_aau_football.team.Team;
-import p3.group.p3_aau_football.team.TeamService;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,16 +12,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import p3.group.p3_aau_football.role.Role;
+import p3.group.p3_aau_football.team.TeamService;
+
 @RestController // flags class, so it is ready for use by Spring MVC to handle web requests.
 @RequestMapping("/api/person")
 public class PersonController {
 
     private PersonService personService;
-    private TeamService teamService;
 
     public PersonController(PersonService personService, TeamService teamService) {
         this.personService = personService;
-        this.teamService = teamService;
     }
 
     @GetMapping("/get")
