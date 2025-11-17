@@ -1,19 +1,13 @@
 import "@/components/team/TeamLogo";
 import TeamLogo from "@/components/team/TeamLogo";
+import type { Team } from "@/lib/schemas/teamSchema";
 import Link from "next/link";
 
-export interface TeamCardInterface {
-  id: number;
-  name: string;
-  abbreviation: string;
-  yearEstablished: string;
-  department: string;
-  size: number;
-  members: [];
-  contactPerson: object;
+interface TeamCardProps {
+  team: Team;
 }
 
-export default function TeamCard({ team }: { team: TeamCardInterface }) {
+export default function TeamCard({ team }: TeamCardProps) {
   return (
     <Link href={`/teams/${team.id}`}>
       <div className="flex rounded-2xl bg-white shadow-sm border border-gray-100 gap-4 p-4">
