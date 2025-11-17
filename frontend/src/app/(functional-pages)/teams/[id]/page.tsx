@@ -31,8 +31,8 @@ export default function Page() {
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
-        <InfoItem label="Contact Person" value="john Doe" />
-        <InfoItem label="Leader" value="John Doe" />
+        <InfoItem label="Contact Person" value="joe" />
+        <InfoItem label="Leader" value="jane doe" />
         <InfoItem label="Coach" value="Jane Doe" />
         <InfoItem label="Established" value= {team.yearEstablished} />
         <InfoItem label="Squad Size" value= {team.size} />
