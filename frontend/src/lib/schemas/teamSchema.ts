@@ -2,10 +2,10 @@ import { z } from "zod";
 
 // Single source of truth for what our team objects look like
 export const teamSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   abbreviation: z.string(),
-  yearEstablished: z.string(),
+  yearEstablished: z.number(),
   department: z.string(),
   size: z.number(),
   members: z.array(z.unknown()),

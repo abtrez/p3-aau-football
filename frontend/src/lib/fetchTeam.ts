@@ -18,6 +18,9 @@ export async function fetchTeams(): Promise<Team[]> {
   const result = teamsArraySchema.safeParse(json);
 
   if (!result.success) {
+    console.error("❌ Zod validation failed for /api/team/get");
+    console.error("Zod error:", result.error.format());
+    console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
     throw new Error("Backend returned invalid teams data");
   }
 
