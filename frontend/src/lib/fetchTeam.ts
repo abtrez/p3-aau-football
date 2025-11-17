@@ -1,7 +1,7 @@
 "use server";
 const BACKEND_URL = process.env.BACKEND_URI || "https://example.com/mock-api";
 
-import { teamsArraySchema, type Team } from "@/lib/schemas/team.schema";
+import { teamsArraySchema, type Team } from "@/lib/schemas/teamSchema";
 
 if (!BACKEND_URL) {
   throw new Error("BACKEND_URI environment variable is not defined");

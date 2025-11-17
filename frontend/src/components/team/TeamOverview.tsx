@@ -1,12 +1,15 @@
 "use client";
-//import teams from "@/data/teams.json";
+
 import fetchTeams from "@/lib/fetchTeam";
 import TeamCard, { TeamCardInterface } from "@/components/team/TeamCard";
+import type { Team } from "@/lib/schemas/teamSchema";
 import { useState, useEffect } from "react";
 
-//const footballTeams = teams as TeamCardInterface[];
+interface TeamOverviewProps {
+  teams: Team[];
+}
 
-export default function TeamOverview() {
+export default function TeamOverview({ teams }: TeamOverviewProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
 
