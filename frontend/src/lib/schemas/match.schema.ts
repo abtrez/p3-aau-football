@@ -18,11 +18,11 @@ const matchEventSchema = z.object({
 });
 
 const matchSchema = z.object({
-  id: z.string(), // String ID from mongoDB
-  homeTeam: teamSchema, // Team reference --> ID string
-  awayTeam: teamSchema, // Team reference --> ID string
-  venue: venueSchema, // Venue reference --> ID string
-  kickoff: z.string(), // Dates come as ISO string from JSON
+  id: z.string(),
+  homeTeam: teamSchema,
+  awayTeam: teamSchema,
+  venue: venueSchema,
+  kickoff: z.string(),
   referees: z.array(refereeSchema),
   homeScore: z.int(),
   awayScore: z.int(),
