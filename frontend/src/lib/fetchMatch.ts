@@ -1,5 +1,5 @@
 "use server";
-import {matchSchema} from "@/lib/schemas/matchSchema";
+import {matchesArraySchema, matchSchema} from "@/lib/schemas/matchSchema";
 
 const BACKEND_URL = process.env.BACKEND_URI || "https://example.com/mock-api";
 
@@ -14,7 +14,16 @@ export async function fetchMatchOverview() {
       `Failed to fetch match overview: ${res.status} ${res.statusText}`
     );
   }
-  return res.json();
+    //Validate returned json with Zod
+    const json = await res.json();
+    const result = matchesArraySchema.safeParse(json);
+
+    if (!result.success) {
+        console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
+        throw new Error("Backend returned invalid match data");
+    }
+
+    return result.data;
 }
 
 export async function fetchMatchById(matchId: string) {

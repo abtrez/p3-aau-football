@@ -21,12 +21,12 @@ export const matchSchema = z.object({
   id: z.string(),
   homeTeam: teamSchema,
   awayTeam: teamSchema,
-  venue: venueSchema,
-  kickoff: z.string(),
-  referees: z.array(refereeSchema),
+  venue: venueSchema.nullish(),
+  kickoff: z.string().nullish(),
+  referees: z.array(refereeSchema).nullish(),
   homeScore: z.int(),
   awayScore: z.int(),
-  matchEvents: z.array(matchEventSchema),
+  matchEvents: z.array(matchEventSchema).nullish(),
 });
 
 export const matchesArraySchema = z.array(matchSchema);
