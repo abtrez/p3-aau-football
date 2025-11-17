@@ -1,4 +1,4 @@
-import { z } from "Zod";
+import { z } from "zod";
 import { teamSchema } from "@/lib/schemas/teamSchema";
 
 const venueSchema = z.object({

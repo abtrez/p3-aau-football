@@ -1,4 +1,4 @@
-import { z } from "Zod";
+import { z } from "zod";
 
 // Single source of truth for what our team objects look like
 export const teamSchema = z.object({
