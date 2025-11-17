@@ -1,5 +1,5 @@
 import { z } from "Zod";
-import { teamSchema } from "@/lib/schemas/team.schema";
+import { teamSchema } from "@/lib/schemas/teamSchema";
 
 const venueSchema = z.object({
   id: z.string(),
