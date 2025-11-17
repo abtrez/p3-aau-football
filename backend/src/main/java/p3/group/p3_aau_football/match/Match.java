@@ -25,6 +25,7 @@ public class Match {
     private List<Referee> referees;
     private int homeScore;
     private int awayScore;
+    @DocumentReference
     private List<MatchEvent> matchEvents;
 
     //Details
