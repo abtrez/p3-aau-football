@@ -1,0 +1,12 @@
+import { z } from "Zod";
+
+const teamSchema = z.object({
+  id: z.string,
+  name: z.string,
+  abbreviation: z.string,
+  yearEstablished: z.string,
+  department: z.string,
+  size: z.number,
+  members: z.array,
+  contactPerson: z.object,
+});
