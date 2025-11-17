@@ -1,17 +1,40 @@
 package p3.group.p3_aau_football.people;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import p3.group.p3_aau_football.role.Role;
 
-import java.util.List;
-
+@Document(collection = "people")
 public class Person {
 
-    private int id;
+    @Id
+    private String id;
+
     private String firstName;
     private String lastName;
+
     private List<Role> roles;
 
-    public int getId() {
+    public Person() {
+    }
+
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.roles = List.of();
+    }
+
+    public Person(String firstName, String lastName, List<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.roles = roles;
+    }
+
+    public String getId() {
         return this.id;
     }
 
@@ -27,10 +50,6 @@ public class Person {
         return this.roles;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -39,11 +58,11 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public void getRoles(List<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
-    @Override
+    /* @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -61,5 +80,5 @@ public class Person {
     @Override
     public int hashCode() {
         return Integer.hashCode(this.id);
-    }
+    } */
 }
