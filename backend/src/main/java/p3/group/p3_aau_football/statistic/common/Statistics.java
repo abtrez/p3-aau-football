@@ -1,4 +1,4 @@
-package p3.group.p3_aau_football.statistic;
+package p3.group.p3_aau_football.statistic.common;
 
 import org.springframework.data.annotation.Id;
 
