@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "side": "home",
+    "minute": 57,
+    "playerName": "Mikel Merino",
+    "extraText": "Yellow card",
+    "kind": "CARD"
+  },
+  {
+    "id": "2",
+    "side": "away",
+    "minute": 63,
+    "playerName": "Mikel Oyarzabal",
+    "extraText": "Assist: Ferran Torres",
+    "kind": "GOAL"
+  },
+  {
+    "id": "3",
+    "side": "home",
+    "minute": 71,
+    "playerName": "Giorgi Kvilitaia",
+    "extraText": "Substitution",
+    "kind": "SUB"
+  }
+]

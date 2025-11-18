@@ -1,28 +1,18 @@
-"use client";
-
 import NotFound from "@/app/not-found";
 import InfoItem from "@/components/statistics/InfoItem";
 import { TeamCardInterface } from "@/components/team/TeamCard";
 import TeamLogo from "@/components/team/TeamLogo";
 import { fetchTeamById } from "@/lib/fetchTeam";
+import { Team } from "@/lib/schemas/teamSchema";
 
 import Divider from "@mui/material/Divider";
 
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-
-export default function Page() {
-  const { id } = useParams();
-  const [team, setTeam] = useState<TeamCardInterface |null>(null);
-  
-  useEffect(()=> {
-    fetchTeamById(id as string).then((data)=> setTeam(data));
-  },[id])
-
-  if (!team) return <NotFound />;
+export default async function Page({ params }: any) {
+  const { id } = await params;
+  const team: Team = await fetchTeamById(id);
 
   return (
-    <div className="container">
+    <div className="container mx-auto">
       <div className="flex flex-col items-center gap-4">
         <TeamLogo logo={"/placeholder-logo.png"} height={120} width={120} />
         <h1 className="text-4xl font-semibold  text-neutral-900 text-center">
@@ -31,8 +21,8 @@ export default function Page() {
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
-        <InfoItem label="Contact Person" value="joe" />
-        <InfoItem label="Leader" value="jane doe" />
+        <InfoItem label="Contact Person" value="John Doe" />
+        <InfoItem label="Leader" value="John Doe" />
         <InfoItem label="Coach" value="Jane Doe" />
         <InfoItem label="Established" value= {team.yearEstablished} />
         <InfoItem label="Squad Size" value= {team.size} />

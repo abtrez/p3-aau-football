@@ -1,32 +1,17 @@
-/*import dummyMatches from "@/data/matches.json";
+import type { Match } from "@/lib/schemas/matchSchema";
+import MatchCard from "@/components/match/MatchCard";
 
-const matches = dummyMatches as MatchCardInterface[];*/
+interface MatchOverviewProps {
+  matches: Match[];
+}
 
-"use client"
-
-import {fetchMatchOverview} from "@/lib/fetchMatch";
-import MatchCard, { MatchCardInterface } from "@/components/match/MatchCard";
-import {useState, useEffect} from "react";
-
-//const footballMatches = mathes as MatchCardInterface[];
-
-export default function MatchOverview() {
-    const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        fetchMatchOverview()
-            .then((data) => {
-                setData(data)
-                setIsLoading(false)
-            });
-    }, []);
-  
-    if (isLoading) return <p>Is Loading</p>;
-    console.log(data);
-    return (
+export default function MatchOverview({ matches }: MatchOverviewProps) {
+  if (matches.length === 0) {
+    return <p>No matches found</p>;
+  }
+  return (
     <div className="grid gap-4">
-      {data.map((m: MatchCardInterface) => (
+      {matches.map((m) => (
         <MatchCard key={m.id} match={m} />
       ))}
     </div>
