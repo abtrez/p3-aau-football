@@ -70,19 +70,21 @@ public class Person {
         this.roles.add(role);
     }
 
-    /* @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Person person = (Person) o;
-        return Objects.equals(id, person.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(this.id);
-    } */
+    /*
+     * @Override
+     * public boolean equals(Object obj) {
+     * if (this == obj) {
+     * return true;
+     * if (o == null || getClass() != o.getClass())
+     * return false;
+     * 
+     * Person person = (Person) o;
+     * return Objects.equals(id, person.id);
+     * }
+     * 
+     * @Override
+     * public int hashCode() {
+     * return Integer.hashCode(this.id);
+     * }
+     */
 }

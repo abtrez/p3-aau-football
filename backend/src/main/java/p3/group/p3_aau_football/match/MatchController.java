@@ -19,7 +19,6 @@ public class MatchController {
 
     private MatchService matchService;
 
-    @Autowired
     public MatchController(MatchService matchService) {
         this.matchService = matchService;
     }
@@ -34,9 +33,9 @@ public class MatchController {
         return matchService.getMatch(id);
     }
 
-
     @PostMapping("/add")
-    public ResponseEntity<Match> addMatch(@RequestParam("homeTeam") String homeTeam, @RequestParam("awayTeam") String awayTeam) {
+    public ResponseEntity<Match> addMatch(@RequestParam("homeTeam") String homeTeam,
+            @RequestParam("awayTeam") String awayTeam) {
         try {
             Match insertedMatch = matchService.insertMatch(homeTeam, awayTeam);
             return ResponseEntity.ok(insertedMatch);
@@ -46,8 +45,11 @@ public class MatchController {
         }
     }
 
-    /* @PatchMapping("/{id}/edit")
-    public String editMatch(@PathVariable("id") String id, @RequestParam("test1") String test1, @RequestParam("test2") String test2) {
-        return test1 + " " + test2;
-    } */
+    /*
+     * @PatchMapping("/{id}/edit")
+     * public String editMatch(@PathVariable("id") String id, @RequestParam("test1")
+     * String test1, @RequestParam("test2") String test2) {
+     * return test1 + " " + test2;
+     * }
+     */
 }
