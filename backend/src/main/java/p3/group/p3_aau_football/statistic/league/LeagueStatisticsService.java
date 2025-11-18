@@ -20,6 +20,7 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     public LeagueStatistics addLeagueStats(LeagueStatistics leagueStats) {
+        // TODO: check om id er null før denne linje køres.
         boolean exists = this.leagueStatisticsRepository.existsById(leagueStats.getId());
         if (!exists) {
             return this.leagueStatisticsRepository.save(leagueStats);
@@ -40,8 +41,8 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     /**
-     * This method is only responsible for directly updating the fields of the LeagueStatistics object
-     * not the entire process of updating from raw data.
+     * This method is only responsible for directly updating the fields of the
+     * LeagueStatistics object not the entire process of updating from raw data.
      */
     public List<LeagueStatistics> updateLeagueStatsObject(List<LeagueStatistics> leagueStats, List<UpdateLeagueStatistics> updateLeagueStats) {
         leagueStats.get(0).update(updateLeagueStats.get(0));
@@ -50,8 +51,9 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     /**
-     * This method is responsible for the entire process of getting a match as raw data, and updating the
-     * relevant LeagueStatistics documents in the database
+     * This method is responsible for the entire process of getting a match as
+     * raw data, and updating the relevant LeagueStatistics documents in the
+     * database
      */
     public void updateLeagueStats(Match match) {
 
@@ -68,8 +70,8 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     /**
-     * This method calculates the fields that needs to be updated for the leagueStatistics object
-     * based on the match object.
+     * This method calculates the fields that needs to be updated for the
+     * leagueStatistics object based on the match object.
      */
     public List<UpdateLeagueStatistics> calculateStats(Match match) {
         UpdateLeagueStatistics homeTeam = new UpdateLeagueStatistics();
