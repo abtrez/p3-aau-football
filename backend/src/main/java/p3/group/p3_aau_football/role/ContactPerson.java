@@ -4,6 +4,13 @@ public class ContactPerson extends Role {
 
     private String phoneNumber;
 
+    public ContactPerson() {
+    }
+
+    public ContactPerson(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getPhoneNumber() {
         return this.phoneNumber;
     }
