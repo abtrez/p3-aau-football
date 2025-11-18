@@ -1,20 +1,23 @@
 package p3.group.p3_aau_football.people;
 
-import p3.group.p3_aau_football.role.Role;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import p3.group.p3_aau_football.role.Role;
 
 @Document(collection = "persons")
 public class Person {
+
     @Id
     private String id;
-  
+
     private String firstName;
     private String lastName;
+
+    private List<Role> roles;
 
     public Person() {
     }
@@ -33,10 +36,6 @@ public class Person {
 
     public String getId() {
         return this.id;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public void setId(String id) {
@@ -65,6 +64,10 @@ public class Person {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 
     /* @Override

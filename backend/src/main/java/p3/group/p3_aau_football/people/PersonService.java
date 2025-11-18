@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Service
 public class PersonService {
+
     private final PersonRepository personRepository;
 
     public PersonService(PersonRepository personRepository) {
@@ -22,7 +23,7 @@ public class PersonService {
     public Person updatePerson(Person person) {
         return personRepository.save(person);
     }
-  
+
     public Person insertPerson(String firstName, String lastName, List<Role> roles) throws Exception {
         Person insertedPerson = new Person(firstName, lastName, roles);
 
@@ -37,10 +38,10 @@ public class PersonService {
                 });
     }
 
-    public List<Person> getAllPersons() {
+    public List<Person> getOverview() {
         return personRepository.findAll();
     }
-  
+
     public Optional<Person> findByRoleName(String roleName) {
         return this.personRepository.findByRoleName(roleName);
     }

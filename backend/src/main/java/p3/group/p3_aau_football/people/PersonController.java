@@ -1,5 +1,6 @@
 package p3.group.p3_aau_football.people;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import p3.group.p3_aau_football.role.Player;
 import p3.group.p3_aau_football.role.Role;
-import p3.group.p3_aau_football.team.TeamService;
 
 @RestController // flags class, so it is ready for use by Spring MVC to handle web requests.
 @RequestMapping("/api/person")
@@ -50,7 +51,7 @@ public class PersonController {
             return ResponseEntity.badRequest().build();
         }
     }
-  
+
     @PostMapping("/add/{id}/addPlayer")
     public ResponseEntity<Person> addPlayerToPerson(
             @PathVariable("id") String id,
