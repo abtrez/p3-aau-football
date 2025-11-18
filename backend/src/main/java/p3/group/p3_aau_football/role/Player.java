@@ -1,57 +1,51 @@
 package p3.group.p3_aau_football.role;
 
-import p3.group.p3_aau_football.team.Team;
-
 public class Player extends Role {
 
-    private Team team;
     private int shirtNumber;
 
     private PositionGroup positionGroup;
     private Position position;
 
-    enum PositionGroup {
-        DEF,
-        MID,
-        FOW
+    public enum PositionGroup {
+        DEF, MID, FOW
     }
 
-    enum Position {
+    public enum Position {
         CB, LB, RB, LWB, RWB, CDM, CM, CAM,
         LM, ST, CF, LW, RW, LA, RA
-
     }
 
-    public Team getTeam() {
-        return this.team;
+    public Player() {
     }
 
-    public int getshirtNumber() {
-        return this.shirtNumber;
+    public Player(PositionGroup positionGroup, Position position, int shirtNumber) {
+        this.positionGroup = positionGroup;
+        this.position = position;
+        this.shirtNumber = shirtNumber;
     }
 
-    public PositionGroup getPositionGroup() {
-        return this.positionGroup;
-    }
-
-    public Position getPosition() {
-        return this.position;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
+    public int getShirtNumber() {
+        return shirtNumber;
     }
 
     public void setShirtNumber(int shirtNumber) {
         this.shirtNumber = shirtNumber;
     }
 
+    public PositionGroup getPositionGroup() {
+        return positionGroup;
+    }
+
     public void setPositionGroup(PositionGroup positionGroup) {
         this.positionGroup = positionGroup;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     public void setPosition(Position position) {
         this.position = position;
     }
-
 }
