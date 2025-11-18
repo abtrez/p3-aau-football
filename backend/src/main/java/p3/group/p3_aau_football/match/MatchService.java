@@ -3,12 +3,11 @@ package p3.group.p3_aau_football.match;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
 import p3.group.p3_aau_football.team.Team;
 import p3.group.p3_aau_football.team.TeamService;
-import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
-
 
 @Service
 public class MatchService {
@@ -17,7 +16,6 @@ public class MatchService {
     private TeamService teamService;
     private LeagueStatisticsService leagueStatsService;
 
-    @Autowired
     public MatchService(MatchRepository matchRepository, TeamService teamService, LeagueStatisticsService leagueStatsService) {
         this.matchRepository = matchRepository;
         this.teamService = teamService;
