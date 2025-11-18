@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { personSchema } from "./personSchema";
 // import { personSchema } from "@/lib/schemas/personSchema";
 
 // Single source of truth for what our team objects look like
@@ -10,7 +11,7 @@ export const teamSchema = z.object({
   department: z.string(),
   studyPrograms: z.array(z.string()),
   size: z.number(),
-  members: z.array(z.unknown()),
+  members: z.array(personSchema),
   contactPerson: z.string().nullable(),
   logo: z.string().nullish(),
 });

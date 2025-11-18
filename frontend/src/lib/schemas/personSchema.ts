@@ -6,3 +6,5 @@ export const personSchema = z.object({
   lastName: z.string(),
   roles: z.array(z.string()).optional(),
 });
+
+export type Person = z.infer<typeof personSchema>;

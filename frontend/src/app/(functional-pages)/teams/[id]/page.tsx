@@ -1,9 +1,11 @@
 import NotFound from "@/app/not-found";
 import InfoItem from "@/components/statistics/InfoItem";
-import { TeamCardInterface } from "@/components/team/TeamCard";
 import TeamLogo from "@/components/team/TeamLogo";
 import { fetchTeamById } from "@/lib/fetchTeam";
 import { Team } from "@/lib/schemas/teamSchema";
+import { Person } from "@/lib/schemas/personSchema";
+
+
 
 import Divider from "@mui/material/Divider";
 
@@ -21,12 +23,12 @@ export default async function Page({ params }: any) {
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
-        <InfoItem label="Contact Person" value="John Doe" />
-        <InfoItem label="Leader" value="John Doe" />
-        <InfoItem label="Coach" value="Jane Doe" />
+        <InfoItem label="Contact Person" value= {team.contactPerson || "N/A"}/>
+        <InfoItem label="Leader" value= "" />
+        <InfoItem label="Coach" value= "" />
         <InfoItem label="Established" value= {team.yearEstablished} />
         <InfoItem label="Squad Size" value= {team.size} />
-        <InfoItem label="Assistant" value="John Doe" />
+        <InfoItem label="Assistant" value= "" />
       </div>
       <section className="rounded-2xl bg-white p-4 my-4">
         <h3 className="text-base font-semibold text-neutral-900 mb-1">
@@ -38,9 +40,18 @@ export default async function Page({ params }: any) {
       </section>
       <section className="rounded-2xl bg-white p-4 my-4">
         <h3 className="text-base font-semibold text-neutral-900 mb-1">
-          Players
+          Members
         </h3>
-        <p>{team.members}</p>
+        {team.members?.length ? (
+  <ul className="list-disc pl-6 text-sm text-neutral-700">
+    {team.members.map((m: Person) => (
+      <li key={m.id}>{m.firstName}</li>
+    ))}
+  </ul>
+) : (
+  <p className="text-sm text-neutral-600">No members added yet.</p>
+)}
+
       </section>
     </div>
   );
