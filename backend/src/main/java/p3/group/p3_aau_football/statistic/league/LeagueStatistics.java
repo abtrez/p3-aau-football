@@ -3,14 +3,16 @@ package p3.group.p3_aau_football.statistic.league;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
+
 import p3.group.p3_aau_football.statistic.common.Statistics;
-import p3.group.p3_aau_football.statistic.league.UpdateLeagueStatistics;
 import p3.group.p3_aau_football.team.Team;
 
 @Document(collection = "league_statistics")
 public class LeagueStatistics extends Statistics {
+
     @Id
     private String id;
+
     @DocumentReference
     private Team team;
     private String season;
@@ -128,12 +130,26 @@ public class LeagueStatistics extends Statistics {
     }
 
     public void update(UpdateLeagueStatistics updateLeagueStats) {
-        if (updateLeagueStats.matchesPlayed != null) this.matchesPlayed = updateLeagueStats.matchesPlayed;
-        if (updateLeagueStats.won != null) this.won = updateLeagueStats.won;
-        if (updateLeagueStats.drawn != null) this.drawn = updateLeagueStats.drawn;
-        if (updateLeagueStats.lost != null) this.lost = updateLeagueStats.lost;
-        if (updateLeagueStats.goalsFor != null) this.goalsFor = updateLeagueStats.goalsFor;
-        if (updateLeagueStats.goalsAgainst != null) this.goalsAgainst = updateLeagueStats.goalsAgainst;
-        if (updateLeagueStats.points != null) this.points = updateLeagueStats.points;
+        if (updateLeagueStats.matchesPlayed != null) {
+            this.matchesPlayed = updateLeagueStats.matchesPlayed;
+        }
+        if (updateLeagueStats.won != null) {
+            this.won = updateLeagueStats.won;
+        }
+        if (updateLeagueStats.drawn != null) {
+            this.drawn = updateLeagueStats.drawn;
+        }
+        if (updateLeagueStats.lost != null) {
+            this.lost = updateLeagueStats.lost;
+        }
+        if (updateLeagueStats.goalsFor != null) {
+            this.goalsFor = updateLeagueStats.goalsFor;
+        }
+        if (updateLeagueStats.goalsAgainst != null) {
+            this.goalsAgainst = updateLeagueStats.goalsAgainst;
+        }
+        if (updateLeagueStats.points != null) {
+            this.points = updateLeagueStats.points;
+        }
     }
 }
