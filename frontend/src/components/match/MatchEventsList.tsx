@@ -1,6 +1,11 @@
 import MatchEventRow from "./MatchEventRow";
+import type {Match} from "@/lib/schemas/matchSchema";
 
-export default function MatchEventsList({ matchEvents }) {
+interface MatchEventsListProps {
+    matchEvents: Match.matchEvents;
+}
+
+export default function MatchEventsList({ matchEvents } : MatchEventsListProps) {
     return (
         <div className="flex flex-col divide-y divide-gray-100">
             {matchEvents.map((matchEvent) => (

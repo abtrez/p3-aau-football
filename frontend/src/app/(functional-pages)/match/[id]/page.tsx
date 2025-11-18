@@ -15,7 +15,7 @@ export default async function Page({ params }: any) {
       <p>
         {match.homeTeam.name} vs {match.awayTeam.name}
       </p>
-      <MatchEventsList matchEvents={matchEvents} />
+      <MatchEventsList matchEvents={match.matchEvents} />
     </div>
   );
 }

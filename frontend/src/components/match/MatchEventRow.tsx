@@ -1,16 +1,11 @@
 import TeamBadge from "@/components/team/TeamBadge";
+import {Match} from "@/lib/schemas/matchSchema";
 
-export interface MatchEventInterface {
-  id: number;
-  team1: string;
-  team2: string;
-  team1logo: string;
-  team2logo: string;
-  location: string;
-  time: string;
+export interface MatchEventRowProps {
+  matchEvent: Match;
 }
 
-export default function MatchEventRow({ matchEvent }: { match: MatchCardInterface }) {
+export default function MatchEventRow({ matchEvent }: MatchEventRowProps) {
   return (
     <div className="rounded-2xl bg-white shadow-sm border border-gray-100 p-4">
       <div className="grid grid-cols-[1fr_auto_1fr] items-center">
