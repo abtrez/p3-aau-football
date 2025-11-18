@@ -1,23 +1,20 @@
 package p3.group.p3_aau_football.people;
 
-import java.util.List;
-import java.util.Optional;
-
+import p3.group.p3_aau_football.role.Role;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import p3.group.p3_aau_football.role.Role;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-@Document(collection = "people")
+@Document(collection = "persons")
 public class Person {
-
     @Id
     private String id;
-
+  
     private String firstName;
     private String lastName;
-
-    private List<Role> roles;
 
     public Person() {
     }
@@ -25,7 +22,7 @@ public class Person {
     public Person(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.roles = List.of();
+        this.roles = new ArrayList<>();
     }
 
     public Person(String firstName, String lastName, List<Role> roles) {
@@ -38,24 +35,32 @@ public class Person {
         return this.id;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
-        return this.firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public List<Role> getRoles() {
-        return this.roles;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Role> getRoles() {
+        return this.roles;
     }
 
     public void setRoles(List<Role> roles) {
@@ -66,15 +71,11 @@ public class Person {
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
-        }
-        if (obj == null) {
+        if (o == null || getClass() != o.getClass())
             return false;
-        }
-        if (!(obj instanceof Person)) {
-            return false;
-        }
-        Person other = (Person) obj;
-        return this.id == other.getId();
+
+        Person person = (Person) o;
+        return Objects.equals(id, person.id);
     }
 
     @Override

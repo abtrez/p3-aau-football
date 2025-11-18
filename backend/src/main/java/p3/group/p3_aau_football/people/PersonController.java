@@ -21,7 +21,7 @@ public class PersonController {
 
     private PersonService personService;
 
-    public PersonController(PersonService personService, TeamService teamService) {
+    public PersonController(PersonService personService) {
         this.personService = personService;
     }
 
@@ -39,7 +39,7 @@ public class PersonController {
     public ResponseEntity<Person> addPerson(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestBody(required = false) List<Role> roles) {
         try {
             if (roles == null) {
-                roles = List.of();
+                roles = new ArrayList<>();
             }
 
             Person insertedPerson = personService.insertPerson(firstName, lastName, roles);
@@ -49,6 +49,16 @@ public class PersonController {
             System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
+    }
+  
+    @PostMapping("/add/{id}/addPlayer")
+    public ResponseEntity<Person> addPlayerToPerson(
+            @PathVariable("id") String id,
+            @RequestBody Player player) {
+
+        return personService.addPlayerToPerson(id, player)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     /* @PatchMapping("/{id}/edit")

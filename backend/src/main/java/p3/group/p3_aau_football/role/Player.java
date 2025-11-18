@@ -7,13 +7,11 @@ public class Player extends Role {
     private PositionGroup positionGroup;
     private Position position;
 
-    enum PositionGroup {
-        DEF,
-        MID,
-        FOW
+    public enum PositionGroup {
+        DEF, MID, FOW
     }
 
-    enum Position {
+    public enum Position {
         CB, LB, RB, LWB, RWB, CDM, CM, CAM,
         LM, ST, CF, LW, RW, LA, RA
     }
@@ -27,28 +25,27 @@ public class Player extends Role {
         this.shirtNumber = shirtNumber;
     }
 
-    public int getshirtNumber() {
-        return this.shirtNumber;
-    }
-
-    public PositionGroup getPositionGroup() {
-        return this.positionGroup;
-    }
-
-    public Position getPosition() {
-        return this.position;
+    public int getShirtNumber() {
+        return shirtNumber;
     }
 
     public void setShirtNumber(int shirtNumber) {
         this.shirtNumber = shirtNumber;
     }
 
+    public PositionGroup getPositionGroup() {
+        return positionGroup;
+    }
+
     public void setPositionGroup(PositionGroup positionGroup) {
         this.positionGroup = positionGroup;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     public void setPosition(Position position) {
         this.position = position;
     }
-
 }
