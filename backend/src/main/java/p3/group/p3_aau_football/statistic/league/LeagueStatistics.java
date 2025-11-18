@@ -10,7 +10,7 @@ public class LeagueStatistics extends Statistics {
     @Id
     private String id;
     private String teamId;
-    private String seasonYearLabel;
+    private String season;
     private String competition;
     private int matchesPlayed;
     private int won;
@@ -25,11 +25,11 @@ public class LeagueStatistics extends Statistics {
     }
 
     public String getSeasonYearLabel() {
-        return this.seasonYearLabel;
+        return this.season;
     }
 
     public void setSeasonYearLabel(String yearLabel) {
-        this.seasonYearLabel = yearLabel;
+        this.season = yearLabel;
     }
 
     public int calculatePoints(LeagueStatistics leagueStats) {

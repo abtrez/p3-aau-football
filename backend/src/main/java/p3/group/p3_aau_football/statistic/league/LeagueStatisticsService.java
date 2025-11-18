@@ -100,4 +100,7 @@ public class LeagueStatisticsService implements StatisticsService {
         return List.of(homeTeam, awayTeam);
     }
 
+    public List<LeagueStatistics> getLeagueStatistics(String season, String competition) {
+        return this.leagueStatisticsRepository.findByCompetitionAndSeason(season, competition);
+    }
 }
