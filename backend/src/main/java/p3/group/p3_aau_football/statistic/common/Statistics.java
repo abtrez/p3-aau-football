@@ -10,8 +10,6 @@ public abstract class Statistics {
         return this.timestamp;
     }
 
-    ;
-
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
