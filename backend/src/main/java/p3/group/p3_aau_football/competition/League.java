@@ -14,10 +14,6 @@ public class League extends Competition {
 
     @Id
     private String id;
-    @DocumentReference
-    private List<Team> participatingTeams;
-    @DocumentReference
-    private List<Match> matches;
 
     private int pointsForWin = 3;
     private int pointsForLoss = 0;

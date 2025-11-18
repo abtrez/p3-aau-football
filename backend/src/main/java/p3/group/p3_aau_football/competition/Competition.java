@@ -11,6 +11,8 @@ public abstract class Competition {
     protected String name;
     @DocumentReference
     protected Season season;
+    @DocumentReference
     protected List<Team> participatingTeams;
+    @DocumentReference
     protected List<Match> matches;
 }
