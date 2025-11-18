@@ -36,7 +36,7 @@ public class MatchService {
         Optional<Team> homeTeam = teamService.findByName(homeTeamName);
         Optional<Team> awayTeam = teamService.findByName(awayTeamName);
 
-        if (homeTeam.isPresent() && awayTeam.isPresent()) {
+        if (homeTeam.isPresent() && awayTeam.isPresent()) { // TODO: Add check for if match is in league
             Match insertedMatch = new Match(homeTeam.get(), awayTeam.get());
             this.leagueStatsService.updateLeagueStats(insertedMatch);
             return this.matchRepository.insert(insertedMatch);

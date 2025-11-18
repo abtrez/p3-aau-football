@@ -2,14 +2,17 @@ package p3.group.p3_aau_football.statistic.league;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import p3.group.p3_aau_football.statistic.common.Statistics;
 import p3.group.p3_aau_football.statistic.league.UpdateLeagueStatistics;
+import p3.group.p3_aau_football.team.Team;
 
 @Document(collection = "league_statistics")
 public class LeagueStatistics extends Statistics {
     @Id
     private String id;
-    private String teamId;
+    @DocumentReference
+    private Team team;
     private String season;
     private String competition;
     private int matchesPlayed;
@@ -19,6 +22,22 @@ public class LeagueStatistics extends Statistics {
     private int goalsFor;
     private int goalsAgainst;
     private int points;
+
+    public LeagueStatistics() {
+    }
+
+    public LeagueStatistics(Team team, String season, String competition, int matchesPlayed, int won, int drawn, int lost, int goalsFor, int goalsAgainst, int points) {
+        this.team = team;
+        this.season = season;
+        this.competition = competition;
+        this.matchesPlayed = matchesPlayed;
+        this.won = won;
+        this.drawn = drawn;
+        this.lost = lost;
+        this.goalsFor = goalsFor;
+        this.goalsAgainst = goalsAgainst;
+        this.points = points;
+    }
 
     public String getId() {
         return this.id;
@@ -44,12 +63,12 @@ public class LeagueStatistics extends Statistics {
         this.points = points;
     }
 
-    public String getTeamId() {
-        return this.teamId;
+    public Team getTeam() {
+        return this.team;
     }
 
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     public void setMatchesPlayed(int matchesPlayed) {

@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import p3.group.p3_aau_football.match.Match;
 import p3.group.p3_aau_football.statistic.common.StatisticsService;
-import p3.group.p3_aau_football.statistic.exception.DocumentAlreadyExistsException;
-import p3.group.p3_aau_football.statistic.exception.DocumentNotFoundException;
-import p3.group.p3_aau_football.team.TeamRepository;
+import p3.group.p3_aau_football.statistic.common.DocumentAlreadyExistsException;
+import p3.group.p3_aau_football.statistic.common.DocumentNotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LeagueStatisticsService implements StatisticsService {
@@ -21,10 +19,10 @@ public class LeagueStatisticsService implements StatisticsService {
         this.leagueStatisticsRepository = leagueRepo;
     }
 
-    public void addLeagueStats(LeagueStatistics leagueStats) {
+    public LeagueStatistics addLeagueStats(LeagueStatistics leagueStats) {
         boolean exists = this.leagueStatisticsRepository.existsById(leagueStats.getId());
         if (!exists) {
-            this.leagueStatisticsRepository.save(leagueStats);
+            return this.leagueStatisticsRepository.save(leagueStats);
         } else {
             String msg = String.format("A document with the same ID already exists in the collection: DocumentID: %s", leagueStats.getId());
             throw new DocumentAlreadyExistsException(msg);
