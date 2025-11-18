@@ -2,9 +2,7 @@ package p3.group.p3_aau_football.statistic.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import p3.group.p3_aau_football.statistic.league.LeagueStatistics;
 import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
 
@@ -21,6 +19,7 @@ public class StatisticsController {
         this.leagueStatsService = leagueStatsService;
     }
 
+    @GetMapping("/get/league")
     public ResponseEntity<List<LeagueStatistics>> getLeagueStatistics(
             @RequestParam String season,
             @RequestParam String competition) {
@@ -33,5 +32,10 @@ public class StatisticsController {
         return ResponseEntity.ok(leagueStats);
     }
 
+    @PostMapping("/add/league")
+    public ResponseEntity<LeagueStatistics> addLeagueStatistic(@RequestBody LeagueStatistics leagueStats) {
+        LeagueStatistics savedLeagueStatistic = this.leagueStatsService.addLeagueStats(leagueStats);
+        return ResponseEntity.ok(savedLeagueStatistic);
+    }
 
 }
