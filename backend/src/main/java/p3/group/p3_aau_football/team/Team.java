@@ -1,36 +1,48 @@
 package p3.group.p3_aau_football.team;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+
 import p3.group.p3_aau_football.people.Person;
 
+@Document(collection = "teams")
 public class Team {
+
     @Id
     private String id;
     private String name;
     private String abbreviation;
-    private LocalDate established;
-    private List<Person> members;
-    private Person contactPerson;
-    private String instituteName; // consider institute/education, if there can be more teams pr. institute
+    private int yearEstablished;
+    private String department; // consider institute/education, if there can be more teams pr. institute
+    private List<String> studyPrograms;
 
-    public Team(String name, LocalDate established, Person contactPerson, String instituteName) {
+    @DocumentReference
+    private Person contactPerson; //consider implementing "contactable" interface, and only allowing that type
+    @DocumentReference
+    private List<Person> members;
+
+    public Team(String name, String abbreviation, int yearEstablished, Person contactPerson, String department, List<String> studyPrograms) {
         this.name = name;
-        this.established = established;
+        this.abbreviation = abbreviation;
+        this.yearEstablished = yearEstablished;
+        this.department = department;
+        this.studyPrograms = studyPrograms;
         this.contactPerson = contactPerson;
-        this.instituteName = instituteName;
-        this.members = new ArrayList<Person>();
+        this.members = new ArrayList<>();
     }
 
     public Team() {
+        this.members = new ArrayList<>();
     }
 
     public String getId() {
         return this.id;
     }
+
     public String getName() {
         return this.name;
     }
@@ -47,8 +59,32 @@ public class Team {
         this.abbreviation = abbreviation;
     }
 
-    public LocalDate getEstablished() {
-        return this.established;
+    public int getYearEstablished() {
+        return this.yearEstablished;
+    }
+
+    public String getDepartment() {
+        return this.department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public List<String> getStudyPrograms() {
+        return this.studyPrograms;
+    }
+
+    public void setStudyPrograms(List<String> studyPrograms) {
+        this.studyPrograms = studyPrograms;
+    }
+
+    public Person getContactPerson() {
+        return this.contactPerson;
+    }
+
+    public void setContactPerson(Person contactPerson) {
+        this.contactPerson = contactPerson;
     }
 
     public List<Person> getMembers() {
@@ -64,19 +100,7 @@ public class Team {
         members.remove(member);
     }
 
-    public Person getContactPerson() {
-        return this.contactPerson;
-    }
-
-    public void setContactPerson(Person contactPerson) {
-        this.contactPerson = contactPerson;
-    }
-
-    public String getInstituteName() {
-        return this.instituteName;
-    }
-
-    public void setInstituteName(String instituteName) {
-        this.instituteName = instituteName;
+    public int getSize() {
+        return this.members.size();
     }
 }

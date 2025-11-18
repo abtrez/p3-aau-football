@@ -1,19 +1,31 @@
 package p3.group.p3_aau_football.match;
 
-
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import p3.group.p3_aau_football.role.Referee;
 import p3.group.p3_aau_football.team.Team;
+import java.time.LocalDateTime;
 
 import java.util.List;
 @Document(collection = "matches")
 public class Match {
-    private int id;
+    @Id
+    private String id;
+
+    @DocumentReference
     private final Team homeTeam;
+    @DocumentReference
     private final Team awayTeam;
 
-    //Score & Events
+    @DocumentReference
+    private Venue venue;
+    private LocalDateTime kickoff;
+    private List<Referee> referees;
+
     private int homeScore;
     private int awayScore;
+    @DocumentReference
     private List<MatchEvent> matchEvents;
 
     //Details
@@ -33,7 +45,7 @@ public class Match {
     }
 
     //Getters
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
@@ -53,9 +65,17 @@ public class Match {
         return this.awayScore;
     }
 
+    public Venue getVenue() { return this.venue; }
+
+    public LocalDateTime getKickoff() { return this.kickoff; }
+
+    public List<Referee> getReferees() { return this.referees; }
+
     public List<MatchEvent> getMatchEvents() {
         return this.matchEvents;
     }
+
+
 
     //Setters
     public void setHomeScore(int homeScore){
@@ -66,5 +86,9 @@ public class Match {
         this.awayScore = awayScore;
     }
 
-    // set date, venue, referees
+    public void setVenue(Venue venue) { this.venue = venue; };
+
+    public void setKickoff(LocalDateTime kickoff) { this.kickoff = kickoff; }
+
+    public void setReferees(List<Referee> referees) { this.referees = referees; }
 }

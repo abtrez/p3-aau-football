@@ -8,27 +8,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Document(collection = "person")
+@Document(collection = "persons")
 public class Person {
     @Id
     private String id;
-
+  
     private String firstName;
     private String lastName;
 
-    // Embedded roles (Player, Coach, ...). Jackson will handle actual subtype
-    // thanks to @JsonTypeInfo on Role.
-    private List<Role> roles;
-
-    // No-arg constructor for Jackson / Spring
     public Person() {
+    }
+
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.roles = new ArrayList<>();
     }
 
     public Person(String firstName, String lastName, List<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.roles = roles != null ? roles : new ArrayList<>();
+        this.roles = roles;
+    }
+
+    public String getId() {
+        return this.id;
     }
 
     public String getId() {
@@ -56,23 +60,16 @@ public class Person {
     }
 
     public List<Role> getRoles() {
-        if (roles == null)
-            roles = new ArrayList<>();
-        return roles;
+        return this.roles;
     }
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
-    // convenience
-    public void addRole(Role role) {
-        getRoles().add(role);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
+    /* @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
@@ -83,6 +80,6 @@ public class Person {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
-    }
+        return Integer.hashCode(this.id);
+    } */
 }

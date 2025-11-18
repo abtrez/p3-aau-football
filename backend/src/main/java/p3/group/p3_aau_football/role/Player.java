@@ -1,7 +1,7 @@
 package p3.group.p3_aau_football.role;
 
 public class Player extends Role {
-    private String teamId;
+
     private int shirtNumber;
 
     private PositionGroup positionGroup;
@@ -17,23 +17,12 @@ public class Player extends Role {
     }
 
     public Player() {
-        super();
     }
 
-    public Player(String name, String teamId, int shirtNumber, PositionGroup positionGroup, Position position) {
-        super(name);
-        this.teamId = teamId;
-        this.shirtNumber = shirtNumber;
+    public Player(PositionGroup positionGroup, Position position, int shirtNumber) {
         this.positionGroup = positionGroup;
         this.position = position;
-    }
-
-    public String getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(String teamId) {
-        this.teamId = teamId;
+        this.shirtNumber = shirtNumber;
     }
 
     public int getShirtNumber() {

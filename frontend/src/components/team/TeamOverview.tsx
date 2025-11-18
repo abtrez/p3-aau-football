@@ -1,12 +1,28 @@
-import teams from "@/data/teams.json";
+"use client"
+//import teams from "@/data/teams.json";
+import {fetchTeams} from "@/lib/fetchTeam";
 import TeamCard, { TeamCardInterface } from "@/components/team/TeamCard";
+import {useState, useEffect} from "react";
 
-const footballTeams = teams as TeamCardInterface[];
+//const footballTeams = teams as TeamCardInterface[];
 
 export default function TeamOverview() {
-  return (
+    const [isLoading, setIsLoading] = useState(true);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        fetchTeams()
+            .then((data) => {
+                setData(data)
+                setIsLoading(false)
+            });
+    }, []);
+
+    if (isLoading) return <p>Is Loading</p>;
+    console.log(data);
+    return (
     <div className="grid gap-4">
-      {footballTeams.map((t: TeamCardInterface) => (
+      {data.map((t: TeamCardInterface) => (
         <TeamCard key={t.id} team={t} />
       ))}
     </div>
