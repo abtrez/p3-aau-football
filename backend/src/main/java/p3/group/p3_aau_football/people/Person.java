@@ -1,72 +1,88 @@
 package p3.group.p3_aau_football.people;
 
 import p3.group.p3_aau_football.role.Role;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@Document(collection="person")
+@Document(collection = "person")
 public class Person {
     @Id
-    private int id;
+    private String id;
+
     private String firstName;
     private String lastName;
 
-    @DocumentReference
+    // Embedded roles (Player, Coach, ...). Jackson will handle actual subtype
+    // thanks to @JsonTypeInfo on Role.
     private List<Role> roles;
 
-    public int getId() {
-        return this.id;
+    // No-arg constructor for Jackson / Spring
+    public Person() {
+        this.roles = new ArrayList<>();
+    }
+
+    public Person(String firstName, String lastName, List<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.roles = roles != null ? roles : new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirstName() {
-        return this.firstName;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public List<Role> getRoles() {
-        return this.roles;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public void getRoles(List<Role> roles) {
+    public List<Role> getRoles() {
+        if (roles == null)
+            roles = new ArrayList<>();
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
+    // convenience
+    public void addRole(Role role) {
+        getRoles().add(role);
+    }
+
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object o) {
+        if (this == o)
             return true;
-        }
-        if (obj == null) {
+        if (o == null || getClass() != o.getClass())
             return false;
-        }
-        if (!(obj instanceof Person)) {
-            return false;
-        }
-        Person other = (Person) obj;
-        return this.id == other.getId();
+
+        Person person = (Person) o;
+        return Objects.equals(id, person.id);
     }
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(this.id);
+        return Objects.hashCode(id);
     }
 }
