@@ -18,10 +18,30 @@ import p3.group.p3_aau_football.team.Team;
 })
 
 public abstract class MatchEvent {
-    protected String id;
+    private String id;
     @DocumentReference
-    protected Player player; // does a 'Player' class even exist? it's not imported here
+    private Player player; //optional
     @DocumentReference
-    protected Team team; // if player not attached?
-    protected int minute; // optional
+    private Team team; // If player null, must know what team event belongs to
+    private int minute; // optional
+
+    public MatchEvent() {
+
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public Team getTeam() {
+        return this.team;
+    }
+
+    public int getMinute() {
+        return this.minute;
+    }
 }
