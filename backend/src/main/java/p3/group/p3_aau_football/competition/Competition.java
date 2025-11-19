@@ -8,4 +8,19 @@ public class Competition {
     @Id
     private String id;
     protected String name;
+
+    public Competition() {}
+
+    public Competition(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String setName(String name) {
+        return this.name = name;
+    }
+
 }
