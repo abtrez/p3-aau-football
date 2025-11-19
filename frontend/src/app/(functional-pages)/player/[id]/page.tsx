@@ -37,7 +37,7 @@ export default function Page() {
           {player.firstName} {player.lastName}
         </h1>
         <h2 className="text-2xl font-semibold  text-neutral-900 text-center -m-4">
-          {player.team?.name}
+          {player.team ? player.team.name : "No team"}
         </h2>
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
