@@ -9,9 +9,7 @@ export const teamSchema = z.object({
   yearEstablished: z.number(),
   department: z.string(),
   studyPrograms: z.array(z.string()),
-  size: z.number(),
-  members: z.array(z.unknown()),
-  contactPerson: z.string().nullable(),
+  contactPerson: z.string().nullish(),
   logo: z.string().nullish(),
 });
 
