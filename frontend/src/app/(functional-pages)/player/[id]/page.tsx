@@ -23,7 +23,15 @@ export default function Page() {
   useEffect(() => {
     if (!idParam) return;
     fetchPersonById(idParam).then((data) => setPlayer(data));
-  }, [id]);
+  }, [idParam]);
+
+  useEffect(() => {
+    console.log(player);
+  }, [player])
+
+  if (player == null) {
+    return <p>loading</p>
+  }
 
   return (
     <div className="container">

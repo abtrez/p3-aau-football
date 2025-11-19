@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import p3.group.p3_aau_football.role.Role;
+import p3.group.p3_aau_football.team.Team;
 
 @Document(collection = "persons")
 public class Person {
@@ -19,6 +21,9 @@ public class Person {
 
     private List<Role> roles;
 
+    @DocumentReference
+    private Team team;
+
     public Person() {
     }
 
@@ -26,12 +31,21 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.roles = new ArrayList<>();
+        this.team = null;
     }
 
     public Person(String firstName, String lastName, List<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.roles = roles;
+        this.team = null;
+    }
+
+    public Person(String firstName, String lastName, List<Role> roles, Team team) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.roles = roles;
+        this.team = team;
     }
 
     public String getId() {
@@ -68,6 +82,14 @@ public class Person {
 
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    public Team getTeam() {
+        return this.team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     /*

@@ -11,7 +11,6 @@ public class TeamService {
 
     TeamRepository teamRepository;
 
-    @Autowired
     public TeamService(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
