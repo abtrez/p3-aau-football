@@ -31,8 +31,10 @@ public class TeamController {
      * @return The team that corresponds to the id
      */
     @GetMapping("/get/{id}")
-    public Optional<Team> getTeam(@PathVariable("id") String id) {
-        return this.teamService.getTeamById(id);
+    public ResponseEntity<Team> getTeam(@PathVariable("id") String id) {
+        return teamService.getTeamById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/add")

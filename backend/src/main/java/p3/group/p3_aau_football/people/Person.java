@@ -21,8 +21,7 @@ public class Person {
 
     private List<Role> roles;
 
-    @DocumentReference
-    private Team team;
+    private String teamId;
 
     public Person() {
     }
@@ -31,21 +30,21 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.roles = new ArrayList<>();
-        this.team = null;
+        this.teamId = null;
     }
 
     public Person(String firstName, String lastName, List<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.roles = roles;
-        this.team = null;
+        this.teamId = null;
     }
 
-    public Person(String firstName, String lastName, List<Role> roles, Team team) {
+    public Person(String firstName, String lastName, List<Role> roles, String teamId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.roles = roles;
-        this.team = team;
+        this.teamId = teamId;
     }
 
     public String getId() {
@@ -84,12 +83,12 @@ public class Person {
         this.roles.add(role);
     }
 
-    public Team getTeam() {
-        return this.team;
+    public String getTeamId() {
+        return this.teamId;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
     }
 
     /*

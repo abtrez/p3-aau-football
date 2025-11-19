@@ -7,6 +7,7 @@ import p3.group.p3_aau_football.team.Team;
 import p3.group.p3_aau_football.team.TeamService;
 import p3.group.p3_aau_football.role.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,21 +31,14 @@ public class PersonService {
     }
 
     public Person insertPerson(String firstName, String lastName, List<Role> roles, String teamId) throws Exception {
-        Person insertedPerson;
-
-        if (teamId != null) {
-            Optional<Team> personTeam = teamService.getTeamById(teamId);
-
-            if (personTeam.isPresent()) {
-                insertedPerson = new Person(firstName, lastName, roles, personTeam.get());
-            } else {
-                throw new Error("Team does not exist.");
-            }
-        } else {
-            insertedPerson = new Person(firstName, lastName, roles);
+        if (roles == null) {
+            roles = new ArrayList<>();
         }
 
-        return this.personRepository.insert(insertedPerson);
+        Person insertedPerson = new Person(firstName, lastName, roles);
+        insertedPerson.setTeamId(teamId);
+
+        return this.personRepository.save(insertedPerson);
     }
 
     public Optional<Person> addPlayerToPerson(String personId, Player player) {
@@ -69,16 +63,14 @@ public class PersonService {
         }
 
         Optional<Person> personOpt = personRepository.findById(personId);
-        Optional<Team> teamOpt = teamService.getTeamById(teamId);
 
-        if (personOpt.isEmpty() || teamOpt.isEmpty()) {
-            throw new Error("Team or Person does not exist.");
+        if (personOpt.isEmpty()) {
+            throw new Error("Person does not exist.");
         }
 
         Person person = personOpt.get();
-        Team team = teamOpt.get();
 
-        person.setTeam(team);
+        person.setTeamId(teamId);
         Person insertedPerson = personRepository.save(person);
 
         return ResponseEntity.ok(insertedPerson);
