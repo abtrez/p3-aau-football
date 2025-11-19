@@ -1,13 +1,14 @@
 package p3.group.p3_aau_football.statistic.league;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import p3.group.p3_aau_football.match.Match;
-import p3.group.p3_aau_football.statistic.common.StatisticsService;
-import p3.group.p3_aau_football.statistic.common.DocumentAlreadyExistsException;
-import p3.group.p3_aau_football.statistic.common.DocumentNotFoundException;
 
-import java.util.List;
+import p3.group.p3_aau_football.match.Match;
+import p3.group.p3_aau_football.exceptions.DocumentAlreadyExistsException;
+import p3.group.p3_aau_football.exceptions.DocumentNotFoundException;
+import p3.group.p3_aau_football.statistic.common.StatisticsService;
 
 @Service
 public class LeagueStatisticsService implements StatisticsService {
@@ -20,6 +21,7 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     public LeagueStatistics addLeagueStats(LeagueStatistics leagueStats) {
+        // TODO: check om id er null før denne linje køres.
         boolean exists = this.leagueStatisticsRepository.existsById(leagueStats.getId());
         if (!exists) {
             return this.leagueStatisticsRepository.save(leagueStats);
@@ -40,8 +42,8 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     /**
-     * This method is only responsible for directly updating the fields of the LeagueStatistics object
-     * not the entire process of updating from raw data.
+     * This method is only responsible for directly updating the fields of the
+     * LeagueStatistics object not the entire process of updating from raw data.
      */
     public List<LeagueStatistics> updateLeagueStatsObject(List<LeagueStatistics> leagueStats, List<UpdateLeagueStatistics> updateLeagueStats) {
         leagueStats.get(0).update(updateLeagueStats.get(0));
@@ -50,14 +52,14 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     /**
-     * This method is responsible for the entire process of getting a match as raw data, and updating the
-     * relevant LeagueStatistics documents in the database
+     * This method is responsible for the entire process of getting a match as
+     * raw data, and updating the relevant LeagueStatistics documents in the
+     * database
      */
     public void updateLeagueStats(Match match) {
-
-        LeagueStatistics homeTeam = this.leagueStatisticsRepository.findById(match.getHomeTeam().getId())
+        LeagueStatistics homeTeam = this.leagueStatisticsRepository.findByTeam(match.getHomeTeam())
                 .orElseThrow(() -> new LeagueStatisticsNotFoundException("Home Team League Statistics Not Found"));
-        LeagueStatistics awayTeam = this.leagueStatisticsRepository.findById(match.getAwayTeam().getId())
+        LeagueStatistics awayTeam = this.leagueStatisticsRepository.findByTeam(match.getAwayTeam())
                 .orElseThrow(() -> new LeagueStatisticsNotFoundException("Away Team League Statistics Not Found"));
 
         List<LeagueStatistics> leagueStats = List.of(homeTeam, awayTeam);
@@ -68,8 +70,8 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     /**
-     * This method calculates the fields that needs to be updated for the leagueStatistics object
-     * based on the match object.
+     * This method calculates the fields that needs to be updated for the
+     * leagueStatistics object based on the match object.
      */
     public List<UpdateLeagueStatistics> calculateStats(Match match) {
         UpdateLeagueStatistics homeTeam = new UpdateLeagueStatistics();
@@ -99,6 +101,6 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     public List<LeagueStatistics> getLeagueStatistics(String season, String competition) {
-        return this.leagueStatisticsRepository.findByCompetitionAndSeason(season, competition);
+        return this.leagueStatisticsRepository.findBySeasonAndCompetition(season, competition);
     }
 }

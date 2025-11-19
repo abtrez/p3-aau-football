@@ -1,4 +1,4 @@
-package p3.group.p3_aau_football.statistic.common;
+package p3.group.p3_aau_football.exceptions;
 
 public class DocumentAlreadyExistsException extends RuntimeException {
     public DocumentAlreadyExistsException(String message) {
