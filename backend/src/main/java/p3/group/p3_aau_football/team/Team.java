@@ -19,14 +19,13 @@ public class Team {
     private int yearEstablished;
     private String department; // consider institute/education, if there can be more teams pr. institute
     private List<String> studyPrograms;
-
     private String contactPerson; // consider implementing "contactable" interface, and only allowing that type
 
     public Team() {
     }
 
-    public Team(String name, String abbreviation, int yearEstablished, String contactPerson, String department,
-            List<String> studyPrograms) {
+    public Team(String name, String abbreviation, int yearEstablished, String department,
+            List<String> studyPrograms, String contactPerson) {
         this.name = name;
         this.abbreviation = abbreviation;
         this.yearEstablished = yearEstablished;
@@ -73,5 +72,13 @@ public class Team {
 
     public void setStudyPrograms(List<String> studyPrograms) {
         this.studyPrograms = studyPrograms;
+    }
+
+    public String getContactPerson() {
+        return this.contactPerson;
+    }
+
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
     }
 }
