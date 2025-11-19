@@ -5,7 +5,7 @@ import p3.group.p3_aau_football.role.Player;
 
 public class Goal extends MatchEvent {
     @DocumentReference
-    private Player assister;
+    private Player assister; //Optional
 
     public Player getAssister() {
         return this.assister;

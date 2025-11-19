@@ -1,7 +1,4 @@
 import { fetchMatchById } from "@/lib/fetchMatch";
-import TeamLogo from "@/components/match/MatchEventRow";
-import MatchEventRow from "@/components/match/MatchEventRow";
-import matchEvents from "@/data/matchEvents.json";
 import MatchEventsList from "@/components/match/MatchEventsList";
 import { Match } from "@/lib/schemas/matchSchema";
 
@@ -15,7 +12,10 @@ export default async function Page({ params }: any) {
       <p>
         {match.homeTeam.name} vs {match.awayTeam.name}
       </p>
-      <MatchEventsList matchEvents={match.matchEvents} />
+      <MatchEventsList
+          matchEvents={match.matchEvents}
+          homeTeamId = {match.homeTeam.id}
+      />
     </div>
   );
 }

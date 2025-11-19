@@ -20,10 +20,10 @@ import p3.group.p3_aau_football.team.Team;
 public abstract class MatchEvent {
     private String id;
     @DocumentReference
-    private Player player; //optional
+    private Player player; //Optional. Don't force teams to log
     @DocumentReference
-    private Team team; // If player null, must know what team event belongs to
-    private int minute; // optional
+    private Team team; //If player null, must know what team event belongs to
+    private Integer minute; //Optional. Integer wrapper class to allow null, rather than primitive int that defaults to 0.
 
     public MatchEvent() {
 
@@ -41,7 +41,7 @@ public abstract class MatchEvent {
         return this.team;
     }
 
-    public int getMinute() {
+    public Integer getMinute() {
         return this.minute;
     }
 }
