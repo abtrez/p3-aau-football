@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import p3.group.p3_aau_football.role.Player;
 import p3.group.p3_aau_football.role.Role;
+import p3.group.p3_aau_football.team.Team;
 
 @RestController // flags class, so it is ready for use by Spring MVC to handle web requests.
 @RequestMapping("/api/person")
@@ -37,13 +38,16 @@ public class PersonController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Person> addPerson(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestBody(required = false) List<Role> roles) {
+    public ResponseEntity<Person> addPerson(@RequestParam("firstName") String firstName,
+            @RequestParam("lastName") String lastName,
+            @RequestBody(required = false) List<Role> roles,
+            @RequestParam(value = "teamId", required = false) String teamId) {
         try {
             if (roles == null) {
                 roles = new ArrayList<>();
             }
 
-            Person insertedPerson = personService.insertPerson(firstName, lastName, roles);
+            Person insertedPerson = personService.insertPerson(firstName, lastName, roles, teamId);
             return ResponseEntity.ok(insertedPerson);
 
         } catch (Exception e) {
@@ -62,8 +66,19 @@ public class PersonController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    /* @PatchMapping("/{id}/edit")
-    public String editMatch(@PathVariable("id") String id, @RequestParam("test1") String test1, @RequestParam("test2") String test2) {
-        return test1 + " " + test2;
-    } */
+    @PostMapping("/add/{id}/addTeam/{teamId}")
+    public ResponseEntity<Person> addTeamToPerson(
+            @PathVariable("id") String id,
+            @PathVariable("teamId") String teamId) {
+
+        return personService.addTeamToPerson(id, teamId);
+    }
+
+    /*
+     * @PatchMapping("/{id}/edit")
+     * public String editMatch(@PathVariable("id") String id, @RequestParam("test1")
+     * String test1, @RequestParam("test2") String test2) {
+     * return test1 + " " + test2;
+     * }
+     */
 }

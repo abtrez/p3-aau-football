@@ -19,7 +19,6 @@ public class TeamController {
 
     private TeamService teamService;
 
-    @Autowired
     public TeamController(TeamService teamService) {
         this.teamService = teamService;
     }
@@ -36,8 +35,10 @@ public class TeamController {
      * @return The team that corresponds to the id
      */
     @GetMapping("/get/{id}")
-    public Optional<Team> getTeam(@PathVariable("id") String id) {
-        return this.teamService.getTeamById(id);
+    public ResponseEntity<Team> getTeam(@PathVariable("id") String id) {
+        return teamService.getTeamById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/add")
@@ -45,5 +46,5 @@ public class TeamController {
         Team saved_team = this.teamService.addTeam(team);
         return ResponseEntity.ok(saved_team);
     }
-    //handle team creation or edits POST & other requests.
+    // handle team creation or edits POST & other requests.
 }

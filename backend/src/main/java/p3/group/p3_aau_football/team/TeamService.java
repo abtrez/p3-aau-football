@@ -11,7 +11,6 @@ public class TeamService {
 
     TeamRepository teamRepository;
 
-    @Autowired
     public TeamService(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
@@ -25,7 +24,7 @@ public class TeamService {
     }
 
     public Team addTeam(Team team) {
-        return this.teamRepository.insert(team);
+        return this.teamRepository.save(team);
     }
 
     public Optional<Team> findByName(String teamName) {
