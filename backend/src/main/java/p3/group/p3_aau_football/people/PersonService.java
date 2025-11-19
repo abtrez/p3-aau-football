@@ -1,5 +1,6 @@
 package p3.group.p3_aau_football.people;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import p3.group.p3_aau_football.role.Role;
 import p3.group.p3_aau_football.team.Team;
@@ -47,11 +48,10 @@ public class PersonService {
     }
 
     public Optional<Person> addPlayerToPerson(String personId, Player player) {
-        return personRepository.findById(personId)
-                .map(person -> {
-                    person.addRole(player);
-                    return personRepository.save(person);
-                });
+        return personRepository.findById(personId).map(person -> {
+            person.addRole(player);
+            return personRepository.save(person);
+        });
     }
 
     public List<Person> getOverview() {
@@ -60,6 +60,28 @@ public class PersonService {
 
     public Optional<Person> findByRoleName(String roleName) {
         return this.personRepository.findByRoleName(roleName);
+    }
+
+    public ResponseEntity<Person> addTeamToPerson(String personId, String teamId) {
+
+        if (teamId == null) {
+            throw new Error("Team ID is null.");
+        }
+
+        Optional<Person> personOpt = personRepository.findById(personId);
+        Optional<Team> teamOpt = teamService.getTeamById(teamId);
+
+        if (personOpt.isEmpty() || teamOpt.isEmpty()) {
+            throw new Error("Team or Person does not exist.");
+        }
+
+        Person person = personOpt.get();
+        Team team = teamOpt.get();
+
+        person.setTeam(team);
+        Person insertedPerson = personRepository.save(person);
+
+        return ResponseEntity.ok(insertedPerson);
     }
 
 }

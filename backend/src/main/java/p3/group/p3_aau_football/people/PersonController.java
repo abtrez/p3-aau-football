@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import p3.group.p3_aau_football.role.Player;
 import p3.group.p3_aau_football.role.Role;
+import p3.group.p3_aau_football.team.Team;
 
 @RestController // flags class, so it is ready for use by Spring MVC to handle web requests.
 @RequestMapping("/api/person")
@@ -63,6 +64,14 @@ public class PersonController {
         return personService.addPlayerToPerson(id, player)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/add/{id}/addTeam/{teamId}")
+    public ResponseEntity<Person> addTeamToPerson(
+            @PathVariable("id") String id,
+            @PathVariable("teamId") String teamId) {
+
+        return personService.addTeamToPerson(id, teamId);
     }
 
     /*
