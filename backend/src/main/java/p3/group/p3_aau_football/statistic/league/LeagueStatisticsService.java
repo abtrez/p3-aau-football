@@ -1,13 +1,14 @@
 package p3.group.p3_aau_football.statistic.league;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import p3.group.p3_aau_football.match.Match;
-import p3.group.p3_aau_football.statistic.common.StatisticsService;
 import p3.group.p3_aau_football.statistic.common.DocumentAlreadyExistsException;
 import p3.group.p3_aau_football.statistic.common.DocumentNotFoundException;
-
-import java.util.List;
+import p3.group.p3_aau_football.statistic.common.StatisticsService;
 
 @Service
 public class LeagueStatisticsService implements StatisticsService {
@@ -56,10 +57,9 @@ public class LeagueStatisticsService implements StatisticsService {
      * database
      */
     public void updateLeagueStats(Match match) {
-
-        LeagueStatistics homeTeam = this.leagueStatisticsRepository.findById(match.getHomeTeam().getId())
+        LeagueStatistics homeTeam = this.leagueStatisticsRepository.findByTeam(match.getHomeTeam())
                 .orElseThrow(() -> new LeagueStatisticsNotFoundException("Home Team League Statistics Not Found"));
-        LeagueStatistics awayTeam = this.leagueStatisticsRepository.findById(match.getAwayTeam().getId())
+        LeagueStatistics awayTeam = this.leagueStatisticsRepository.findByTeam(match.getAwayTeam())
                 .orElseThrow(() -> new LeagueStatisticsNotFoundException("Away Team League Statistics Not Found"));
 
         List<LeagueStatistics> leagueStats = List.of(homeTeam, awayTeam);
