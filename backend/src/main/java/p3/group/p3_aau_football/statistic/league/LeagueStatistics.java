@@ -45,12 +45,12 @@ public class LeagueStatistics extends Statistics {
         return this.id;
     }
 
-    public String getSeasonYearLabel() {
+    public String getSeason() {
         return this.season;
     }
 
-    public void setSeasonYearLabel(String yearLabel) {
-        this.season = yearLabel;
+    public void setSeason(String season) {
+        this.season = season;
     }
 
     public int calculatePoints(LeagueStatistics leagueStats) {
