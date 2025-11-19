@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import p3.group.p3_aau_football.match.Match;
-import p3.group.p3_aau_football.statistic.common.DocumentAlreadyExistsException;
-import p3.group.p3_aau_football.statistic.common.DocumentNotFoundException;
+import p3.group.p3_aau_football.exceptions.DocumentAlreadyExistsException;
+import p3.group.p3_aau_football.exceptions.DocumentNotFoundException;
 import p3.group.p3_aau_football.statistic.common.StatisticsService;
 
 @Service
