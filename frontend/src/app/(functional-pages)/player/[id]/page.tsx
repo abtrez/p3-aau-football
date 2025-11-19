@@ -25,10 +25,6 @@ export default function Page() {
     fetchPersonById(idParam).then((data) => setPlayer(data));
   }, [idParam]);
 
-  useEffect(() => {
-    console.log(player);
-  }, [player])
-
   if (player == null) {
     return <p>loading</p>
   }
@@ -41,7 +37,7 @@ export default function Page() {
           {player.firstName} {player.lastName}
         </h1>
         <h2 className="text-2xl font-semibold  text-neutral-900 text-center -m-4">
-          team name
+          {player.team}
         </h2>
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />

@@ -20,23 +20,19 @@ public class Team {
     private String department; // consider institute/education, if there can be more teams pr. institute
     private List<String> studyPrograms;
 
-    @DocumentReference
-    private Person contactPerson; //consider implementing "contactable" interface, and only allowing that type
-    @DocumentReference
-    private List<Person> members;
+    private String contactPerson; // consider implementing "contactable" interface, and only allowing that type
 
-    public Team(String name, String abbreviation, int yearEstablished, Person contactPerson, String department, List<String> studyPrograms) {
+    public Team() {
+    }
+
+    public Team(String name, String abbreviation, int yearEstablished, String contactPerson, String department,
+            List<String> studyPrograms) {
         this.name = name;
         this.abbreviation = abbreviation;
         this.yearEstablished = yearEstablished;
         this.department = department;
         this.studyPrograms = studyPrograms;
         this.contactPerson = contactPerson;
-        this.members = new ArrayList<>();
-    }
-
-    public Team() {
-        this.members = new ArrayList<>();
     }
 
     public String getId() {
@@ -77,30 +73,5 @@ public class Team {
 
     public void setStudyPrograms(List<String> studyPrograms) {
         this.studyPrograms = studyPrograms;
-    }
-
-    public Person getContactPerson() {
-        return this.contactPerson;
-    }
-
-    public void setContactPerson(Person contactPerson) {
-        this.contactPerson = contactPerson;
-    }
-
-    public List<Person> getMembers() {
-        return this.members;
-    }
-
-    public void addMember(Person member) {
-        this.members.add(member);
-    }
-
-    public void removeMember(Person member) {
-        List<Person> members = this.members;
-        members.remove(member);
-    }
-
-    public int getSize() {
-        return this.members.size();
     }
 }

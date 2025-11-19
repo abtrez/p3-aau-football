@@ -15,7 +15,6 @@ public class TeamController {
 
     private TeamService teamService;
 
-    @Autowired
     public TeamController(TeamService teamService) {
         this.teamService = teamService;
     }
@@ -41,5 +40,5 @@ public class TeamController {
         Team saved_team = this.teamService.addTeam(team);
         return ResponseEntity.ok(saved_team);
     }
-    //handle team creation or edits POST & other requests.
+    // handle team creation or edits POST & other requests.
 }
