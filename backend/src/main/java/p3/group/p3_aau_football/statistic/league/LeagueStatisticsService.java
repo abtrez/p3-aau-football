@@ -101,6 +101,6 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     public List<LeagueStatistics> getLeagueStatistics(String season, String competition) {
-        return this.leagueStatisticsRepository.findByCompetitionAndSeason(season, competition);
+        return this.leagueStatisticsRepository.findBySeasonAndCompetition(season, competition);
     }
 }
