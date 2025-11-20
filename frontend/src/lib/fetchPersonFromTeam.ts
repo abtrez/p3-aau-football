@@ -5,11 +5,11 @@ if (!BACKEND_URL) {
   throw new Error("BACKEND_URI environment variable is not defined");
 }
 
-export async function fetchPersonsFromTeamId(TeamId : string) {
-  const res = await fetch(`${BACKEND_URL}/api/personsFromTeam/${TeamId}`);
+export async function fetchPersonsFromTeamId(teamId : string) {
+  const res = await fetch(`${BACKEND_URL}/api/personsFromTeam/${teamId}`);
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch persons from team ${TeamId}: ${res.status} ${res.statusText}`
+      `Failed to fetch persons from team ${teamId}: ${res.status} ${res.statusText}`
     );
   }
   return res.json();
