@@ -14,5 +14,4 @@ export const teamSchema = z.object({
 });
 
 export const teamsArraySchema = z.array(teamSchema);
-
 export type Team = z.infer<typeof teamSchema>;
