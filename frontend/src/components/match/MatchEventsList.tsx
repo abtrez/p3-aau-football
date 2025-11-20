@@ -1,9 +1,9 @@
 import MatchEventRow from "./MatchEventRow";
-import {MatchEvent, matchEventSchema} from "@/lib/schemas/matchSchema";
+import {MatchEvent} from "@/lib/schemas/matchSchema";
 
 interface MatchEventsListProps {
     matchEvents: MatchEvent[] | null | undefined;
-    homeTeamId: String;
+    homeTeamId: string;
 }
 
 export default function MatchEventsList({ matchEvents, homeTeamId} : MatchEventsListProps) {
@@ -24,7 +24,7 @@ export default function MatchEventsList({ matchEvents, homeTeamId} : MatchEvents
                     <MatchEventRow
                         key={matchEvent.id}
                         matchEvent={matchEvent}
-                        isHomeTeamEvent={matchEvent.team.id === homeTeamId}
+                        isHomeTeamEvent={matchEvent.team?.id === homeTeamId}
                     />
                 ))}
             </div>

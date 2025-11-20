@@ -8,7 +8,7 @@ export interface MatchEventRowProps {
 
 export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEventRowProps) {
     const minuteLabel = matchEvent.minute != null ? `${matchEvent.minute}'` : "";
-    const text = `${matchEvent.type} ${matchEvent.team.name}'`;
+    const text = `${matchEvent.type} ${matchEvent.team?.name}`;
 
     return (
     <div className=" p-4">
@@ -16,7 +16,7 @@ export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEvent
 
           {/*left */}
         <div className="justify-self-start">
-          <p>{isHomeTeamEvent ? text : minuteLabel}'</p>
+          <p>{isHomeTeamEvent ? text : minuteLabel}</p>
         </div>
 
           {/*icon */}
