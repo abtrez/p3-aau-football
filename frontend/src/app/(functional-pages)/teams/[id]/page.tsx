@@ -8,10 +8,12 @@ import { Person } from "@/lib/schemas/personSchema";
 
 
 import Divider from "@mui/material/Divider";
+import { fetchPersonsFromTeamId } from "@/lib/fetchPersonFromTeam";
 
 export default async function Page({ params }: any) {
   const { id } = await params;
   const team: Team = await fetchTeamById(id);
+  const members: List<Person> = await fetchPersonsFromTeamId(id);
 
   return (
     <div className="container mx-auto">
@@ -42,16 +44,6 @@ export default async function Page({ params }: any) {
         <h3 className="text-base font-semibold text-neutral-900 mb-1">
           Members
         </h3>
-        {team.members?.length ? (
-  <ul className="list-disc pl-6 text-sm text-neutral-700">
-    {team.members.map((m: Person) => (
-      <li key={m.id}>{m.firstName}</li>
-    ))}
-  </ul>
-) : (
-  <p className="text-sm text-neutral-600">No members added yet.</p>
-)}
-
       </section>
     </div>
   );
