@@ -11,9 +11,7 @@ export const teamSchema = z.object({
   yearEstablished: z.number(),
   department: z.string(),
   studyPrograms: z.array(z.string()),
-  size: z.number(),
-  members: z.array(personSchema),
-  contactPerson: contactPersonSchema.optional(),
+  contactPerson: z.string().nullish(),
   logo: z.string().nullish(),
 });
 

@@ -1,14 +1,34 @@
 package p3.group.p3_aau_football.competition;
 
-import p3.group.p3_aau_football.match.Match;
-import p3.group.p3_aau_football.season.Season;
-import p3.group.p3_aau_football.team.Team;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
-public abstract class Competition {
+@Document(collection = "competitions")
+public class Competition {
+    @Id
+    private String id;
     protected String name;
-    protected Season season;
-    protected List<Team> participatingTeams;
-    protected List<Match> matches;
+
+    public Competition() {}
+
+    public Competition(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String setName(String name) {
+        return this.name = name;
+    }
+
 }

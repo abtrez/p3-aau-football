@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import p3.group.p3_aau_football.role.Role;
+import p3.group.p3_aau_football.team.Team;
 
 @Document(collection = "persons")
 public class Person {
@@ -19,6 +21,8 @@ public class Person {
 
     private List<Role> roles;
 
+    private String teamId;
+
     public Person() {
     }
 
@@ -26,12 +30,21 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.roles = new ArrayList<>();
+        this.teamId = null;
     }
 
     public Person(String firstName, String lastName, List<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.roles = roles;
+        this.teamId = null;
+    }
+
+    public Person(String firstName, String lastName, List<Role> roles, String teamId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.roles = roles;
+        this.teamId = teamId;
     }
 
     public String getId() {
@@ -70,19 +83,29 @@ public class Person {
         this.roles.add(role);
     }
 
-    /* @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Person person = (Person) o;
-        return Objects.equals(id, person.id);
+    public String getTeamId() {
+        return this.teamId;
     }
 
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(this.id);
-    } */
+    public void setTeamId(String teamId) {
+        this.teamId = teamId;
+    }
+
+    /*
+     * @Override
+     * public boolean equals(Object obj) {
+     * if (this == obj) {
+     * return true;
+     * if (o == null || getClass() != o.getClass())
+     * return false;
+     * 
+     * Person person = (Person) o;
+     * return Objects.equals(id, person.id);
+     * }
+     * 
+     * @Override
+     * public int hashCode() {
+     * return Integer.hashCode(this.id);
+     * }
+     */
 }

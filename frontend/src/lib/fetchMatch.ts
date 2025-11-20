@@ -11,7 +11,7 @@ export async function fetchMatchOverview() {
   const res = await fetch(`${BACKEND_URL}/api/match/get`);
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch match overview: ${res.status} ${res.statusText}`,
+      `Failed to fetch match overview: ${res.status} ${res.statusText}`
     );
   }
   // Validate returned json with Zod
@@ -31,11 +31,12 @@ export async function fetchMatchById(matchId: string) {
   const res = await fetch(`${BACKEND_URL}/api/match/get/${matchId}`);
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch match ${matchId}: ${res.status} ${res.statusText}`,
+      `Failed to fetch match ${matchId}: ${res.status} ${res.statusText}`
     );
   }
   // Validate returned json with Zod
   const json = await res.json();
+
   const result = matchSchema.safeParse(json);
 
   if (!result.success) {
