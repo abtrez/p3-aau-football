@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
-
+import p3.group.p3_aau_football.match.event.MatchEvent;
 import p3.group.p3_aau_football.role.Referee;
 import p3.group.p3_aau_football.team.Team;
 

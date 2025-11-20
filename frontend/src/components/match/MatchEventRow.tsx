@@ -1,18 +1,22 @@
 import TeamBadge from "@/components/team/TeamBadge";
-import {Match} from "@/lib/schemas/matchSchema";
+import {MatchEvent} from "@/lib/schemas/matchSchema";
 
 export interface MatchEventRowProps {
-  matchEvent: Match;
+  matchEvent: MatchEvent;
+  isHomeTeamEvent: boolean;
 }
 
-export default function MatchEventRow({ matchEvent }: MatchEventRowProps) {
-  return (
-    <div className="rounded-2xl bg-white shadow-sm border border-gray-100 p-4">
+export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEventRowProps) {
+    const minuteLabel = matchEvent.minute != null ? `${matchEvent.minute}'` : "";
+    const text = `${matchEvent.type} ${matchEvent.team?.name}`;
+
+    return (
+    <div className=" p-4">
       <div className="grid grid-cols-[1fr_auto_1fr] items-center">
 
-          {/*minute */}
+          {/*left */}
         <div className="justify-self-start">
-          <p>68'</p>
+          <p>{isHomeTeamEvent ? text : minuteLabel}</p>
         </div>
 
           {/*icon */}
@@ -22,9 +26,9 @@ export default function MatchEventRow({ matchEvent }: MatchEventRowProps) {
           </span>
         </div>
 
-          {/*text */}
+          {/*right */}
         <div className="justify-self-end">
-            <p>player'</p>
+            <p>{isHomeTeamEvent ? minuteLabel : text}</p>
         </div>
       </div>
     </div>
