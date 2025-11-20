@@ -43,6 +43,6 @@ export async function fetchMatchById(matchId: string) {
     console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
     throw new Error("Backend returned invalid match data");
   }
-  // Return validated single match data.
+  // Return validated single match data
   return result.data;
 }
