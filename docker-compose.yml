@@ -46,7 +46,7 @@ services:
     volumes:
       - "./db:/data/db:rw"
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
       interval: 5s
       timeout: 3s
       retries: 10

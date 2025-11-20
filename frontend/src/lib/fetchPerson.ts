@@ -6,7 +6,7 @@ if (!BACKEND_URL) {
 }
 
 export async function fetchPersonById(PersonId: string) {
-  const res = await fetch(`${BACKEND_URL}/api/person/${PersonId}`);
+  const res = await fetch(`${BACKEND_URL}/api/person/get/${PersonId}`);
   if (!res.ok) {
     throw new Error(
       `Failed to fetch person ${PersonId}: ${res.status} ${res.statusText}`
