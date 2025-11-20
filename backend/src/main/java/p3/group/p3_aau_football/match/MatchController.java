@@ -4,12 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController // flags class, so it is ready for use by Spring MVC to handle web requests.
 @RequestMapping("/api/match")
@@ -32,16 +27,17 @@ public class MatchController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Match> addMatch(@RequestParam("homeTeam") String homeTeam,
-            @RequestParam("awayTeam") String awayTeam) {
+    public ResponseEntity<Match> addMatch(@RequestBody Match match) {
         try {
-            Match insertedMatch = matchService.insertMatch(homeTeam, awayTeam);
+            Match insertedMatch = matchService.insertMatch(match);
             return ResponseEntity.ok(insertedMatch);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.notFound().build();
         }
     }
+
+
 
     /*
      * @PatchMapping("/{id}/edit")
