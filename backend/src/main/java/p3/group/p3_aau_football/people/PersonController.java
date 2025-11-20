@@ -38,16 +38,14 @@ public class PersonController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Person> addPerson(@RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestBody(required = false) List<Role> roles,
-            @RequestParam(value = "teamId", required = false) String teamId) {
+    public ResponseEntity<Person> addPerson(@RequestBody CreatePersonRequest request) {
         try {
-            if (roles == null) {
-                roles = new ArrayList<>();
-            }
+            Person insertedPerson = personService.insertPerson(
+                    request.getFirstName(),
+                    request.getLastName(),
+                    request.getRoles(),
+                    request.getTeamId());
 
-            Person insertedPerson = personService.insertPerson(firstName, lastName, roles, teamId);
             return ResponseEntity.ok(insertedPerson);
 
         } catch (Exception e) {
