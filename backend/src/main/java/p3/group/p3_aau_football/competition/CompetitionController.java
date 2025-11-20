@@ -28,9 +28,9 @@ public class CompetitionController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Competition> addCompetition(@RequestBody String name) {
+    public ResponseEntity<Competition> addCompetition(@RequestBody Competition competition) {
         try {
-            Competition insertedCompetition = competitionService.insertCompetition(name);
+            Competition insertedCompetition = competitionService.insertCompetition(competition);
             return ResponseEntity.ok(insertedCompetition);
         } catch (Exception e) {
             System.err.println(e.getMessage());

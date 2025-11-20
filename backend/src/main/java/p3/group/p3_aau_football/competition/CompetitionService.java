@@ -23,9 +23,8 @@ public class CompetitionService {
         return this.competitionRepository.findById(id);
     }
 
-    public Competition insertCompetition(String name) {
-        Competition insertedCompetition = new Competition(name);
-        return this.competitionRepository.insert(insertedCompetition);
+    public Competition insertCompetition(Competition competition) {
+        return this.competitionRepository.insert(competition);
     }
 
 
