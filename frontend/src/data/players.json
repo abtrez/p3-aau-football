@@ -1,0 +1,22 @@
+{"players": [
+  {
+    "id": "1",
+    "name": "Oliver Dalgaard",
+    "wins": 2,
+    "losses": 12,
+    "draws": 1,
+    "played": 15,
+    "winPercentage": 15.4,
+    "goals": 2,
+    "assists": 1,
+    "cards": {
+      "yellow": 3,
+      "red": 0
+    },
+    "shirtNumber": 10,
+    "position": "Defender",
+    "age": 20,
+    "joinedTeam": "2024/2025",
+    "teamName": "CSSC"
+  } 
+]}

@@ -3,21 +3,23 @@ package p3.group.p3_aau_football.match;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
 import p3.group.p3_aau_football.team.Team;
-import p3.group.p3_aau_football.team.TeamRepository;
+import p3.group.p3_aau_football.team.TeamService;
 
 @Service
 public class MatchService {
 
     private MatchRepository matchRepository;
     private TeamService teamService;
+    private LeagueStatisticsService leagueStatsService;
 
-    @Autowired
-    public MatchService(MatchRepository matchRepository, TeamService teamService) {
+    public MatchService(MatchRepository matchRepository, TeamService teamService, LeagueStatisticsService leagueStatsService) {
         this.matchRepository = matchRepository;
         this.teamService = teamService;
+        this.leagueStatsService = leagueStatsService;
     }
 
     public List<Match> getOverview() {
@@ -28,13 +30,17 @@ public class MatchService {
         return this.matchRepository.findById(id);
     }
 
-    public Match insertMatch(String homeTeamName, String awayTeamName) {
-        Team homeTeam = teamService.findByName(homeTeamName);
-        Team awayTeam = teamService.findByName(awayTeamName);
+    public Match insertMatch(Match match) {
+        //Optional<Team> homeTeam = teamService.findByName(match.getHomeTeam().getName());
+        //Optional<Team> awayTeam = teamService.findByName(match.getAwayTeam().getName());
 
-        Match insertedMatch = new Match(homeTeam, awayTeam);
+        //if (homeTeam.isPresent() && awayTeam.isPresent()) { // TODO: Add check for if match is in league
+        this.leagueStatsService.updateLeagueStats(match);
+        return this.matchRepository.insert(match);
+        //} else {
+        //   throw new Exception("Team not found");
+        //}
 
-        return this.matchRepository.insert(insertedMatch);
     }
 
 }

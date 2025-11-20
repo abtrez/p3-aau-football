@@ -28,3 +28,6 @@ Thumbs.db
 # Docker & Compose artifacts
 docker-compose.override.yml
 .docker/
+
+# Nice commit Oliver
+db
