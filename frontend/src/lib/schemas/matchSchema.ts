@@ -20,28 +20,28 @@ const refereeSchema = z.object({
 const baseMatchEventSchema = z.object({
   id: z.string().nullish(),
   player: z.string().nullish(), //string for now, playerSchema has not been made. ALso see below
-  team: teamSchema, //consider weather the entire schema is needed. Only team id instead?
-  minute: z.number().int().nonnegative().nullish()
+  team: teamSchema.nullish(), //consider weather the entire schema is needed. Only team id instead?
+  minute: z.number().int().nonnegative().nullish(),
 });
 
 /** Extends {@link baseMatchEventSchema} with keys for the schema's corresponding java class's fields */
 const goalMatchEventSchema = baseMatchEventSchema.extend({
-    type: z.literal("GOAL"), //as defined by jackson in backend MatchEvent class
-    assister: z.string().nullish()
+  type: z.literal("GOAL"), //as defined by jackson in backend MatchEvent class
+  assister: z.string().nullish(),
 });
 
 /** Extends {@link baseMatchEventSchema} with the keys for the schema's corresponding java class's fields */
 const cardMatchEventSchema = baseMatchEventSchema.extend({
-    type: z.literal("CARD"), //as defined by jackson in backend MatchEvent class
-    cardType: z.enum(["YELLOW_CARD", "RED_CARD"])
+  type: z.literal("CARD"), //as defined by jackson in backend MatchEvent class
+  cardType: z.enum(["YELLOW_CARD", "RED_CARD"]),
 });
 
 /** MatchEvent schema representing all possible match events.
  * "type" argument is the discriminator, which zod uses to decide which
  * subtype schema to validate against. */
 export const matchEventSchema = z.discriminatedUnion("type", [
-    goalMatchEventSchema,
-    cardMatchEventSchema
+  goalMatchEventSchema,
+  cardMatchEventSchema,
 ]);
 
 export const matchSchema = z.object({
