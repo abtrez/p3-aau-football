@@ -4,6 +4,8 @@ import { teamSchema } from "@/lib/schemas/teamSchema";
 const venueSchema = z.object({
   id: z.string(),
   name: z.string(),
+  pitchIdentifier: z.string().nullable(),
+  address: z.string(),
 });
 
 const refereeSchema = z.object({
@@ -19,6 +21,8 @@ const matchEventSchema = z.object({
 
 export const matchSchema = z.object({
   id: z.string(),
+  season: z.string().nullish(),
+  competition: z.string().nullish(),
   homeTeam: teamSchema,
   awayTeam: teamSchema,
   venue: venueSchema.nullish(),
