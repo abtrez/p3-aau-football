@@ -12,9 +12,8 @@ public class Match {
     private String homeTeam;
     private String awayTeam;
 
-    private String Date;
-    private String Venue;
-    private Boolean Cancel;
+    private String date;
+    private String venue;
     private Boolean cancel = false;
     private Boolean wasUpdated = false;
     private String lastUpdated;
@@ -36,16 +35,32 @@ public class Match {
         return this.id;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public String getVenue() {
+        return venue;
+    }
+
+    public Boolean getCancel() {
+        return cancel;
+    }
+
+    public Boolean getWasUpdated() {
+        return wasUpdated;
+    }
+
     public void setDate(String date) {
-        this.Date = date;
+        this.date = date;
     }
 
     public void setVenue(String venue) {
-        this.Venue = venue;
+        this.venue = venue;
     }
 
     public void setCancel(Boolean cancel) {
-        this.Cancel = cancel;
+        this.cancel = cancel;
     }
 
     public void setWasUpdated(Boolean wasUpdated) {
