@@ -131,25 +131,25 @@ public class LeagueStatistics extends Statistics {
 
     public void update(UpdateLeagueStatistics updateLeagueStats) {
         if (updateLeagueStats.matchesPlayed != null) {
-            this.matchesPlayed = updateLeagueStats.matchesPlayed;
+            this.matchesPlayed += updateLeagueStats.matchesPlayed;
         }
         if (updateLeagueStats.won != null) {
-            this.won = updateLeagueStats.won;
+            this.won += updateLeagueStats.won;
         }
         if (updateLeagueStats.drawn != null) {
-            this.drawn = updateLeagueStats.drawn;
+            this.drawn += updateLeagueStats.drawn;
         }
         if (updateLeagueStats.lost != null) {
-            this.lost = updateLeagueStats.lost;
+            this.lost += updateLeagueStats.lost;
         }
         if (updateLeagueStats.goalsFor != null) {
-            this.goalsFor = updateLeagueStats.goalsFor;
+            this.goalsFor += updateLeagueStats.goalsFor;
         }
         if (updateLeagueStats.goalsAgainst != null) {
-            this.goalsAgainst = updateLeagueStats.goalsAgainst;
+            this.goalsAgainst += updateLeagueStats.goalsAgainst;
         }
         if (updateLeagueStats.points != null) {
-            this.points = updateLeagueStats.points;
+            this.points += updateLeagueStats.points;
         }
     }
 }

@@ -21,15 +21,18 @@ public class LeagueStatisticsService implements StatisticsService {
         this.leagueStatisticsRepository = leagueRepo;
     }
 
-    public LeagueStatistics addLeagueStats(LeagueStatistics leagueStats) {
-        boolean exists = this.leagueStatisticsRepository.existsByTeamAndSeasonAndCompetitionId(leagueStats.getTeam(),
-                leagueStats.getSeason(), leagueStats.getCompetitionId());
+    public LeagueStatistics addLeagueStats(Team team, String season, String competitionId, int matchesPlayed, int won, int drawn,
+                                           int lost, int goalsFor, int goalsAgainst, int points) {
+        boolean exists = this.leagueStatisticsRepository.existsByTeamAndSeasonAndCompetitionId(team, season, competitionId);
         if (!exists) {
-            return this.leagueStatisticsRepository.save(leagueStats);
+            LeagueStatistics insertedLeagueStatistics = new LeagueStatistics(team, season, competitionId, matchesPlayed, won, drawn,
+                    lost, goalsFor, goalsAgainst, points);
+            return this.leagueStatisticsRepository.save(insertedLeagueStatistics);
         } else {
-            String msg = String.format("A document with the same ID already exists in the collection: DocumentID: %s", leagueStats.getId());
+            String msg = String.format("A document with the same Team, Season and Competition already exists in the collection: Team: %s, Season: %s, CompetitionId: %s", team.getId(), season, competitionId);
             throw new DocumentAlreadyExistsException(msg);
         }
+
     }
 
     public void removeLeagueStats(String id) {

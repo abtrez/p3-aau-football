@@ -3,6 +3,7 @@ package p3.group.p3_aau_football.statistic.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import p3.group.p3_aau_football.statistic.league.CreateLeagueStatisticsRequest;
 import p3.group.p3_aau_football.statistic.league.LeagueStatistics;
 import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
 
@@ -33,8 +34,18 @@ public class StatisticsController {
     }
 
     @PostMapping("/add/league")
-    public ResponseEntity<LeagueStatistics> addLeagueStatistic(@RequestBody LeagueStatistics leagueStats) {
-        LeagueStatistics savedLeagueStatistic = this.leagueStatsService.addLeagueStats(leagueStats);
+    public ResponseEntity<LeagueStatistics> addLeagueStatistic(@RequestBody CreateLeagueStatisticsRequest request) {
+        LeagueStatistics savedLeagueStatistic = this.leagueStatsService.addLeagueStats(request.team(),
+                request.season(),
+                request.competitionId(),
+                request.matchesPlayed(),
+                request.won(),
+                request.drawn(),
+                request.lost(),
+                request.goalsFor(),
+                request.goalsAgainst(),
+                request.points()
+        );
         return ResponseEntity.ok(savedLeagueStatistic);
     }
 
