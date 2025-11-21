@@ -7,7 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Competition {
     @Id
     private String id;
-    protected String name;
+    private String season;
+    private String name;
 
     public Competition() {}
 
@@ -21,6 +22,14 @@ public class Competition {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getSeason() {
+        return this.season;
+    }
+
+    public void setSeason(String season) {
+        this.season = season;
     }
 
     public String getName() {
