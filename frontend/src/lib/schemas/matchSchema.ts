@@ -20,7 +20,7 @@ const refereeSchema = z.object({
 const baseMatchEventSchema = z.object({
   id: z.string().nullish(),
   player: z.string().nullish(), //string for now, playerSchema has not been made. ALso see below
-  team: teamSchema.nullish(), //consider weather the entire schema is needed. Only team id instead?
+  team: teamSchema, //consider weather the entire schema is needed. Only team id instead?
   minute: z.number().int().nonnegative().nullish(),
 });
 
