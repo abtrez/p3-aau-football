@@ -18,7 +18,7 @@ const refereeSchema = z.object({
  * This schema serves as a base, which subtype schemas (goal, card) extend upon with a discriminator literal ("type") and subtype-specific fields.
  */
 const baseMatchEventSchema = z.object({
-  id: z.string().nullish(),
+  eventId: z.string().nullish(),
   playerId: z.string().nullish(),
   teamId: z.string().nullish(),
   minute: z.number().int().nonnegative().nullish()
