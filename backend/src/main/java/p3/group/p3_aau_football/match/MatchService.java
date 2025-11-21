@@ -34,8 +34,10 @@ public class MatchService {
         //Optional<Team> homeTeam = teamService.findByName(match.getHomeTeam().getName());
         //Optional<Team> awayTeam = teamService.findByName(match.getAwayTeam().getName());
 
-        //if (homeTeam.isPresent() && awayTeam.isPresent()) { // TODO: Add check for if match is in league
-        this.leagueStatsService.updateLeagueStats(match);
+        //if (homeTeam.isPresent() && awayTeam.isPresent()) {
+        if (match.getCompetitionId() != null && match.getSeason() != null) {
+            this.leagueStatsService.updateLeagueStats(match);
+        }
         return this.matchRepository.insert(match);
         //} else {
         //   throw new Exception("Team not found");

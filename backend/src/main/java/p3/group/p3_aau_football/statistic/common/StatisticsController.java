@@ -22,9 +22,9 @@ public class StatisticsController {
     @GetMapping("/get/league")
     public ResponseEntity<List<LeagueStatistics>> getLeagueStatistics(
             @RequestParam String season,
-            @RequestParam String competition) {
+            @RequestParam String competitionId) {
 
-        List<LeagueStatistics> leagueStats = this.leagueStatsService.getLeagueStatistics(season, competition);
+        List<LeagueStatistics> leagueStats = this.leagueStatsService.getLeagueStatistics(season, competitionId);
 
         if (leagueStats.isEmpty()) {
             return ResponseEntity.notFound().build();
