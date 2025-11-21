@@ -9,6 +9,7 @@ import p3.group.p3_aau_football.match.Match;
 import p3.group.p3_aau_football.exceptions.DocumentAlreadyExistsException;
 import p3.group.p3_aau_football.exceptions.DocumentNotFoundException;
 import p3.group.p3_aau_football.statistic.common.StatisticsService;
+import p3.group.p3_aau_football.team.Team;
 
 @Service
 public class LeagueStatisticsService implements StatisticsService {
@@ -57,12 +58,17 @@ public class LeagueStatisticsService implements StatisticsService {
      * database
      */
     public void updateLeagueStats(Match match) {
-        LeagueStatistics homeTeam = this.leagueStatisticsRepository.findByTeam(match.getHomeTeam())
+        Team homeTeam = match.getHomeTeam();
+        Team awayTeam = match.getAwayTeam();
+        String season = match.getSeason();
+        String competitionId = match.getCompetitionId();
+
+        LeagueStatistics homeTeamStats = this.leagueStatisticsRepository.findByTeamAndSeasonAndCompetitionId(homeTeam, season, competitionId)
                 .orElseThrow(() -> new LeagueStatisticsNotFoundException("Home Team League Statistics Not Found"));
-        LeagueStatistics awayTeam = this.leagueStatisticsRepository.findByTeam(match.getAwayTeam())
+        LeagueStatistics awayTeamStats = this.leagueStatisticsRepository.findByTeamAndSeasonAndCompetitionId(awayTeam, season, competitionId)
                 .orElseThrow(() -> new LeagueStatisticsNotFoundException("Away Team League Statistics Not Found"));
 
-        List<LeagueStatistics> leagueStats = List.of(homeTeam, awayTeam);
+        List<LeagueStatistics> leagueStats = List.of(homeTeamStats, awayTeamStats);
         List<UpdateLeagueStatistics> updateLeagueStats = calculateStats(match);
         List<LeagueStatistics> updatedLeagueStats = updateLeagueStatsObject(leagueStats, updateLeagueStats);
         this.leagueStatisticsRepository.saveAll(updatedLeagueStats);
@@ -100,7 +106,7 @@ public class LeagueStatisticsService implements StatisticsService {
         return List.of(homeTeam, awayTeam);
     }
 
-    public List<LeagueStatistics> getLeagueStatistics(String season, String competition) {
-        return this.leagueStatisticsRepository.findBySeasonAndCompetition(season, competition);
+    public List<LeagueStatistics> getLeagueStatistics(String season, String competitionId) {
+        return this.leagueStatisticsRepository.findBySeasonAndCompetitionId(season, competitionId);
     }
 }

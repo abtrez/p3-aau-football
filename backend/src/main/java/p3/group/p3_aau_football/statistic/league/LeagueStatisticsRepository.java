@@ -8,13 +8,7 @@ import p3.group.p3_aau_football.team.Team;
 
 public interface LeagueStatisticsRepository extends StatisticsRepository<LeagueStatistics, String> {
 
-    List<LeagueStatistics> findBySeasonAndCompetition(String season, String competition);
+    List<LeagueStatistics> findBySeasonAndCompetitionId(String season, String competitionId);
 
-    /**
-     * Finds a team by the team id.
-     *
-     * @param team
-     * @return Optional<LeagueStatistics>
-     */
-    Optional<LeagueStatistics> findByTeam(Team team);
+    Optional<LeagueStatistics> findByTeamAndSeasonAndCompetitionId(Team team, String season, String competitionId);
 }
