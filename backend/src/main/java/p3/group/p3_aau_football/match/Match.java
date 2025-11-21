@@ -19,7 +19,7 @@ public class Match {
     private String id;
 
     private String season;
-    private String competition;
+    private String competitionId;
 
     @DocumentReference
     private final Team homeTeam;
@@ -91,8 +91,8 @@ public class Match {
         return this.season;
     }
 
-    public String getCompetition() {
-        return this.competition;
+    public String getCompetitionId() {
+        return this.competitionId;
     }
 
     //Setters
@@ -122,7 +122,7 @@ public class Match {
         this.season = season;
     }
 
-    public void setCompetition(String competition) {
-        this.competition = competition;
+    public void setCompetition(String competitionId) {
+        this.competitionId = competitionId;
     }
 }

@@ -32,16 +32,16 @@ const goalMatchEventSchema = baseMatchEventSchema.extend({
 
 /** Extends {@link baseMatchEventSchema} with the keys for the schema's corresponding java class's fields */
 const cardMatchEventSchema = baseMatchEventSchema.extend({
-    type: z.literal("CARD"), //as defined by jackson in backend MatchEvent class
-    cardType: z.enum(["YELLOW_CARD", "RED_CARD"])
+  type: z.literal("CARD"), //as defined by jackson in backend MatchEvent class
+  cardType: z.enum(["YELLOW_CARD", "RED_CARD"]),
 });
 
 /** MatchEvent schema representing all possible match events.
  * "type" argument is the discriminator, which zod uses to decide which
  * subtype schema to validate against. */
 export const matchEventSchema = z.discriminatedUnion("type", [
-    goalMatchEventSchema,
-    cardMatchEventSchema
+  goalMatchEventSchema,
+  cardMatchEventSchema,
 ]);
 
 export const matchSchema = z.object({
