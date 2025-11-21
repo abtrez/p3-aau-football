@@ -8,7 +8,7 @@ export interface MatchEventRowProps {
 
 export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEventRowProps) {
     const minuteLabel = matchEvent.minute != null ? `${matchEvent.minute}'` : "";
-    const text = `${matchEvent.type} ${matchEvent.team?.name}`;
+    const text = `${matchEvent.type} ${matchEvent.teamId}`;
 
     return (
     <div className=" p-4">

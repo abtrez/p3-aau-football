@@ -19,15 +19,15 @@ const refereeSchema = z.object({
  */
 const baseMatchEventSchema = z.object({
   id: z.string().nullish(),
-  player: z.string().nullish(), //string for now, playerSchema has not been made. ALso see below
-  team: teamSchema, //consider weather the entire schema is needed. Only team id instead?
-  minute: z.number().int().nonnegative().nullish(),
+  playerId: z.string().nullish(),
+  teamId: z.string().nullish(),
+  minute: z.number().int().nonnegative().nullish()
 });
 
 /** Extends {@link baseMatchEventSchema} with keys for the schema's corresponding java class's fields */
 const goalMatchEventSchema = baseMatchEventSchema.extend({
-  type: z.literal("GOAL"), //as defined by jackson in backend MatchEvent class
-  assister: z.string().nullish(),
+    type: z.literal("GOAL"), //as defined by jackson in backend MatchEvent class
+    assisterId: z.string().nullish()
 });
 
 /** Extends {@link baseMatchEventSchema} with the keys for the schema's corresponding java class's fields */

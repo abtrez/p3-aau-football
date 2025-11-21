@@ -3,10 +3,6 @@ package p3.group.p3_aau_football.match.event;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
-import p3.group.p3_aau_football.role.Player;
-import p3.group.p3_aau_football.team.Team;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
