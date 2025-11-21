@@ -11,4 +11,6 @@ public interface LeagueStatisticsRepository extends StatisticsRepository<LeagueS
     List<LeagueStatistics> findBySeasonAndCompetitionId(String season, String competitionId);
 
     Optional<LeagueStatistics> findByTeamAndSeasonAndCompetitionId(Team team, String season, String competitionId);
+
+    boolean existsByTeamAndSeasonAndCompetitionId(Team team, String season, String competitionId);
 }

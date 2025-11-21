@@ -22,8 +22,8 @@ public class LeagueStatisticsService implements StatisticsService {
     }
 
     public LeagueStatistics addLeagueStats(LeagueStatistics leagueStats) {
-        // TODO: check om id er null før denne linje køres.
-        boolean exists = this.leagueStatisticsRepository.existsById(leagueStats.getId());
+        boolean exists = this.leagueStatisticsRepository.existsByTeamAndSeasonAndCompetitionId(leagueStats.getTeam(),
+                leagueStats.getSeason(), leagueStats.getCompetitionId());
         if (!exists) {
             return this.leagueStatisticsRepository.save(leagueStats);
         } else {
