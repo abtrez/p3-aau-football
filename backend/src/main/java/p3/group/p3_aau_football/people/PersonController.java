@@ -41,10 +41,10 @@ public class PersonController {
     public ResponseEntity<Person> addPerson(@RequestBody CreatePersonRequest request) {
         try {
             Person insertedPerson = personService.insertPerson(
-                    request.getFirstName(),
-                    request.getLastName(),
-                    request.getRoles(),
-                    request.getTeamId());
+                    request.firstName(),
+                    request.lastName(),
+                    request.roles(),
+                    request.teamId());
 
             return ResponseEntity.ok(insertedPerson);
 
