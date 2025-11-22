@@ -26,7 +26,4 @@ public class CompetitionService {
     public Competition insertCompetition(Competition competition) {
         return this.competitionRepository.insert(competition);
     }
-
-
-
 }

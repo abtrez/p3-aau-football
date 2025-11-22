@@ -10,15 +10,18 @@ import p3.group.p3_aau_football.exceptions.DocumentAlreadyExistsException;
 import p3.group.p3_aau_football.exceptions.DocumentNotFoundException;
 import p3.group.p3_aau_football.statistic.common.StatisticsService;
 import p3.group.p3_aau_football.team.Team;
+import p3.group.p3_aau_football.team.TeamRepository;
 
 @Service
 public class LeagueStatisticsService implements StatisticsService {
 
+    private final TeamRepository teamRepository;
     LeagueStatisticsRepository leagueStatisticsRepository;
 
     @Autowired
-    public LeagueStatisticsService(LeagueStatisticsRepository leagueRepo) {
+    public LeagueStatisticsService(LeagueStatisticsRepository leagueRepo, TeamRepository teamRepository) {
         this.leagueStatisticsRepository = leagueRepo;
+        this.teamRepository = teamRepository;
     }
 
     public LeagueStatistics addLeagueStats(LeagueStatistics leagueStats) {
@@ -40,6 +43,25 @@ public class LeagueStatisticsService implements StatisticsService {
             String msg = String.format("A document with the provided ID does not exists in the collection: DocumentID: %s", id);
             throw new DocumentNotFoundException(msg);
         }
+    }
+
+    public LeagueStatistics enrollTeam(String teamId, String competitionId, String season) {
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found " + teamId));
+
+        boolean exists = leagueStatisticsRepository.existsByTeamAndSeasonAndCompetitionId(team, season, competitionId);
+
+        if (exists) {
+            throw new DocumentAlreadyExistsException("This team has already been enrolled in the competition");
+        }
+
+        LeagueStatistics stats = new LeagueStatistics(
+                team,
+                season,
+                competitionId,
+                0, 0, 0, 0, 0, 0, 0
+        );
+        return leagueStatisticsRepository.save(stats);
     }
 
     /**
