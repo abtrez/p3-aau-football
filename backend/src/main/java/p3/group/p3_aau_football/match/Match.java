@@ -1,6 +1,7 @@
 package p3.group.p3_aau_football.match;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -85,6 +86,10 @@ public class Match {
 
     public List<MatchEvent> getMatchEvents() {
         return this.matchEvents;
+    }
+
+    public void setMatchEvents(List<MatchEvent> matchEvents) {
+        this.matchEvents = matchEvents;
     }
 
     public String getSeason() {

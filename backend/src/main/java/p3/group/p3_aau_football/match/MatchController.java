@@ -4,12 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import p3.group.p3_aau_football.match.event.MatchEventRequestDTO;
 
 @RestController // flags class, so it is ready for use by Spring MVC to handle web requests.
 @RequestMapping("/api/match")
@@ -42,7 +38,20 @@ public class MatchController {
         }
     }
 
-
+    //Works, considering request type change
+    @PostMapping("/{id}/events")
+    public ResponseEntity<Match> addMatchEvents(
+            @PathVariable("id") String matchId,
+            @RequestBody List<MatchEventRequestDTO> matchEventRequestDTOS // deserialize/parse the req body (json formatted array) to a list of MatchEventsReqDtos
+    ) {
+        try {
+            Match updatedMatch = matchService.addMatchEvents(matchId, matchEventRequestDTOS);
+            return ResponseEntity.ok(updatedMatch);
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     /*
      * @PatchMapping("/{id}/edit")
