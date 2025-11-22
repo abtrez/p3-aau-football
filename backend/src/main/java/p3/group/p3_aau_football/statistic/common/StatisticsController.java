@@ -3,8 +3,10 @@ package p3.group.p3_aau_football.statistic.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import p3.group.p3_aau_football.exceptions.DocumentAlreadyExistsException;
 import p3.group.p3_aau_football.statistic.league.LeagueStatistics;
 import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
+import p3.group.p3_aau_football.statistic.league.enrollTeamDTO;
 
 import java.util.List;
 
@@ -38,4 +40,17 @@ public class StatisticsController {
         return ResponseEntity.ok(savedLeagueStatistic);
     }
 
+    @PostMapping("/enroll/league-team")
+    public ResponseEntity<LeagueStatistics>  enrollTeam(@RequestBody enrollTeamDTO request) {
+        try {
+            LeagueStatistics stats = leagueStatsService.enrollTeam(
+                    request.teamId(),
+                    request.competitionId(),
+                    request.season()
+            );
+            return ResponseEntity.ok(stats);
+        } catch (DocumentAlreadyExistsException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
