@@ -1,6 +1,8 @@
 package p3.group.p3_aau_football.match;
 
+import java.lang.annotation.Repeatable;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -23,8 +25,13 @@ public class MatchController {
     }
 
     @GetMapping("/get/{id}")
-    public Optional<Match> getMatch(@PathVariable("id") String id) {
-        return matchService.getMatch(id);
+    public ResponseEntity<Match> getMatch(@PathVariable("id") String id) {
+        try {
+            Match match = matchService.getMatch(id);
+            return ResponseEntity.ok(match);
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/add")
@@ -38,21 +45,6 @@ public class MatchController {
         }
     }
 
-    //Works, considering request type change
-    @PostMapping("/{id}/events")
-    public ResponseEntity<Match> addMatchEvents(
-            @PathVariable("id") String matchId,
-            @RequestBody List<MatchEventRequestDTO> matchEventRequestDTOS // deserialize/parse the req body (json formatted array) to a list of MatchEventsReqDtos
-    ) {
-        try {
-            Match updatedMatch = matchService.addMatchEvents(matchId, matchEventRequestDTOS);
-            return ResponseEntity.ok(updatedMatch);
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     /*
      * @PatchMapping("/{id}/edit")
      * public String editMatch(@PathVariable("id") String id, @RequestParam("test1")
@@ -60,4 +52,39 @@ public class MatchController {
      * return test1 + " " + test2;
      * }
      */
+
+    /// MATCH EVENTS
+    //Works, potentially request type change
+    @PostMapping("/{matchId}/events")
+    public ResponseEntity<Match> createMatchEvents(
+            @PathVariable("matchId") String matchId,
+            @RequestBody List<MatchEventRequestDTO> matchEventRequestDTOS // deserialize/parse the req body (json formatted array) to a list of MatchEventsReqDtos //TODO: bean validation @Valid
+    ) {
+        try {
+            Match updatedMatch = matchService.addMatchEvents(matchId, matchEventRequestDTOS);
+            return ResponseEntity.ok(updatedMatch);
+        } catch(NoSuchElementException e) { //TODO: Improve Exception handling
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{matchId}/events/{eventId}")
+    public ResponseEntity<Match> deleteMatchEvent(
+            @PathVariable("matchId") String matchId,
+            @PathVariable("eventId") String eventId
+    ) {
+        try {
+            Match updatedMatch = matchService.removeMatchEvent(matchId, eventId);
+            return ResponseEntity.ok(updatedMatch);
+        } catch (NoSuchElementException e) { //TODO: Improve Exception handling
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Patch/Put Mapping
+    public void updateMatchEvent() {
+
+    }
 }

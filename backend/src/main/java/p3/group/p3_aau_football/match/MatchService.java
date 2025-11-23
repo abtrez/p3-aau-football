@@ -2,6 +2,7 @@ package p3.group.p3_aau_football.match;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -30,9 +31,12 @@ public class MatchService {
         return this.matchRepository.findAll();
     }
 
-    public Optional<Match> getMatch(String id) {
-        return this.matchRepository.findById(id);
-    }
+    public Match getMatch(String id) {
+        //if a value (Match) is present in Optional<Match> type variable, return it (Match type).
+        return this.matchRepository.findById(id)
+                //otherwise throw a specified exception
+                .orElseThrow(() -> new NoSuchElementException("Match not found with id: " + id));
+    }   //Instead of (if optionalType.isPresent()) {optionalType.get()}
 
     public Match insertMatch(Match match) {
         //Optional<Team> homeTeam = teamService.findByName(match.getHomeTeam().getName());
@@ -50,7 +54,7 @@ public class MatchService {
     /**
      * Intermediate step DTO --> Model Object to be persisted with Mongo
      * @param dto required fields of a match event excluding id, as this is generated in model constructor
-     * @returns Goal object, Card object, or throws exception
+     * @return Goal object, Card object, or throws exception
      */
     private MatchEvent matchEventDtoToModel(MatchEventRequestDTO dto) {
         //Switch Expression on DTO record. Evaluates to a single value, which is returned.
@@ -68,39 +72,42 @@ public class MatchService {
                     dto.minute(),
                     dto.cardType()
             );
-            default -> throw new IllegalArgumentException("Unknown type: " + dto.type()); // Figure out exact Exception type later
+            default -> throw new IllegalArgumentException("Unknown type: " + dto.type()); //TODO: Figure out exact Exception type later
         };
     }
 
     // Works, but improvements pending
     public Match addMatchEvents(String matchId, List<MatchEventRequestDTO> requests) {
+        /// Get match on which to add events. Reuse validation/error handling of getMatch() method, which may throw NoSuchElementException
+        Match match = getMatch(matchId);
 
-        //Consider decoupling this from other service function, using the MatchRepository directly.
-        //Current motivation: Reuse potential future validation/error handling of getMatch() method.
-        Optional<Match> matchOptional = getMatch(matchId);
-
-        //Ensure the match exists
-        if (matchOptional.isEmpty()) {
-            throw new Error("Match does not exist");
-        }
-
-        //Convert to optional object to regular match object
-        Match match = matchOptional.get();
-
-        List<MatchEvent> events = match.getMatchEvents();
-
-        //Ensure the match event field is not null, so add() method does not run into runtime error
-        if (events == null) {
-            events = new ArrayList<>();
-        }
-
-        //Create match events from each request dto, append to the temporary list
+        /// Prepare new events
+        List<MatchEvent> newMatchEvents = new ArrayList<>();
+        // Create Match Event objects (of appropriate subclass) from each request dto, append to the temporary list
         for (MatchEventRequestDTO dto : requests ) {
-            events.add(matchEventDtoToModel(dto));
+            //TODO: dto validation, expeption handling? validate team belongs to this match?
+            newMatchEvents.add(matchEventDtoToModel(dto));
         }
 
+        /// Delegate addition to model logic, passing the new events
+        match.addEvents(newMatchEvents);
 
-        match.setMatchEvents(events);
+        /// Persist changes
         return matchRepository.save(match);
+    }
+
+    public Match removeMatchEvent(String matchId, String eventId ) {
+        /// Get match from which to remove event. Reuse validation/error handling of getMatch() method, which may throw NoSuchElementException
+        Match match = getMatch(matchId);
+
+        /// Delegate removal to model logic
+        match.removeEvent(eventId);
+
+        /// Persist changes
+        return matchRepository.save(match);
+    }
+
+    public void editMatchEvent() {
+
     }
 }

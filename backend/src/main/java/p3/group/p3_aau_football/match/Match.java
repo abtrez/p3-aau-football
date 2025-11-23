@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bson.types.ObjectId;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -59,7 +57,6 @@ public class Match {
     public Team getHomeTeam() {
         return this.homeTeam;
     }
-
     public Team getAwayTeam() {
         return this.awayTeam;
     }
@@ -67,7 +64,6 @@ public class Match {
     public int getHomeScore() {
         return this.homeScore;
     }
-
     public int getAwayScore() {
         return this.awayScore;
     }
@@ -88,8 +84,24 @@ public class Match {
         return this.matchEvents;
     }
 
-    public void setMatchEvents(List<MatchEvent> matchEvents) {
-        this.matchEvents = matchEvents;
+    public void addEvents(List<MatchEvent> newEvents) {
+        if (this.matchEvents == null) {
+            this.matchEvents = new ArrayList<>();
+        }
+        this.matchEvents.addAll(newEvents);
+        //TODO: recalculate score in goal class, not relevant for other events
+    }
+
+    public void removeEvent(String eventId) {
+        if (this.matchEvents == null) {
+            return; //maybe signal in some way
+        }
+        matchEvents.removeIf(element -> element.getId().equals(eventId));
+        //TODO: recalculate score in goal class, not relevant for other events
+    }
+
+    public void editEvent(String eventId) {
+
     }
 
     public String getSeason() {
@@ -112,8 +124,6 @@ public class Match {
     public void setVenue(Venue venue) {
         this.venue = venue;
     }
-
-    ;
 
     public void setKickoff(LocalDateTime kickoff) {
         this.kickoff = kickoff;
