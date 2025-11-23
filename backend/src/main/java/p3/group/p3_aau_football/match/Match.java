@@ -3,6 +3,7 @@ package p3.group.p3_aau_football.match;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -80,28 +81,48 @@ public class Match {
         return this.referees;
     }
 
+    /**
+     * @return reference of object's internal matchEvents list.
+     * Always non-null. No events recorded, means empty list.
+     */
     public List<MatchEvent> getMatchEvents() {
-        return this.matchEvents;
-    }
-
-    public void addEvents(List<MatchEvent> newEvents) {
         if (this.matchEvents == null) {
             this.matchEvents = new ArrayList<>();
         }
-        this.matchEvents.addAll(newEvents);
-        //TODO: recalculate score in goal class, not relevant for other events
+        return this.matchEvents;
     }
 
+    /// Todo: consider changing implementation away from stream, filter, findfirst,
+    public MatchEvent getMatchEvent(String eventId) {
+        return getMatchEvents().stream()
+                .filter( elem -> elem.getId().equals(eventId))
+                .findFirst()
+                .orElseThrow(() ->
+                        new NoSuchElementException("Match event not found: " + eventId)
+                );
+    }
+
+    /**
+     * Appends all provided matchEvents to this match's list. Wether a single or multiple new events are provided.
+     * Call to getMatchEvents() guarantees not encountering null-pointer exception
+     * @param newEvents to be added
+     */
+    public void addEvents(List<MatchEvent> newEvents) {
+        getMatchEvents().addAll(newEvents);
+        //TODO: recalculate score if goal class, not relevant for other events
+    }
+
+    /**
+     * Removes the event with the given id.
+     * Throws NoSuchElementException if no event with specified id exists.
+     */
     public void removeEvent(String eventId) {
-        if (this.matchEvents == null) {
-            return; //maybe signal in some way
+        boolean removed = getMatchEvents().removeIf(element -> element.getId().equals(eventId));
+
+        if (!removed) {
+            throw new NoSuchElementException("Match event not found: " + eventId);
         }
-        matchEvents.removeIf(element -> element.getId().equals(eventId));
-        //TODO: recalculate score in goal class, not relevant for other events
-    }
-
-    public void editEvent(String eventId) {
-
+        //TODO: recalculate score if goal class, not relevant for other events
     }
 
     public String getSeason() {

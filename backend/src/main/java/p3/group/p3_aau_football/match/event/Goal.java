@@ -17,4 +17,13 @@ public class Goal extends MatchEvent {
     public String getAssisterId() {
         return this.assisterId;
     }
+    public void setAssisterId(String assisterId) {
+        this.assisterId = assisterId;
+    }
+
+    @Override
+    protected void applySpecificUpdate(MatchEventUpdateData data) {
+        // Other fields are handled by super
+        this.setAssisterId(data.assisterId());
+    }
 }

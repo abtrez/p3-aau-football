@@ -13,4 +13,13 @@ public class Card extends MatchEvent {
     public CardType getCardType(){
         return this.cardType;
     }
+    public void setCardType(CardType cardType) {
+        this.cardType = cardType;
+    }
+
+    @Override
+    protected void applySpecificUpdate(MatchEventUpdateData data) {
+        // Other fields are handled by super
+        this.setCardType(data.cardType());
+    }
 }

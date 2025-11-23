@@ -23,12 +23,10 @@ public abstract class MatchEvent {
     private Integer minute; //Optional. Integer wrapper class to allow null, rather than primitive int that defaults to 0.
 
     public MatchEvent() {
-        this.id = new ObjectId().toHexString(); // Consider deleting. Should only create a new id on new events, which is handled by the other constructor. This is a no args for mongo, where ids are already stored
+        this.id = new ObjectId().toHexString(); // Consider deleting. Should only create a new id on new events, which is handled by the other constructor. This is a no args for mongo, where ids are already stored, this is overwritten by mongo (reflection?)
     }
 
-    /**
-     * Used by matchService (indirectly through subclasses) to create an MatchEvent object from DTO
-     */
+    /** Used by matchService (indirectly through subclasses) to create an MatchEvent object from DTO */
     public MatchEvent(String teamId, String playerId, Integer minute) {
         // consider wether to use the ObjectId().toHexString here in addition/instead of above
         this.id = new ObjectId().toHexString();
@@ -44,6 +42,9 @@ public abstract class MatchEvent {
     public String getPlayerId() {
         return this.playerId;
     }
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
 
     public String getTeamId() {
         return this.teamId;
@@ -52,7 +53,25 @@ public abstract class MatchEvent {
     public Integer getMinute() {
         return this.minute;
     }
+    public void setMinute(Integer minute) {
+        this.minute = minute;
+    }
 
-    //Setters for everything but id
-    //what about the constructor?
+    /**
+     * @param data interface type to avoid direct dependency on dto from model
+     */
+    public void applyUpdate (MatchEventUpdateData data) {
+
+        // Common Editable fields for all subtypes, id and team not allowed
+        this.setPlayerId(data.playerId());
+        this.setMinute(data.minute());
+
+        // Subclass updates its own type-specific field, makes this a "Template Method"
+        applySpecificUpdate(data);
+    }
+
+    /**
+     * Force subclasses to implement their specific update logic
+     */
+    protected abstract void applySpecificUpdate(MatchEventUpdateData data);
 }

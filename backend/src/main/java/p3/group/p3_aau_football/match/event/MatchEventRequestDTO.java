@@ -12,5 +12,5 @@ public record MatchEventRequestDTO(
         String assisterId,
         //Card specific
         CardType cardType
-) {
+) implements MatchEventUpdateData {
 }

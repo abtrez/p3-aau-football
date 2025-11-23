@@ -83,8 +83,22 @@ public class MatchController {
         }
     }
 
-    // Patch/Put Mapping
-    public void updateMatchEvent() {
-
+    // Considering patch mapping, however less complexity
+    @PutMapping("/{matchId}/events/{eventId}")
+    public ResponseEntity<Match> updateMatchEvent(
+            @PathVariable("matchId") String matchId,
+            @PathVariable("eventId") String eventId,
+            @RequestBody MatchEventRequestDTO dto // TODO: @Valid later
+    ) {
+        try {
+            Match updatedMatch = matchService.editMatchEvent(matchId, eventId, dto);
+            return ResponseEntity.ok(updatedMatch);
+        } catch (NoSuchElementException e) { //TODO: Improve Exception handling
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
     }
 }
