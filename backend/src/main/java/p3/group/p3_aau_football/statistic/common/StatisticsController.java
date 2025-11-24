@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import p3.group.p3_aau_football.exceptions.DocumentAlreadyExistsException;
 import p3.group.p3_aau_football.statistic.league.LeagueStatistics;
 import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
-import p3.group.p3_aau_football.statistic.league.enrollTeamDTO;
+import p3.group.p3_aau_football.statistic.league.EnrollTeamDTO;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ public class StatisticsController {
     }
 
     @PostMapping("/enroll/league-team")
-    public ResponseEntity<LeagueStatistics>  enrollTeam(@RequestBody enrollTeamDTO request) {
+    public ResponseEntity<LeagueStatistics>  enrollTeam(@RequestBody EnrollTeamDTO request) {
         try {
             LeagueStatistics stats = leagueStatsService.enrollTeam(
                     request.teamId(),
