@@ -12,8 +12,12 @@ public class PlayerStatisticsService implements StatisticsService {
         this.playerStatisticsRepository = playerStatsRepo;
     }
 
-    PlayerStatistics getPlayerStatsById(String id) {
-        return this.playerStatisticsRepository.findById(id)
+    public PlayerStatistics getPlayerStats(String id, String season, String competitionId) {
+        return this.playerStatisticsRepository.findByPersonIdAndSeasonAndCompetitionId(id, season, competitionId)
                 .orElseThrow(() -> new PlayerStatisticsNotFoundException(String.format("A Player Statistics Document with ID: %s does not exist in the database", id)));
+    }
+
+    public PlayerStatistics addPlayerStatistics() {
+        return new PlayerStatistics();
     }
 }
