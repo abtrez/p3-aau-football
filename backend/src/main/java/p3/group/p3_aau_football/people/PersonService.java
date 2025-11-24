@@ -1,15 +1,15 @@
 package p3.group.p3_aau_football.people;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import p3.group.p3_aau_football.role.Role;
-import p3.group.p3_aau_football.team.Team;
-import p3.group.p3_aau_football.team.TeamService;
-import p3.group.p3_aau_football.role.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import p3.group.p3_aau_football.role.Player;
+import p3.group.p3_aau_football.role.Role;
+import p3.group.p3_aau_football.team.TeamService;
 
 @Service
 public class PersonService {
@@ -54,6 +54,14 @@ public class PersonService {
 
     public Optional<Person> findByRoleName(String roleName) {
         return this.personRepository.findByRoleName(roleName);
+    }
+
+    public List<Person> getPersonsFromTeam(String teamId) {
+        return personRepository.findByTeamId(teamId);
+    }
+
+    public List<Person> getPersonFromTeamIdAndRole(String teamId, String roleName){
+        return personRepository.findByTeamIdAndRole(teamId, roleName);
     }
 
     public ResponseEntity<Person> addTeamToPerson(String personId, String teamId) {

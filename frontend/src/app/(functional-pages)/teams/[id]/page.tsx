@@ -9,14 +9,14 @@ import { Person } from "@/lib/schemas/personSchema";
 
 import Divider from "@mui/material/Divider";
 import { fetchPersonsFromTeamId } from "@/lib/fetchPersonFromTeam";
-import { fetchPersonsFromRoleAndTeamId } from "@/lib/fetchPersonFromRoleAndTeam";
+import { fetchPersonFromTeamIdByRole } from "@/lib/fetchPersonFromRoleAndTeam";
 
 export default async function Page({ params }: any) {
   const { id } = await params;
   const team: Team = await fetchTeamById(id);
   const members: Person[] = await fetchPersonsFromTeamId(id);
-  //const leader: Person[] = await fetchPersonsFromRoleAndTeamId(id,["leader"]);
-  //const coach: Person[] = await fetchPersonsFromRoleAndTeamId(id,["coach"]);
+  const leader: Person[] = await fetchPersonFromTeamIdByRole(id,"LEADER");
+  //const coach: Person[] = await fetchPersonsFromRoleAndTeamId(id,["COACH"]);
 
 
   return (
@@ -33,7 +33,7 @@ export default async function Page({ params }: any) {
         <InfoItem label="Leader" value= {/*leader[0]?.firstName|| */"N/A"} />
         <InfoItem label="Coach" value= {/*coach[0]?.firstName|| */ "N/A"} />
         <InfoItem label="Established" value= {team.yearEstablished|| "N/A"} />
-        <InfoItem label="Squad Size" value= {/*members.length||*/ "N/A"} />
+        <InfoItem label="Squad Size" value= {members.length|| "N/A"} />
         <InfoItem label="Assistant" value= "N/A"/>
       </div>
       <section className="rounded-2xl bg-white p-4 my-4">

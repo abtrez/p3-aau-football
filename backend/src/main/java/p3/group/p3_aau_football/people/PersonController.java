@@ -37,6 +37,16 @@ public class PersonController {
         return personService.getPerson(id);
     }
 
+    @GetMapping("/getFromTeam/{teamId}")
+    public List<Person> getPersonsFromTeam(@PathVariable("teamId") String teamId) {
+        return personService.getPersonsFromTeam(teamId);
+    }
+
+    @GetMapping("/getFromTeam/{teamId}/role/{roleName}")
+    public List<Person> getPersonFromTeamIdAndRole(@PathVariable("teamId")String teamId, @PathVariable("roleName")String roleName){
+        return personService.getPersonFromTeamIdAndRole(teamId, roleName);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Person> addPerson(@RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName,
@@ -73,6 +83,7 @@ public class PersonController {
 
         return personService.addTeamToPerson(id, teamId);
     }
+
 
     /*
      * @PatchMapping("/{id}/edit")

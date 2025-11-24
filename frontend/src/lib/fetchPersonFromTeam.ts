@@ -6,7 +6,7 @@ if (!BACKEND_URL) {
 }
 
 export async function fetchPersonsFromTeamId(teamId : string) {
-  const res = await fetch(`${BACKEND_URL}/api/personsFromTeam/${teamId}`);
+  const res = await fetch(`${BACKEND_URL}/api/person/getFromTeam/${teamId}`);
   if (!res.ok) {
     throw new Error(
       `Failed to fetch persons from team ${teamId}: ${res.status} ${res.statusText}`
