@@ -21,8 +21,8 @@ public class LeagueStatisticsService implements StatisticsService {
         this.leagueStatisticsRepository = leagueRepo;
     }
 
-    public LeagueStatistics addLeagueStats(Team team, String season, String competitionId, int matchesPlayed, int won, int drawn,
-                                           int lost, int goalsFor, int goalsAgainst, int points) {
+    public LeagueStatistics enrollTeam(Team team, String season, String competitionId, int matchesPlayed, int won, int drawn,
+                                       int lost, int goalsFor, int goalsAgainst, int points) {
         boolean exists = this.leagueStatisticsRepository.existsByTeamAndSeasonAndCompetitionId(team, season, competitionId);
         if (!exists) {
             LeagueStatistics insertedLeagueStatistics = new LeagueStatistics(team, season, competitionId, matchesPlayed, won, drawn,
