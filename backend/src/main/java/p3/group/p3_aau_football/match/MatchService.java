@@ -122,7 +122,7 @@ public class MatchService {
         MatchEvent event = match.getMatchEvent(eventId);
 
         /// Ensure that requester did not attempt to change the team, which the event belongs to
-        if (! event.getTeamId().equals(dto.teamId())) {
+        if (!event.getTeamId().equals(dto.teamId())) {
             throw new IllegalArgumentException("Team cannot change");
         }
 

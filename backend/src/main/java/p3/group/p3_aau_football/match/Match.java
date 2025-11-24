@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import p3.group.p3_aau_football.match.event.Goal;
 import p3.group.p3_aau_football.match.event.MatchEvent;
 import p3.group.p3_aau_football.role.Referee;
 import p3.group.p3_aau_football.team.Team;
@@ -33,15 +34,8 @@ public class Match {
 
     private int homeScore;
     private int awayScore;
-    private List<MatchEvent> matchEvents;
+    private List<MatchEvent> matchEvents = new ArrayList<>(); // Ensure non-null initialization, to protect logic from null-pointer exceptions
 
-    //Details
-    /*
-    (dateTime) date and time - kick-offtime splittes?
-    Venue venue
-    List<Referee> referees
-    int squadSize
-     */
     //Constructor, should probably have date, venue
     public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
@@ -86,30 +80,30 @@ public class Match {
      * Always non-null. No events recorded, means empty list.
      */
     public List<MatchEvent> getMatchEvents() {
-        if (this.matchEvents == null) {
-            this.matchEvents = new ArrayList<>();
-        }
         return this.matchEvents;
     }
 
-    /// Todo: consider changing implementation away from stream, filter, findfirst,
+    /**
+     * @return reference of match event with given id or throw exception
+     */
     public MatchEvent getMatchEvent(String eventId) {
-        return getMatchEvents().stream()
-                .filter( elem -> elem.getId().equals(eventId))
-                .findFirst()
-                .orElseThrow(() ->
-                        new NoSuchElementException("Match event not found: " + eventId)
-                );
+        for (MatchEvent event : this.matchEvents) {
+            if (event.getId().equals(eventId)) {
+                return event;
+            }
+        }
+        throw new NoSuchElementException("Match event not found: " + eventId);
     }
 
     /**
-     * Appends all provided matchEvents to this match's list. Wether a single or multiple new events are provided.
-     * Call to getMatchEvents() guarantees not encountering null-pointer exception
+     * Appends all provided matchEvents to this match's list. Whether a single or multiple new events are provided.
      * @param newEvents to be added
      */
     public void addEvents(List<MatchEvent> newEvents) {
-        getMatchEvents().addAll(newEvents);
-        //TODO: recalculate score if goal class, not relevant for other events
+        this.matchEvents.addAll(newEvents);
+
+        //Recalculates score if goal class, not relevant for other events
+        recalculateScoreFromEvents(); // may throw IllegalStateException
     }
 
     /**
@@ -117,12 +111,52 @@ public class Match {
      * Throws NoSuchElementException if no event with specified id exists.
      */
     public void removeEvent(String eventId) {
-        boolean removed = getMatchEvents().removeIf(element -> element.getId().equals(eventId));
+        boolean removed = this.matchEvents.removeIf(element -> element.getId().equals(eventId));
 
         if (!removed) {
             throw new NoSuchElementException("Match event not found: " + eventId);
         }
-        //TODO: recalculate score if goal class, not relevant for other events
+
+        //Recalculate score if goal class, not relevant for other events
+        recalculateScoreFromEvents(); // may throw IllegalStateException
+    }
+
+    /**
+     * Recalculates and sets the match scores based on Goal Events
+     * Private helper: match itself should ensure alignment between its score variables and goal events.
+
+     * If a GOAL event belongs to neither team, the match is in an inconsistent state,
+     * an IllegalStateException is thrown. Not caught, data integrity issue.
+
+     * Called upon addition/removal of match events, excluding edits: currently a goal shouldn't be reassigned to the other team. Such a case considered a different event, rather than a typo to be changed.
+     */
+    private void recalculateScoreFromEvents() {
+        int homeScore = 0;
+        int awayScore = 0;
+
+        String homeTeamId = this.homeTeam.getId();
+        String awayTeamId = this.awayTeam.getId();
+
+        for (MatchEvent event : getMatchEvents()) {
+
+            if (!(event instanceof Goal g)) {
+                continue; // Only goal events contribute to score
+            }
+
+            String teamId = g.getTeamId();
+
+            if (teamId.equals(homeTeamId)) {
+                homeScore++;
+            } else if (teamId.equals(awayTeamId)) {
+                awayScore++;
+            } else {
+                //Invariant violation: Goal instance, not belonging to either playing team. Data Integrity Concern, let bubble
+                throw new IllegalStateException("Goal event for team not in this match: " + teamId);
+            }
+        }
+        // Overwrite the score with recalculation
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
     }
 
     public String getSeason() {
