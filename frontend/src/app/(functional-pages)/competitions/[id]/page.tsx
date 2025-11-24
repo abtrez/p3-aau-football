@@ -15,6 +15,8 @@ const data = {
 export default async function Page({ params }: any) {
   const { id } = await params;
   const competition: Competition = await fetchCompetitionById(id);
+
+  console.log(competition);
   return (
     <div>
       <h1 className="text-3xl text-center mb-3 border-b">AAU LIGA</h1>
