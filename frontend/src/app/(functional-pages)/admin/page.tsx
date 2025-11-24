@@ -11,5 +11,11 @@ export default async function Page() {
     redirect("/sign-in");
   }
 
-  return <h1>Welcome {session.user.name}</h1>;
+  return (
+    <h1>
+      Welcome {session.user.name} Team: {session.user.team} Admin:{" "}
+      {session.user.admin} OBJECT:
+      {JSON.stringify(session.user)}
+    </h1>
+  );
 }
