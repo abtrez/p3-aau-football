@@ -9,27 +9,40 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import p3.group.p3_aau_football.team.Team;
+import p3.group.p3_aau_football.team.TeamService;
 
 @Service
 public class MatchService {
 
-    @Autowired
     private MatchRepository matchRepository;
+    private TeamService teamService;
 
-    private MongoTemplate mongoTemplate;
+    @Autowired
+    public MatchService(MatchRepository matchRepository, TeamService teamService) {
+        this.matchRepository = matchRepository;
+        this.teamService = teamService;
+    }
 
     public List<Match> getOverview() {
-        return matchRepository.findAll();
+        return this.matchRepository.findAll();
     }
 
     public Optional<Match> getMatch(String id) {
-        return matchRepository.findById(id);
+        return this.matchRepository.findById(id);
     }
 
-    public Match insertMatch(String homeTeam, String awayTeam) {
-        Match insertedMatch = new Match(homeTeam, awayTeam);
+    public Match insertMatch(String homeTeamName, String awayTeamName) throws Exception {
+        Optional<Team> homeTeam = teamService.findByName(homeTeamName);
+        Optional<Team> awayTeam = teamService.findByName(awayTeamName);
 
-        return matchRepository.insert(insertedMatch);
+        if (homeTeam.isPresent() && awayTeam.isPresent()) {
+            Match insertedMatch = new Match(homeTeam.get(), awayTeam.get());
+            return this.matchRepository.insert(insertedMatch);
+        } else {
+            throw new Exception("Team not found");
+        }
+
     }
 
     public Optional<Match> updateMatch(String id, String date, String venue, Boolean cancel) {

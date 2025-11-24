@@ -1,0 +1,50 @@
+services:
+  dev-backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.dev
+    volumes:
+      - ./backend:/app/backend
+      - ./gradle:/app/gradle
+      - ./gradlew:/app/gradlew
+      - gradle_cache:/home/gradle/.gradle
+    depends_on:
+      dev-database:
+        condition: service_healthy
+    networks:
+      - dev-p3-aau-football
+    env_file:
+      - ./.env.local
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DEVTOOLS_RESTART_ENABLED=true
+      - SPRING_DEVTOOLS_RESTART_POLL_INTERVAL=1000
+      - SPRING_DEVTOOLS_RESTART_QUIET_PERIOD=400
+    ports:
+      - "8080:8080"
+    restart: always
+
+  dev-database:
+    image: mongo:8
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: football
+    networks:
+      - dev-p3-aau-football
+    ports:
+      - "27018:27017"
+    volumes:
+      - "./db:/data/db:rw"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+networks:
+  dev-p3-aau-football:
+
+volumes:
+  gradle_cache:

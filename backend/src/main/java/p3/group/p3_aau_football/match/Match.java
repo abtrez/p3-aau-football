@@ -2,6 +2,12 @@ package p3.group.p3_aau_football.match;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import p3.group.p3_aau_football.role.Referee;
+import p3.group.p3_aau_football.team.Team;
+import java.time.LocalDateTime;
+
+import java.util.List;
 
 @Document(collection = "matches")
 public class Match {
@@ -9,66 +15,93 @@ public class Match {
     @Id
     private String id;
 
-    private String homeTeam;
-    private String awayTeam;
+    @DocumentReference
+    private final Team homeTeam;
+    @DocumentReference
+    private final Team awayTeam;
 
-    private String date;
-    private String venue;
-    private Boolean cancel = false;
-    private Boolean wasUpdated = false;
-    private String lastUpdated;
+    @DocumentReference
+    private Venue venue;
+    private LocalDateTime kickoff;
+    private List<Referee> referees;
 
-    public Match(String homeTeam, String awayTeam) {
+    private int homeScore;
+    private int awayScore;
+    @DocumentReference
+    private List<MatchEvent> matchEvents;
+
+    //Details
+    /*
+    (dateTime) date and time - kick-offtime splittes?
+    Venue venue
+    List<Referee> referees
+    int squadSize
+     */
+    //Constructor, should probably have date, venue
+    public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
+        //date
+        //venue
     }
 
-    public String getHomeTeam() {
-        return this.homeTeam;
-    }
-
-    public String getAwayTeam() {
-        return this.awayTeam;
-    }
-
+    //Getters
     public String getId() {
         return this.id;
     }
 
-    public String getDate() {
-        return date;
+    public Team getHomeTeam() {
+        return this.homeTeam;
     }
 
-    public String getVenue() {
-        return venue;
+    public Team getAwayTeam() {
+        return this.awayTeam;
     }
 
-    public Boolean getCancel() {
-        return cancel;
+    public int getHomeScore() {
+        return this.homeScore;
     }
 
-    public Boolean getWasUpdated() {
-        return wasUpdated;
+    public int getAwayScore() {
+        return this.awayScore;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public Venue getVenue() {
+        return this.venue;
     }
 
-    public void setVenue(String venue) {
+    public LocalDateTime getKickoff() {
+        return this.kickoff;
+    }
+
+    public List<Referee> getReferees() {
+        return this.referees;
+    }
+
+    public List<MatchEvent> getMatchEvents() {
+        return this.matchEvents;
+    }
+
+    //Setters
+    public void setHomeScore(int homeScore) {
+        this.homeScore = homeScore;
+    }
+
+    public void setAwayScore(int awayScore) {
+        this.awayScore = awayScore;
+    }
+
+    public void setVenue(Venue venue) {
         this.venue = venue;
     }
 
-    public void setCancel(Boolean cancel) {
-        this.cancel = cancel;
+    ;
+
+    public void setKickoff(LocalDateTime kickoff) {
+        this.kickoff = kickoff;
     }
 
-    public void setWasUpdated(Boolean wasUpdated) {
-        this.wasUpdated = wasUpdated;
+    public void setReferees(List<Referee> referees) {
+        this.referees = referees;
     }
-
-    public void setLastUpdated(String lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
 }
