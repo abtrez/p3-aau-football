@@ -31,18 +31,18 @@ public class LeagueStatisticsController implements StatisticsController {
         return ResponseEntity.ok(leagueStats);
     }
 
-    @PostMapping("/add/league")
-    public ResponseEntity<LeagueStatistics> addLeagueStatistic(@RequestBody CreateLeagueStatisticsRequest request) {
-        LeagueStatistics savedLeagueStatistic = this.leagueStatsService.addLeagueStats(request.team(),
+    @PostMapping("/enroll/league-team")
+    public ResponseEntity<LeagueStatistics> enrollTeam(@RequestBody EnrollTeamDTO request) {
+        LeagueStatistics savedLeagueStatistic = this.leagueStatsService.enrollTeam(request.team(),
                 request.season(),
                 request.competitionId(),
-                request.matchesPlayed(),
-                request.won(),
-                request.drawn(),
-                request.lost(),
-                request.goalsFor(),
-                request.goalsAgainst(),
-                request.points()
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
         );
         return ResponseEntity.ok(savedLeagueStatistic);
     }
