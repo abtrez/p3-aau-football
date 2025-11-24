@@ -12,11 +12,10 @@ public class LeagueStatistics extends Statistics {
 
     @Id
     private String id;
-
     @DocumentReference
     private Team team;
-    private String season;
     private String competitionId;
+    private String season;
     private int matchesPlayed;
     private int won;
     private int drawn;
@@ -81,27 +80,27 @@ public class LeagueStatistics extends Statistics {
         return this.matchesPlayed;
     }
 
-    public int getWins() {
+    public int getWon() {
         return this.won;
     }
 
-    public void setWins(int wins) {
+    public void setWon(int wins) {
         this.won = wins;
     }
 
-    public int getDraws() {
+    public int getDrawn() {
         return this.drawn;
     }
 
-    public void setDraws(int draws) {
+    public void setDrawn(int draws) {
         this.drawn = draws;
     }
 
-    public int getLosses() {
+    public int getLost() {
         return this.lost;
     }
 
-    public void setLosses(int losses) {
+    public void setLost(int losses) {
         this.lost = losses;
     }
 

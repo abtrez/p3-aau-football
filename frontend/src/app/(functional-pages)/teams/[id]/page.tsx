@@ -1,6 +1,5 @@
 import NotFound from "@/app/not-found";
 import InfoItem from "@/components/statistics/InfoItem";
-import { TeamCardInterface } from "@/components/team/TeamCard";
 import TeamLogo from "@/components/team/TeamLogo";
 import { fetchTeamById } from "@/lib/fetchTeam";
 import { Team } from "@/lib/schemas/teamSchema";
@@ -24,8 +23,8 @@ export default async function Page({ params }: any) {
         <InfoItem label="Contact Person" value="John Doe" />
         <InfoItem label="Leader" value="John Doe" />
         <InfoItem label="Coach" value="Jane Doe" />
-        <InfoItem label="Established" value= {team.yearEstablished} />
-        <InfoItem label="Squad Size" value= {team.size} />
+        <InfoItem label="Established" value={team.yearEstablished} />
+        <InfoItem label="Squad Size" value={team.size} />
         <InfoItem label="Assistant" value="John Doe" />
       </div>
       <section className="rounded-2xl bg-white p-4 my-4">
@@ -33,7 +32,8 @@ export default async function Page({ params }: any) {
           Description
         </h3>
         <p className="text-sm leading-6 text-neutral-700">
-          This is the profile page from {team.name} representing football for {team.department}, with {team.size} members. 
+          This is the profile page from {team.name} representing football for{" "}
+          {team.department}, with {team.size} members.
         </p>
       </section>
       <section className="rounded-2xl bg-white p-4 my-4">

@@ -2,6 +2,7 @@ import LeagueTableHeader from "@/components/competition/league/LeagueTableHeader
 import LeagueTableRow from "@/components/competition/league/LeagueTableRow";
 import { fetchCompetitionById } from "@/lib/fetchCompetition";
 import { Competition } from "@/lib/schemas/competitionSchema";
+import { fetchLeagueStatistics } from "@/lib/fetchLeagueStatistics";
 
 const data = {
   position: 1,
@@ -14,9 +15,10 @@ const data = {
 
 export default async function Page({ params }: any) {
   const { id } = await params;
+  console.log(id);
   const competition: Competition = await fetchCompetitionById(id);
-
-  console.log(competition);
+  const { season } = competition;
+  const leagueStatistics = await fetchLeagueStatistics(id, season);
   return (
     <div>
       <h1 className="text-3xl text-center mb-3 border-b">AAU LIGA</h1>

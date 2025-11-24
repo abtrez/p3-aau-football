@@ -1,10 +1,12 @@
 import { z } from "zod";
+
 import { teamSchema } from "@/lib/schemas/teamSchema";
 
 export const leagueStatisticsSchema = z.object({
+  id: z.string(),
   team: teamSchema,
-  season: z.string(),
   competitionId: z.string(),
+  season: z.string(),
   matchesPlayed: z.number(),
   won: z.number(),
   drawn: z.number(),
@@ -14,4 +16,5 @@ export const leagueStatisticsSchema = z.object({
   points: z.number(),
 });
 
+export const leagueStatisticsArraySchema = z.array(leagueStatisticsSchema);
 export type LeagueStatistics = z.infer<typeof leagueStatisticsSchema>;

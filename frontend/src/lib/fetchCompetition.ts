@@ -8,7 +8,7 @@ import {
 } from "@/lib/schemas/competitionSchema";
 
 if (!BACKEND_URL) {
-  throw new Error("BACKEND_URI enviornment variable is not defined");
+  throw new Error("BACKEND_URI environment variable is not defined");
 }
 
 export async function fetchCompetitions(): Promise<Competition[]> {
