@@ -32,3 +32,30 @@ export async function fetchCompetitions(): Promise<Competition[]> {
   // Return validated competition data
   return result.data;
 }
+
+export async function fetchCompetitionById(
+  competitionId: string,
+): Promise<Competition> {
+  const res = await fetch(
+    `${BACKEND_URL}/api/competition/get/${competitionId}`,
+  );
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch competition ${competitionId}: ${res.status} ${res.statusText}`,
+    );
+  }
+  const json = await res.json();
+
+  // Validate returned data with Zod
+  const result = competitionSchema.safeParse(json);
+
+  if (!result.success) {
+    console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
+    throw new Error(
+      `Backend returned invalid team data for id ${competitionId}`,
+    );
+  }
+
+  // Return validated single team data
+  return result.data;
+}
