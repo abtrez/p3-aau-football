@@ -10,6 +10,7 @@ import { Person } from "@/lib/schemas/personSchema";
 import Divider from "@mui/material/Divider";
 import { fetchPersonsFromTeamId } from "@/lib/fetchPersonFromTeam";
 import { fetchPersonFromTeamIdByRole } from "@/lib/fetchPersonFromRoleAndTeam";
+import { fetchPersonById } from "@/lib/fetchPerson";
 
 export default async function Page({ params }: any) {
   const { id } = await params;
@@ -18,6 +19,11 @@ export default async function Page({ params }: any) {
   const leader: Person[] = await fetchPersonFromTeamIdByRole(id,"Leader");
   const coach: Person[] = await fetchPersonFromTeamIdByRole(id,"Coach");
 
+  //Fetch of the contact person 
+  let contactPerson : Person | null = null;
+  if (team.contactPerson) {
+    contactPerson = await fetchPersonById(team.contactPerson);
+  } 
 
   return (
     <div className="container mx-auto">
@@ -29,9 +35,9 @@ export default async function Page({ params }: any) {
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
-        <InfoItem label="Contact Person" value= {team.contactPerson || "N/A"}/>
-        <InfoItem label="Leader" value= {leader[0]?.firstName|| "N/A"} />
-        <InfoItem label="Coach" value= {coach[0]?.firstName||  "N/A"} />
+        <InfoItem label="Contact Person" value= {contactPerson ?`${contactPerson?.firstName} ${contactPerson?.lastName}` : "N/A"} />
+        <InfoItem label="Leader" value= {leader[0]?`${leader[0].firstName} ${leader[0].lastName}`:"N/A"} />
+        <InfoItem label="Coach" value= {coach[0]?`${coach[0].firstName} ${coach[0].lastName}`:"N/A"} />
         <InfoItem label="Established" value= {team.yearEstablished|| "N/A"} />
         <InfoItem label="Squad Size" value= {members.length|| "N/A"} />
         <InfoItem label="Assistant" value= "N/A"/>
