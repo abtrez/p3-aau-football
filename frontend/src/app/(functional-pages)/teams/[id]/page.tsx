@@ -15,8 +15,8 @@ export default async function Page({ params }: any) {
   const { id } = await params;
   const team: Team = await fetchTeamById(id);
   const members: Person[] = await fetchPersonsFromTeamId(id);
-  const leader: Person[] = await fetchPersonFromTeamIdByRole(id,"LEADER");
-  //const coach: Person[] = await fetchPersonsFromRoleAndTeamId(id,["COACH"]);
+  const leader: Person[] = await fetchPersonFromTeamIdByRole(id,"Leader");
+  const coach: Person[] = await fetchPersonFromTeamIdByRole(id,"Coach");
 
 
   return (
@@ -30,8 +30,8 @@ export default async function Page({ params }: any) {
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
         <InfoItem label="Contact Person" value= {team.contactPerson || "N/A"}/>
-        <InfoItem label="Leader" value= {/*leader[0]?.firstName|| */"N/A"} />
-        <InfoItem label="Coach" value= {/*coach[0]?.firstName|| */ "N/A"} />
+        <InfoItem label="Leader" value= {leader[0]?.firstName|| "N/A"} />
+        <InfoItem label="Coach" value= {coach[0]?.firstName||  "N/A"} />
         <InfoItem label="Established" value= {team.yearEstablished|| "N/A"} />
         <InfoItem label="Squad Size" value= {members.length|| "N/A"} />
         <InfoItem label="Assistant" value= "N/A"/>

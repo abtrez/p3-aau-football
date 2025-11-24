@@ -56,12 +56,12 @@ public class PersonService {
         return this.personRepository.findByRoleName(roleName);
     }
 
-    public List<Person> getPersonsFromTeam(String teamId) {
+    public List<Person> getPersonsByTeamId(String teamId) {
         return personRepository.findByTeamId(teamId);
     }
 
     public List<Person> getPersonFromTeamIdAndRole(String teamId, String roleName){
-        return personRepository.findByTeamIdAndRole(teamId, roleName);
+        return personRepository.findByTeamIdAndRoles_Name(teamId, roleName);
     }
 
     public ResponseEntity<Person> addTeamToPerson(String personId, String teamId) {

@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import p3.group.p3_aau_football.role.Role;
-import p3.group.p3_aau_football.team.Team;
 
 @Document(collection = "persons")
 public class Person {
@@ -21,6 +20,7 @@ public class Person {
 
     private List<Role> roles;
 
+    @Field("teamId")
     private String teamId;
 
     public Person() {

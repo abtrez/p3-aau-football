@@ -15,5 +15,5 @@ public interface PersonRepository extends MongoRepository<Person, String> {
     List<Person> findByTeamId(String teamId);
 
     //fetching persons from a team with a special role
-    List<Person> findByTeamIdAndRole(String teamId, String roleName);
+    List<Person> findByTeamIdAndRoles_Name(String teamId, String roleName);
 }

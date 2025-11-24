@@ -18,7 +18,19 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 
 public abstract class Role {
+    private String name;
 
-    public Role() {
+    public Role() {}
+
+    public Role(String Name){
+        this.name = name;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 }
