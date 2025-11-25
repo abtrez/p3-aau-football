@@ -56,7 +56,12 @@ export default async function Page({ params }: any) {
           Members
         </h3>
         {members.map((m)=> (
-          <div key={m.id}>{m.firstName} {m.lastName}</div>
+          <div key={m.id} className="nb-1">
+          <span className="font-medium">{m.firstName} {m.lastName}</span>
+          {m.roles && m.roles.length > 0 && (
+            <span className="text-sm text-neutral-600"> — {m.roles.map(r => r.name).join(", ")}</span>
+          )}
+        </div>
         ))}
       </section>
     </div>
