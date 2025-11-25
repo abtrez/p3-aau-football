@@ -4,6 +4,7 @@ public record AddPlayerStatisticsDTO(
     String personId,
     int wins,
     int losses,
+    int draws,
     int goals,
     int assists,
     int yellowCards,

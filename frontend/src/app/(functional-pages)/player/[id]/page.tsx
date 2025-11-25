@@ -11,6 +11,7 @@ import { useParams } from "next/navigation";
 import { fetchPersonById } from "@/lib/fetchPerson";
 import { fetchTeamById } from "@/lib/fetchTeam";
 import { fetchPlayerStatistics } from "@/lib/fetchPlayerStatistics";
+import { aggregatePlayerStatistics } from "@/lib/aggregatePlayerStatistics";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -23,6 +24,16 @@ export default function Page() {
   const [player, setPlayer] = useState<any | null>(null);
   const [team, setTeam] = useState<any | null>(null);
   const [stats, setStats] = useState<any | null>(null);
+  const [aggregatedStats, setAggregatedStats] = useState<{
+    wins: number;
+    losses: number;
+    draws: number;
+    goals: number;
+    assists: number;
+    yellowCards: number;
+    redCards: number;
+    matchesPlayed: number;
+  } | null>(null);
 
   useEffect(() => {
     if (!idParam) return;
@@ -33,7 +44,9 @@ export default function Page() {
 
         fetchPlayerStatistics(idParam, "2024/25", "69259efacd3900a562867eb0").then((statsData) => {
           setStats(statsData);
-          console.log(statsData);
+          const totals = aggregatePlayerStatistics(statsData);
+          setAggregatedStats(totals);
+          console.log(statsData, totals);
         });
 
         if (personData.team) {
@@ -67,14 +80,17 @@ export default function Page() {
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
-        <InfoItem label="Wins" value={67} />
-        <InfoItem label="Losses" value={0} />
-        <InfoItem label="Draws" value={0} />
-        <InfoItem label="Played" value={67} />
+        <InfoItem label="Wins" value={aggregatedStats?.wins ?? 0} />
+        <InfoItem label="Losses" value={aggregatedStats?.losses ?? 0} />
+        <InfoItem label="Draws" value={aggregatedStats?.draws ?? 0} />
+        <InfoItem label="Played" value={aggregatedStats?.matchesPlayed ?? 0} />
         <InfoItem label="Win Percentage" value={`${100}%`} />
-        <InfoItem label="Goals" value={452} />
-        <InfoItem label="Assists" value={231} />
-        <InfoItem label="Discipline" value={`Y (${768}) R (${1296})`} />
+        <InfoItem label="Goals" value={aggregatedStats?.goals ?? 0} />
+        <InfoItem label="Assists" value={aggregatedStats?.assists ?? 0} />
+        <InfoItem
+          label="Discipline"
+          value={`Y (${aggregatedStats?.yellowCards ?? 0}) R (${aggregatedStats?.redCards ?? 0})`}
+        />
         <InfoItem label="Shirt Number" value={100} />
         <InfoItem label="Position" value={"GK"} />
         <InfoItem label="Age" value={89} />

@@ -31,6 +31,7 @@ public class PlayerStatisticsController implements StatisticsController {
                 request.personId(),
                 request.wins(),
                 request.losses(),
+                request.draws(),
                 request.goals(),
                 request.assists(),
                 request.yellowCards(),
