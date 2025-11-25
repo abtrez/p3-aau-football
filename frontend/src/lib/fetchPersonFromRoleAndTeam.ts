@@ -15,6 +15,7 @@ export async function fetchPersonFromTeamIdByRole(teamId : string, roleName : st
     );
   }
   const json = await res.json();
+<<<<<<< Updated upstream
  
   const personsArraySchema = z.array(personSchema);
   const result = personsArraySchema.safeParse(json);
@@ -25,3 +26,18 @@ export async function fetchPersonFromTeamIdByRole(teamId : string, roleName : st
     }
     return result.data;
  }
+=======
+    
+      // Validate returned data with Zod
+      const personsArraySchema = z.array(personSchema);
+      const result = personsArraySchema.safeParse(json);
+    
+      if (!result.success) {
+        console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
+        throw new Error(`Backend returned invalid Person data for team id ${teamId}`);
+      }
+    
+      // Return validated members from team with role
+      return result.data;
+    }
+>>>>>>> Stashed changes
