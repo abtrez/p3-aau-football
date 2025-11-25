@@ -41,7 +41,7 @@ export default async function Page({ params }: any) {
         <InfoItem label="Coach" value= {coach.length>0? coach.map(c => `${c.firstName} ${c.lastName}`).join(", ") :"N/A"} />
         <InfoItem label="Established" value= {team.yearEstablished|| "N/A"} />
         <InfoItem label="Squad Size" value= {members.length|| "N/A"} />
-        <InfoItem label="Assistant" value= "N/A"/>
+        <InfoItem label="Assistant" value= {coach.length>0?`${coach[1].firstName} ${coach[1].lastName}`:"N/A"}/>
       </div>
       <section className="rounded-2xl bg-white p-4 my-4">
         <h3 className="text-base font-semibold text-neutral-900 mb-1">
