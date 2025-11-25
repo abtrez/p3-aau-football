@@ -23,7 +23,7 @@ export default function TeamCard({ team }: TeamCardProps) {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-500">EST. {team.yearEstablished}</span>
-            <span className="text-gray-500">{team.size} members</span>
+            <span className="text-gray-500">5 members</span>
           </div>
         </div>
       </div>

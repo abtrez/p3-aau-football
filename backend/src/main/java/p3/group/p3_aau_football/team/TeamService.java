@@ -1,5 +1,7 @@
 package p3.group.p3_aau_football.team;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
