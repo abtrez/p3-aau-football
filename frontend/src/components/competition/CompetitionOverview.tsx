@@ -9,7 +9,7 @@ export default function CompetitionOverview({
   competitions,
 }: CompetitionOverviewProps) {
   return (
-    <div className="flex flex-col gap-4 justify-center items-center">
+    <div className="flex flex-col gap-4 justify-center items-stretch sm:items-center">
       {competitions.map((c) => (
         <CompetitionCard key={c.id} competition={c} />
       ))}
