@@ -17,6 +17,11 @@ public class PlayerStatistics extends Statistics {
     private String competitionId;
     private String season;
 
+    public PlayerStatistics(String personId, int goals, int assists, int yellowCards, int redCards, int matchesPlayed,
+                            String competitionId, String season) {
+        super();
+    }
+
     // setters
     public void setGoals(int goals) {
         this.goals = goals;

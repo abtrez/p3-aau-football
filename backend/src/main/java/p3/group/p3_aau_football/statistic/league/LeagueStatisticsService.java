@@ -29,7 +29,7 @@ public class LeagueStatisticsService implements StatisticsService {
                     lost, goalsFor, goalsAgainst, points);
             return this.leagueStatisticsRepository.save(insertedLeagueStatistics);
         } else {
-            String msg = String.format("A document with the same Team, Season and Competition already exists in the collection: Team: %s, Season: %s, CompetitionId: %s", team.getId(), season, competitionId);
+            String msg = String.format("A document with the same Team, Season and Competition already exists in the collection: Team: %s, Season: %s, CompetitionId: %s", team, season, competitionId);
             throw new DocumentAlreadyExistsException(msg);
         }
 

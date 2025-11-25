@@ -15,7 +15,7 @@ export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEvent
       <div className="grid grid-cols-[1fr_auto_1fr] items-center">
 
           {/*left */}
-        <div className="justify-self-start">
+        <div className="text-center">
           <p>{isHomeTeamEvent ? text : minuteLabel}</p>
         </div>
 
@@ -27,7 +27,7 @@ export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEvent
         </div>
 
           {/*right */}
-        <div className="justify-self-end">
+        <div className="text-center">
             <p>{isHomeTeamEvent ? minuteLabel : text}</p>
         </div>
       </div>
