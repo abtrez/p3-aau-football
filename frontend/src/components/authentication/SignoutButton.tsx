@@ -12,6 +12,7 @@ export function SignoutButton() {
         await authClient.signOut();
         redirect("/sign-in");
       }}
+      className="float-right"
     >
       Signout
     </Button>

@@ -15,12 +15,7 @@ export default async function Page() {
 
   return (
     <div>
-      <h1>
-        Welcome {session.user.name} Team: {session.user.team} Admin:{" "}
-        {session.user.admin.toString()} OBJECT:
-        {JSON.stringify(session.user)}
-      </h1>
-      <SignoutButton />
+      <h1>asdjiasjdisai</h1>
     </div>
   );
 }
