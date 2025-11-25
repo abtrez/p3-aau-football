@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth/auth-client";
 import { Team } from "@/lib/schemas/teamSchema";
 import {
   FormControl,
@@ -11,40 +12,85 @@ import {
   Paper,
   Select,
   MenuItem,
+  Alert,
 } from "@mui/material";
 import { useState } from "react";
 
 export function SignUpForm({ teams }: { teams: Team[] }) {
   const [currentTeam, setCurrentTeam] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [userCreated, setUserCreated] = useState(false);
 
   return (
-    <Paper elevation={3} className="w-100 h-100 p-10">
+    <Paper elevation={3} className="w-95 h-110 p-10">
       <form
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
+          setLoading(true);
+          setErrorMessage("");
+          setUserCreated(false);
 
+          const formValues = event.currentTarget;
           const formData = new FormData(event.currentTarget);
 
-          console.log({
-            email: formData.get("email"),
-            password: formData.get("password"),
-            teamId: formData.get("team"),
+          const email = formData.get("email")?.toString();
+          const password = formData.get("password")?.toString();
+          const team = formData.get("team")?.toString();
+
+          if (!email || !password || !team) {
+            throw new Error("No correct values");
+          }
+
+          const response = await authClient.signUp.email({
+            name: email,
+            email: email,
+            password: password,
+            team: team,
           });
+
+          if (response.error) {
+            if (response.error.message) {
+              setErrorMessage(response.error.message);
+            } else {
+              setErrorMessage("Error creating user");
+            }
+          } else {
+            setUserCreated(true);
+            formValues.reset();
+            setCurrentTeam("");
+          }
+
+          setLoading(false);
         }}
       >
         <FormGroup className="gap-5">
           <Typography variant="h4" className="text-center">
             Create new user
           </Typography>
-          <FormControl>
+          <Alert
+            severity="error"
+            className="text-center"
+            hidden={errorMessage == ""}
+          >
+            {errorMessage}
+          </Alert>
+          <Alert
+            severity="success"
+            className="text-center"
+            hidden={userCreated == false}
+          >
+            User created
+          </Alert>
+          <FormControl required>
             <InputLabel htmlFor="email">Email address</InputLabel>
-            <Input id="email" name="email" />
+            <Input id="email" name="email" type="email" />
           </FormControl>
-          <FormControl>
+          <FormControl required>
             <InputLabel htmlFor="password">Password</InputLabel>
             <Input id="password" name="password" type="password" />
           </FormControl>
-          <FormControl>
+          <FormControl required>
             <InputLabel htmlFor="team">Team</InputLabel>
             <Select
               id="team"
@@ -65,7 +111,7 @@ export function SignUpForm({ teams }: { teams: Team[] }) {
             </Select>
           </FormControl>
           <FormControl>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" loading={loading}>
               Create User
             </Button>
           </FormControl>
