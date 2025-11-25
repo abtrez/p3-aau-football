@@ -55,7 +55,7 @@ public class MatchController {
 
     /// MATCH EVENTS
     //Works, potentially request type change
-    @PostMapping("/{matchId}/events")
+    @PostMapping("/add/{matchId}/events")
     public ResponseEntity<Match> createMatchEvents(
             @PathVariable("matchId") String matchId,
             @RequestBody List<MatchEventRequestDTO> matchEventRequestDTOS // deserialize/parse the req body (json formatted array) to a list of MatchEventsReqDtos //TODO: bean validation @Valid
@@ -69,7 +69,7 @@ public class MatchController {
         }
     }
 
-    @DeleteMapping("/{matchId}/events/{eventId}")
+    @DeleteMapping("/remove/{matchId}/events/{eventId}")
     public ResponseEntity<Match> deleteMatchEvent(
             @PathVariable("matchId") String matchId,
             @PathVariable("eventId") String eventId
@@ -84,7 +84,7 @@ public class MatchController {
     }
 
     // Considering patch mapping, however less complexity
-    @PutMapping("/{matchId}/events/{eventId}")
+    @PutMapping("/update/{matchId}/events/{eventId}")
     public ResponseEntity<Match> updateMatchEvent(
             @PathVariable("matchId") String matchId,
             @PathVariable("eventId") String eventId,
