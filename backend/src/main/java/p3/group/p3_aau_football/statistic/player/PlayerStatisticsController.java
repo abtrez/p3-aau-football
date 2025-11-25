@@ -14,10 +14,11 @@ public class PlayerStatisticsController implements StatisticsController {
         this.playerStatisticsService = playerStatsService;
     }
 
-    //the most important is per season & league
+    // the most important is per season & league
     @GetMapping("/get/player")
-    public PlayerStatistics getPlayerStats(@RequestParam String id, @RequestParam String season, @RequestParam String competitionId) {
-        return playerStatisticsService.getPlayerStats(id, season, competitionId);
+    public PlayerStatistics getPlayerStats(@RequestParam String personId, @RequestParam String season,
+            @RequestParam String competitionId) {
+        return playerStatisticsService.getPlayerStats(personId, season, competitionId);
     }
 
     @PostMapping("/add/player")
@@ -30,10 +31,8 @@ public class PlayerStatisticsController implements StatisticsController {
                 request.redCards(),
                 request.matchesPlayed(),
                 request.competitionId(),
-                request.season()
-        );
+                request.season());
         return ResponseEntity.ok(savedPlayerStatistics);
     }
-
 
 }

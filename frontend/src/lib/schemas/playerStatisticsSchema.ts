@@ -12,5 +12,5 @@ export const playerStatisticsSchema = z.object({
     season: z.string(),
 });
 
-export const playertatisticsArraySchema = z.array(playerStatisticsSchema);
+export const playerStatisticsArraySchema = z.array(playerStatisticsSchema);
 export type PlayerStatistics = z.infer<typeof playerStatisticsSchema>;
