@@ -3,10 +3,12 @@ package p3.group.p3_aau_football.match;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
-
+import p3.group.p3_aau_football.match.event.MatchEvent;
 import p3.group.p3_aau_football.role.Referee;
 import p3.group.p3_aau_football.team.Team;
 
@@ -17,7 +19,7 @@ public class Match {
     private String id;
 
     private String season;
-    private String competition;
+    private String competitionId;
 
     @DocumentReference
     private final Team homeTeam;
@@ -89,8 +91,8 @@ public class Match {
         return this.season;
     }
 
-    public String getCompetition() {
-        return this.competition;
+    public String getCompetitionId() {
+        return this.competitionId;
     }
 
     //Setters
@@ -120,7 +122,7 @@ public class Match {
         this.season = season;
     }
 
-    public void setCompetition(String competition) {
-        this.competition = competition;
+    public void setCompetition(String competitionId) {
+        this.competitionId = competitionId;
     }
 }

@@ -5,12 +5,13 @@ if (!BACKEND_URL) {
   throw new Error("BACKEND_URI environment variable is not defined");
 }
 
-export async function fetchPersonsFromTeamId(teamId : string) {
+export async function fetchPersonsFromTeamId(teamId: string) {
   const res = await fetch(`${BACKEND_URL}/api/person/getFromTeam/${teamId}`);
   if (!res.ok) {
     throw new Error(
       `Failed to fetch persons from team ${teamId}: ${res.status} ${res.statusText}`
     );
   }
+  // TODO Safeparse with Zod before returning
   return res.json();
 }
