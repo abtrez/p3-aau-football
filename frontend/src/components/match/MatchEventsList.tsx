@@ -1,5 +1,5 @@
 import MatchEventRow from "./MatchEventRow";
-import {MatchEvent} from "@/lib/schemas/matchSchema";
+import {MatchEvent} from "@/lib/schemas/matchEventSchema";
 
 interface MatchEventsListProps {
     matchEvents: MatchEvent[] | null | undefined;

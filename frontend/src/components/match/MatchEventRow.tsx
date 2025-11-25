@@ -1,5 +1,6 @@
 import TeamBadge from "@/components/team/TeamBadge";
-import {MatchEvent} from "@/lib/schemas/matchSchema";
+import {MatchEvent} from "@/lib/schemas/matchEventSchema";
+import MatchEventSide from "@/components/match/MatchEventSide";
 
 export interface MatchEventRowProps {
   matchEvent: MatchEvent;
@@ -10,14 +11,15 @@ export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEvent
     const minuteLabel = matchEvent.minute != null ? `${matchEvent.minute}'` : "";
     const text = `${matchEvent.type} ${matchEvent.teamId}`;
 
+    const leftContent = isHomeTeamEvent ? text : minuteLabel;
+    const rightContent = isHomeTeamEvent ? minuteLabel : text;
+
+
     return (
     <div className=" p-4">
       <div className="grid grid-cols-[1fr_auto_1fr] items-center">
-
           {/*left */}
-        <div className="text-center">
-          <p>{isHomeTeamEvent ? text : minuteLabel}</p>
-        </div>
+        <MatchEventSide label={leftContent}/>
 
           {/*icon */}
         <div className="flex flex-col items-center justify-center gap-1 text-gray-500">
@@ -26,10 +28,8 @@ export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEvent
           </span>
         </div>
 
-          {/*right */}
-        <div className="text-center">
-            <p>{isHomeTeamEvent ? minuteLabel : text}</p>
-        </div>
+          {/*right make MatchEventInfo component*/}
+        <MatchEventSide label={rightContent}/>
       </div>
     </div>
   );
