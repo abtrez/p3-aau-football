@@ -16,20 +16,6 @@ export async function fetchPersonsFromTeamId(teamId: string)  {
       `Failed to fetch persons from team ${teamId}: ${res.status} ${res.statusText}`
     );
   }
-<<<<<<< Updated upstream
-  const json = await res.json();
-
-  const personsArraySchema = z.array(personSchema);
-  const result = personsArraySchema.safeParse(json);
-
-  if (!result.success) {
-    console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
-    throw new Error(`Backend returned invalid Person data from team ${teamId}`);
-  }
-  return result.data;
-
-}
-=======
    const json = await res.json();
   
     // Validate returned data with Zod
