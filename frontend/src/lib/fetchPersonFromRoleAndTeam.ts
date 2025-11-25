@@ -1,5 +1,7 @@
 "use server";
 const BACKEND_URL = process.env.BACKEND_URI || "https://example.com/mock-api";
+import { personSchema } from "@/lib/schemas/personSchema";
+import { z } from "zod";
 
 if (!BACKEND_URL) {
   throw new Error("BACKEND_URI environment variable is not defined");
@@ -12,5 +14,14 @@ export async function fetchPersonFromTeamIdByRole(teamId : string, roleName : st
       `Failed to fetch persons from team ${teamId} with team role ${roleName}: ${res.status} ${res.statusText}`
     );
   }
-  return res.json();
-}
+  const json = await res.json();
+ 
+  const personsArraySchema = z.array(personSchema);
+  const result = personsArraySchema.safeParse(json);
+ 
+   if (!result.success) {
+      console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
+      throw new Error(`Backend returned invalid Person data from team ${teamId} and Role${roleName}`);
+    }
+    return result.data;
+ }

@@ -1,4 +1,8 @@
 "use server";
+
+import { personSchema } from "@/lib/schemas/personSchema";
+import { z } from "zod";
+
 const BACKEND_URL = process.env.BACKEND_URI || "https://example.com/mock-api";
 
 if (!BACKEND_URL) {
@@ -12,6 +16,15 @@ export async function fetchPersonsFromTeamId(teamId: string) {
       `Failed to fetch persons from team ${teamId}: ${res.status} ${res.statusText}`
     );
   }
-  // TODO Safeparse with Zod before returning
-  return res.json();
+  const json = await res.json();
+
+  const personsArraySchema = z.array(personSchema);
+  const result = personsArraySchema.safeParse(json);
+
+  if (!result.success) {
+    console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
+    throw new Error(`Backend returned invalid Person data from team ${teamId}`);
+  }
+  return result.data;
+
 }
