@@ -17,7 +17,10 @@ public class PlayerStatisticsService implements StatisticsService {
                 .orElseThrow(() -> new PlayerStatisticsNotFoundException(String.format("A Player Statistics Document with ID: %s does not exist in the database", id)));
     }
 
-    public PlayerStatistics addPlayerStatistics() {
-        return new PlayerStatistics();
+    public PlayerStatistics addPlayerStatistics(String personId, int goals, int assists, int yellowCards, int redCards
+            , int matchesPlayed, String competitionId, String season) {
+        /// TODO: add exists check to avoid duplication in DB
+        return this.playerStatisticsRepository.save(new PlayerStatistics(personId, goals, assists, yellowCards, redCards
+                , matchesPlayed, competitionId, season));
     }
 }

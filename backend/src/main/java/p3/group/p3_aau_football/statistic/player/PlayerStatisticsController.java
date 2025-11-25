@@ -22,7 +22,16 @@ public class PlayerStatisticsController implements StatisticsController {
 
     @PostMapping("/add/player")
     public ResponseEntity<PlayerStatistics> addPlayerStats(@RequestBody AddPlayerStatisticsDTO request) {
-        PlayerStatistics savedPlayerStatistics = this.playerStatisticsService.addPlayerStatistics();
+        PlayerStatistics savedPlayerStatistics = this.playerStatisticsService.addPlayerStatistics(
+                request.personId(),
+                request.goals(),
+                request.assists(),
+                request.yellowCards(),
+                request.redCards(),
+                request.matchesPlayed(),
+                request.competitionId(),
+                request.season()
+        );
         return ResponseEntity.ok(savedPlayerStatistics);
     }
 
