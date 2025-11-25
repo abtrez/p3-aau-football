@@ -59,7 +59,7 @@ export default async function Page({ params }: any) {
           <div key={m.id} className="nb-1">
           <span className="font-medium">{m.firstName} {m.lastName}</span>
           {m.roles && m.roles.length > 0 && (
-            <span className="text-sm text-neutral-600"> — {m.roles.map(r => r.name).join(", ")}</span>
+            <span className="text-sm text-neutral-600"> — {m.roles.map(r => r.name).join(",")}</span>
           )}
         </div>
         ))}
