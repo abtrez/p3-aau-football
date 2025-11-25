@@ -18,8 +18,15 @@ public class PlayerStatistics extends Statistics {
     private String season;
 
     public PlayerStatistics(String personId, int goals, int assists, int yellowCards, int redCards, int matchesPlayed,
-                            String competitionId, String season) {
-        super();
+            String competitionId, String season) {
+        this.personId = personId;
+        this.goals = goals;
+        this.assists = assists;
+        this.yellowCards = yellowCards;
+        this.redCards = redCards;
+        this.matchesPlayed = matchesPlayed;
+        this.competitionId = competitionId;
+        this.season = season;
     }
 
     // setters
