@@ -16,15 +16,12 @@ export default function Page() {
   }
 
   if (response.data && response.data.session) {
-    if (response.data.user.admin) {
-      redirect("/admin");
-    }
-    redirect("/leader");
+    redirect("/sign-in/pending");
   }
 
   return (
     <SignInPage
-      signIn={(_providers, formData) => signIn(formData, "/admin")}
+      signIn={(_providers, formData) => signIn(formData)}
       providers={providers}
       slotProps={{
         emailField: { autoFocus: false },
