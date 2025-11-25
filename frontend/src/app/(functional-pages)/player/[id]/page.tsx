@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 
 import { fetchPersonById } from "@/lib/fetchPerson";
 import { fetchTeamById } from "@/lib/fetchTeam";
+import { fetchPlayerStatistics } from "@/lib/fetchPlayerStatistics";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -21,6 +22,7 @@ export default function Page() {
 
   const [player, setPlayer] = useState<any | null>(null);
   const [team, setTeam] = useState<any | null>(null);
+  const [stats, setStats] = useState<any | null>(null);
 
   useEffect(() => {
     if (!idParam) return;
@@ -28,6 +30,12 @@ export default function Page() {
     fetchPersonById(idParam)
       .then((personData) => {
         setPlayer(personData);
+
+        fetchPlayerStatistics(idParam, "2024/25", "69259efacd3900a562867eb0").then((statsData) => {
+          setStats(statsData);
+          console.log(statsData);
+        });
+
         if (personData.team) {
           return fetchTeamById(personData.team);
         } else {
@@ -39,6 +47,7 @@ export default function Page() {
       })
       .catch((err) => console.error(err));
   }, [idParam]);
+
 
 
   if (player == null) {

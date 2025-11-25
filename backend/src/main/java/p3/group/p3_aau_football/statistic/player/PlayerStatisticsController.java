@@ -1,5 +1,7 @@
 package p3.group.p3_aau_football.statistic.player;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import p3.group.p3_aau_football.statistic.common.StatisticsController;
@@ -16,7 +18,9 @@ public class PlayerStatisticsController implements StatisticsController {
 
     // the most important is per season & league
     @GetMapping("/get/player")
-    public PlayerStatistics getPlayerStats(@RequestParam String personId, @RequestParam String season,
+    public List<PlayerStatistics> getPlayerStats(
+            @RequestParam String personId,
+            @RequestParam String season,
             @RequestParam String competitionId) {
         return playerStatisticsService.getPlayerStats(personId, season, competitionId);
     }
@@ -25,6 +29,8 @@ public class PlayerStatisticsController implements StatisticsController {
     public ResponseEntity<PlayerStatistics> addPlayerStats(@RequestBody AddPlayerStatisticsDTO request) {
         PlayerStatistics savedPlayerStatistics = this.playerStatisticsService.addPlayerStatistics(
                 request.personId(),
+                request.wins(),
+                request.losses(),
                 request.goals(),
                 request.assists(),
                 request.yellowCards(),

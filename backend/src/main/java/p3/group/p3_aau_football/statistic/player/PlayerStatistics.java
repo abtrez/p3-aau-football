@@ -9,6 +9,8 @@ public class PlayerStatistics extends Statistics {
     @Id
     private String id;
     private String personId;
+    private int wins;
+    private int losses;
     private int goals;
     private int assists;
     private int yellowCards;
@@ -17,9 +19,12 @@ public class PlayerStatistics extends Statistics {
     private String competitionId;
     private String season;
 
-    public PlayerStatistics(String personId, int goals, int assists, int yellowCards, int redCards, int matchesPlayed,
+    public PlayerStatistics(String personId, int wins, int losses, int goals, int assists, int yellowCards,
+            int redCards, int matchesPlayed,
             String competitionId, String season) {
         this.personId = personId;
+        this.wins = wins;
+        this.losses = losses;
         this.goals = goals;
         this.assists = assists;
         this.yellowCards = yellowCards;
@@ -30,6 +35,14 @@ public class PlayerStatistics extends Statistics {
     }
 
     // setters
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
     public void setGoals(int goals) {
         this.goals = goals;
     }
@@ -63,6 +76,14 @@ public class PlayerStatistics extends Statistics {
     }
 
     // getters
+    public int getWins() {
+        return this.wins;
+    }
+
+    public int getLosses() {
+        return this.losses;
+    }
+
     public String getId() {
         return this.id;
     }

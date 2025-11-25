@@ -13,8 +13,8 @@ if (!BACKEND_URL) {
 
 export async function fetchPlayerStatistics(
     personId: string,
-    competitionId: string,
     season: string,
+    competitionId: string,
 ): Promise<PlayerStatistics[]> {
     const url =
         `${BACKEND_URL}/api/statistics/get/player` +
@@ -28,6 +28,7 @@ export async function fetchPlayerStatistics(
             `Failed to fetch player statistics: ${res.status} ${res.statusText}`,
         );
     }
+
     const json = await res.json();
 
     // Validate returned data with Zod
@@ -36,9 +37,10 @@ export async function fetchPlayerStatistics(
     if (!result.success) {
         console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
         throw new Error(
-            `Backend returned invalid player statistics data to competition: ${competitionId}`,
+            `Backend returned invalid player statistics data for competition: ${competitionId}`,
         );
     }
-    // Return validated player statistics data
+
     return result.data;
 }
+

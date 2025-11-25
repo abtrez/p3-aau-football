@@ -7,7 +7,7 @@ export const playerStatisticsSchema = z.object({
     assists: z.number(),
     yellowCards: z.number(),
     redCards: z.number(),
-    matchesPlayer: z.number(),
+    matchesPlayed: z.number(),
     competitionId: z.string(),
     season: z.string(),
 });
