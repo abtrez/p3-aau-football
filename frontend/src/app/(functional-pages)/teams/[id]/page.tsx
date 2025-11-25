@@ -33,6 +33,7 @@ export default async function Page({ params }: any) {
           {team.name}
         </h1>
       </div>
+      //TODO display multiple leader or coachs
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
         <InfoItem label="Contact Person" value= {contactPerson ?`${contactPerson?.firstName} ${contactPerson?.lastName}` : "N/A"} />
