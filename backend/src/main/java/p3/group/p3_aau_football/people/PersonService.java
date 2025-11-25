@@ -52,10 +52,6 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Optional<Person> findByRoleName(String roleName) {
-        return this.personRepository.findByRoleName(roleName);
-    }
-
     public List<Person> getPersonsByTeamId(String teamId) {
         return personRepository.findByTeamId(teamId);
     }
