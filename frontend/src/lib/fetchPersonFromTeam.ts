@@ -44,4 +44,3 @@ export async function fetchPersonsFromTeamId(teamId: string)  {
     // Return validated members from team 
     return result.data;
   }
->>>>>>> Stashed changes

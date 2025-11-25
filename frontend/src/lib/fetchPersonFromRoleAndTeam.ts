@@ -40,4 +40,3 @@ export async function fetchPersonFromTeamIdByRole(teamId : string, roleName : st
       // Return validated members from team with role
       return result.data;
     }
->>>>>>> Stashed changes
