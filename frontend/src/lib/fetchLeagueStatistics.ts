@@ -21,6 +21,12 @@ export async function fetchLeagueStatistics(
     `&competitionId=${encodeURIComponent(competitionId)}`;
 
   const res = await fetch(url);
+
+  // Simply return empty array if there is no league statistics on the competition
+  if (res.status == 404) {
+    return [];
+  }
+
   if (!res.ok) {
     throw new Error(
       `Failed to fetch competitions: ${res.status} ${res.statusText}`,

@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { personSchema } from "@/lib/schemas/personSchema";
+import { contactPersonSchema } from "@/lib/schemas/contactPersonSchema";
 // import { personSchema } from "@/lib/schemas/personSchema";
 
 // Single source of truth for what our team objects look like

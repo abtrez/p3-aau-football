@@ -3,12 +3,27 @@ import InfoItem from "@/components/statistics/InfoItem";
 import TeamLogo from "@/components/team/TeamLogo";
 import { fetchTeamById } from "@/lib/fetchTeam";
 import { Team } from "@/lib/schemas/teamSchema";
+import { Person } from "@/lib/schemas/personSchema";
+
+
 
 import Divider from "@mui/material/Divider";
+import { fetchPersonsFromTeamId } from "@/lib/fetchPersonFromTeam";
+import { fetchPersonFromTeamIdByRole } from "@/lib/fetchPersonFromRoleAndTeam";
+import { fetchPersonById } from "@/lib/fetchPerson";
 
 export default async function Page({ params }: any) {
   const { id } = await params;
   const team: Team = await fetchTeamById(id);
+  const members: Person[] = await fetchPersonsFromTeamId(id);
+  const leader: Person[] = await fetchPersonFromTeamIdByRole(id,"Leader");
+  const coach: Person[] = await fetchPersonFromTeamIdByRole(id,"Coach");
+
+  //Fetch of the contact person 
+  let contactPerson : Person | null = null;
+  if (team.contactPerson) {
+    contactPerson = await fetchPersonById(team.contactPerson);
+  } 
 
   return (
     <div className="container mx-auto">
@@ -20,27 +35,28 @@ export default async function Page({ params }: any) {
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
-        <InfoItem label="Contact Person" value="John Doe" />
-        <InfoItem label="Leader" value="John Doe" />
-        <InfoItem label="Coach" value="Jane Doe" />
-        <InfoItem label="Established" value={team.yearEstablished} />
-        <InfoItem label="Squad Size" value={team.size} />
-        <InfoItem label="Assistant" value="John Doe" />
+        <InfoItem label="Contact Person" value= {contactPerson ?`${contactPerson?.firstName} ${contactPerson?.lastName}` : "N/A"} />
+        <InfoItem label="Leader" value= {leader[0]?`${leader[0].firstName} ${leader[0].lastName}`:"N/A"} />
+        <InfoItem label="Coach" value= {coach[0]?`${coach[0].firstName} ${coach[0].lastName}`:"N/A"} />
+        <InfoItem label="Established" value= {team.yearEstablished|| "N/A"} />
+        <InfoItem label="Squad Size" value= {members.length|| "N/A"} />
+        <InfoItem label="Assistant" value= "N/A"/>
       </div>
       <section className="rounded-2xl bg-white p-4 my-4">
         <h3 className="text-base font-semibold text-neutral-900 mb-1">
           Description
         </h3>
         <p className="text-sm leading-6 text-neutral-700">
-          This is the profile page from {team.name} representing football for{" "}
-          {team.department}, with {team.size} members.
+          This is the profile page from {team.name} representing football for {team.department}, with {members.length} members. 
         </p>
       </section>
       <section className="rounded-2xl bg-white p-4 my-4">
         <h3 className="text-base font-semibold text-neutral-900 mb-1">
-          Players
+          Members
         </h3>
-        <p>{team.members}</p>
+        {members.map((m)=> (
+          <div key={m.id}>{m.firstName} {m.lastName}</div>
+        ))}
       </section>
     </div>
   );

@@ -7,6 +7,7 @@ public class Coach extends Role implements Permission {
     private Boolean isAssistant;
 
     public Coach() {
+        super("Coach");
     }
 
     public Coach(Boolean isAssistant) {

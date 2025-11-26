@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import p3.group.p3_aau_football.role.Player;
 import p3.group.p3_aau_football.role.Role;
-import p3.group.p3_aau_football.team.Team;
 
 @RestController // flags class, so it is ready for use by Spring MVC to handle web requests.
 @RequestMapping("/api/person")
@@ -35,6 +34,16 @@ public class PersonController {
     @GetMapping("/get/{id}")
     public Optional<Person> getPerson(@PathVariable("id") String id) {
         return personService.getPerson(id);
+    }
+
+    @GetMapping("/getFromTeam/{teamId}")
+    public List<Person> getPersonsFromTeam(@PathVariable("teamId") String teamId) {
+        return personService.getPersonsByTeamId(teamId);
+    }
+
+    @GetMapping("/getFromTeam/{teamId}/role/{roleName}")
+    public List<Person> getPersonFromTeamIdAndRole(@PathVariable String teamId, @PathVariable String roleName){
+        return personService.getPersonFromTeamIdAndRole(teamId, roleName);
     }
 
     @PostMapping("/add")
@@ -71,6 +80,7 @@ public class PersonController {
 
         return personService.addTeamToPerson(id, teamId);
     }
+
 
     /*
      * @PatchMapping("/{id}/edit")
