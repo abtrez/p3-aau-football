@@ -34,7 +34,7 @@ export async function fetchTeamById(teamId: string): Promise<Team> {
   const res = await fetch(`${BACKEND_URL}/api/team/get/${teamId}`);
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch team ${teamId}: ${res.status} ${res.statusText}`,
+      `Failed to fetch team ${teamId}: ${res.status} ${res.statusText}`
     );
   }
   const json = await res.json();
@@ -49,4 +49,52 @@ export async function fetchTeamById(teamId: string): Promise<Team> {
 
   // Return validated single team data
   return result.data;
+}
+
+export async function addTeam(
+  name: string,
+  abbreviation: string,
+  yearEstablished: number,
+  department: string,
+  studyPrograms: string[],
+  contactPerson: string
+) {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: name,
+      abbreviation: abbreviation,
+      yearEstablished: yearEstablished,
+      department: department,
+      studyPrograms: studyPrograms,
+      contactPerson: contactPerson,
+    }),
+  };
+
+  const res = await fetch(`${BACKEND_URL}/api/team/add`, options);
+
+  if (!res.ok) {
+    return {
+      result: null,
+      error: `Failed to add team: ${res.status} ${res.statusText}`,
+    };
+  }
+
+  const json = await res.json();
+
+  // Validate returned json with Zod
+  const result = teamSchema.safeParse(json);
+
+  if (!result.success) {
+    return {
+      result: null,
+      error: "Backend returned invalid team data",
+    };
+  }
+
+  // Return status code and state of response
+  return { result: result.data, error: null };
 }

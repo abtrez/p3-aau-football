@@ -21,8 +21,8 @@ export default async function Page() {
       <Button variant="contained" href="/admin/create-competition">
         Add competition
       </Button>
-      <Button variant="contained" href="/admin/create-kresten">
-        Add kresten
+      <Button variant="contained" href="/admin/create-team">
+        Add team
       </Button>
     </div>
   );

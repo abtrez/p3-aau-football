@@ -74,7 +74,7 @@ export async function addCompetition(name: string, season: string) {
   if (!res.ok) {
     return {
       result: null,
-      error: `Failed to add competitions: ${res.status} ${res.statusText}`,
+      error: `Failed to add competition: ${res.status} ${res.statusText}`,
     };
   }
 
@@ -86,7 +86,7 @@ export async function addCompetition(name: string, season: string) {
   if (!result.success) {
     return {
       result: null,
-      error: "Backend returned invalid competitions data",
+      error: "Backend returned invalid competition data",
     };
   }
 
