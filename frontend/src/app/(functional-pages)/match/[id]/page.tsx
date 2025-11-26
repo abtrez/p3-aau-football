@@ -19,7 +19,8 @@ export default async function Page({ params }: any) {
 
 
       <MatchEventsList
-          matchEvents={match.matchEvents}
+          matchId={match.id}
+          initialMatchEvents={match.matchEvents}
           homeTeamId = {match.homeTeam.id}
       />
     </div>

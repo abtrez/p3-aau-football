@@ -25,7 +25,7 @@ export const matchSchema = z.object({
   referees: z.array(refereeSchema).nullish(),
   homeScore: z.number(),
   awayScore: z.number(),
-  matchEvents: z.array(matchEventSchema).nullish(),
+  matchEvents: z.array(matchEventSchema),
 });
 
 export const matchesArraySchema = z.array(matchSchema);

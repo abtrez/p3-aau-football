@@ -1,13 +1,21 @@
 import TeamBadge from "@/components/team/TeamBadge";
 import {MatchEvent} from "@/lib/schemas/matchEventSchema";
-import MatchEventSide from "@/components/match/MatchEventSide";
+import MatchEventInfo from "@/components/match/MatchEventInfo";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export interface MatchEventRowProps {
   matchEvent: MatchEvent;
   isHomeTeamEvent: boolean;
+  onDelete: (eventId: string) => void;
 }
 
-export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEventRowProps) {
+export default function MatchEventRow({
+    matchEvent,
+    isHomeTeamEvent,
+    onDelete
+}: MatchEventRowProps) {
+
     const minuteLabel = matchEvent.minute != null ? `${matchEvent.minute}'` : "";
     const text = `${matchEvent.type} ${matchEvent.teamId}`;
 
@@ -19,7 +27,7 @@ export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEvent
     <div className=" p-4">
       <div className="grid grid-cols-[1fr_auto_1fr] items-center">
           {/*left */}
-        <MatchEventSide label={leftContent}/>
+        <MatchEventInfo label={leftContent}/>
 
           {/*icon */}
         <div className="flex flex-col items-center justify-center gap-1 text-gray-500">
@@ -29,7 +37,11 @@ export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEvent
         </div>
 
           {/*right make MatchEventInfo component*/}
-        <MatchEventSide label={rightContent}/>
+        <MatchEventInfo label={rightContent}/>
+
+        <IconButton aria-label="delete" onClick={() => onDelete("" + matchEvent.id)}>
+              <DeleteIcon />
+        </IconButton>
       </div>
     </div>
   );

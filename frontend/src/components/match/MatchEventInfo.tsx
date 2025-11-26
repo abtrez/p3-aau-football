@@ -5,7 +5,7 @@ interface MatchEventSideProps {
 }
 
 
-export default function MatchEventSide ({label }: MatchEventSideProps) {
+export default function MatchEventInfo ({label }: MatchEventSideProps) {
     return (
         <div className="text-center">
             <p>{label}</p>

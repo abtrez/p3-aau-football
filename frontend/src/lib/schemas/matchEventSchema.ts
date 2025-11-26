@@ -24,7 +24,8 @@ const cardMatchEventSchema = baseMatchEventSchema.extend({
     cardType: z.enum(["YELLOW_CARD", "RED_CARD"]),
 });
 
-/** MatchEvent schema representing all possible match events.
+/** Zod runtime validation logic
+ * MatchEvent schema representing all possible match events.
  * "type" argument is the discriminator, which zod uses to decide which
  * subtype schema to validate against. */
 export const matchEventSchema = z.discriminatedUnion("type", [
@@ -32,6 +33,7 @@ export const matchEventSchema = z.discriminatedUnion("type", [
     cardMatchEventSchema,
 ]);
 
+//Typescript t to use in React Components
 export type MatchEvent = z.infer<typeof matchEventSchema>;
 
 // Request Schemas: Defines what frontend should send to backend, used to validate user input
