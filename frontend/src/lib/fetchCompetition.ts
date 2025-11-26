@@ -1,5 +1,7 @@
 "use server";
-const BACKEND_URL = process.env.BACKEND_URI || "https://example.com/mock-api";
+const BACKEND_URL = process.env.BACKEND_URI;
+
+const isBuild = !!process.env.NEXT_PHASE;
 
 import {
   competitionsArraySchema,
@@ -7,11 +9,13 @@ import {
   competitionSchema,
 } from "@/lib/schemas/competitionSchema";
 
-if (!BACKEND_URL) {
+if (!BACKEND_URL && !isBuild) {
   throw new Error("BACKEND_URI environment variable is not defined");
 }
 
 export async function fetchCompetitions(): Promise<Competition[]> {
+  if (isBuild) return [];
+
   const res = await fetch(`${BACKEND_URL}/api/competition/get`);
   if (!res.ok) {
     throw new Error(

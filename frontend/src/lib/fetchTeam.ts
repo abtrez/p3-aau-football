@@ -1,5 +1,7 @@
 "use server";
-const BACKEND_URL = process.env.BACKEND_URI || "https://example.com/mock-api";
+const BACKEND_URL = process.env.BACKEND_URI;
+
+const isBuild = !!process.env.NEXT_PHASE;
 
 import {
   teamsArraySchema,
@@ -7,11 +9,12 @@ import {
   teamSchema,
 } from "@/lib/schemas/teamSchema";
 
-if (!BACKEND_URL) {
+if (!BACKEND_URL && !isBuild) {
   throw new Error("BACKEND_URI environment variable is not defined");
 }
 
 export async function fetchTeams(): Promise<Team[]> {
+  if (isBuild) return [];
   const res = await fetch(`${BACKEND_URL}/api/team/get`);
   if (!res.ok) {
     throw new Error(`Failed to fetch teams: ${res.status} ${res.statusText}`);
