@@ -16,13 +16,25 @@ export async function fetchPersonById(PersonId: string) {
     );
   }
   const json = await res.json();
-  
-    const result = personSchema.safeParse(json);
-  
-    if (!result.success) {
-      console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
-      throw new Error(`Backend returned invalid Person data from ${PersonId}`);
-    }
-    // Return validated single person data
-    return result.data;
+
+  const result = personSchema.safeParse(json);
+
+  if (!result.success) {
+    console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
+    throw new Error(`Backend returned invalid Person data from ${PersonId}`);
   }
+  // Return validated single person data
+  return result.data;
+}
+
+export default async function addPlayerToTeam(payload: object) {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ payload }),
+  };
+
+  const res await fetch("/api/")
+}
