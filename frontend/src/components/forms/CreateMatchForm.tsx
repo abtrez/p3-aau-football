@@ -1,6 +1,7 @@
 "use client";
 
-import { authClient } from "@/lib/auth/auth-client";
+import { addMatch } from "@/lib/fetchMatch";
+import { Competition } from "@/lib/schemas/competitionSchema";
 import { Team } from "@/lib/schemas/teamSchema";
 import {
   FormControl,
@@ -16,49 +17,56 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-export function SignUpForm({ teams }: { teams: Team[] }) {
-  const [currentTeam, setCurrentTeam] = useState("");
+
+
+export function CreateMatchForm({ homeTeam, teams, competitions}: { homeTeam: Team, teams: Team[], competitions: Competition[] }) {
+
+  const [season, setSeason] = useState("");
+  const [competition, setCompetition] = useState("");
+  const [awayTeam, setAwayTeam] = useState("");
+  const [venue, setVenue] = useState("");
+  const [kickoff,setKickoff] = useState("");
+  
+
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [userCreated, setUserCreated] = useState(false);
+  const [matchCreated, setMatchCreated] = useState(false);
 
   return (
-    <Paper elevation={3} className="w-95 h-110 p-10">
+    <Paper elevation={3} className="w-[90%] max-w-3xl mx-auto p-8 my-10">
       <form
         onSubmit={async (event) => {
           event.preventDefault();
           setLoading(true);
           setErrorMessage("");
-          setUserCreated(false);
+          setMatchCreated(false);
 
-          const formValues = event.currentTarget;
-          const formData = new FormData(event.currentTarget);
-
-          const email = formData.get("email")?.toString();
-          const password = formData.get("password")?.toString();
-          const team = formData.get("team")?.toString();
-
-          if (!email || !password || !team) {
-            throw new Error("No correct values");
+          if (!season || !competition || !awayTeam || !venue || !kickoff) {
+            throw new Error("Please fill all fields");
           }
 
-          const response = await authClient.signUp.email({
-            name: email,
-            email: email,
-            password: password,
-            team: team,
+          const response = await addMatch({
+            season,
+            competition,
+            homeTeam: homeTeam.id,
+            awayTeam,
+            venue,
+            kickoff: new Date(kickoff).toISOString(),
           });
 
           if (response.error) {
-            if (response.error.message) {
-              setErrorMessage(response.error.message);
-            } else {
-              setErrorMessage("Error creating user");
+            if (response.error) {
+              setErrorMessage(response.error);
             }
           } else {
-            setUserCreated(true);
-            formValues.reset();
-            setCurrentTeam("");
+            setMatchCreated(true);
+            event.currentTarget.reset();
+            setSeason("");
+            setCompetition("");
+            setAwayTeam("");
+            setVenue("");
+            setKickoff("");           
+            
           }
 
           setLoading(false);
@@ -66,7 +74,7 @@ export function SignUpForm({ teams }: { teams: Team[] }) {
       >
         <FormGroup className="gap-5">
           <Typography variant="h4" className="text-center">
-            Create new user
+            Create new match
           </Typography>
           <Alert
             severity="error"
@@ -78,27 +86,65 @@ export function SignUpForm({ teams }: { teams: Team[] }) {
           <Alert
             severity="success"
             className="text-center"
-            hidden={userCreated == false}
+            hidden={matchCreated == false}
           >
-            User created
+            Match created
           </Alert>
           <FormControl required>
-            <InputLabel htmlFor="email">Email address</InputLabel>
-            <Input id="email" name="email" type="email" />
-          </FormControl>
-          <FormControl required>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input id="password" name="password" type="password" />
-          </FormControl>
-          <FormControl required>
-            <InputLabel htmlFor="team">Team</InputLabel>
+            <InputLabel htmlFor="season">Season</InputLabel>
             <Select
-              id="team"
-              name="team"
-              value={currentTeam}
-              label="Team"
+              id="season"
+              name="season"
+              value={season}
+              label="Season"
               onChange={(event) => {
-                setCurrentTeam(event.target.value as string);
+                setSeason(event.target.value as string);
+              }}
+            >
+              {Array(5)
+                .fill(0)
+                .map((_, index) => {
+                  const thisYear = new Date().getFullYear() + index;
+                  const nextYear = thisYear + 1;
+                  const season = `${thisYear}/${nextYear.toString().slice(2)}`;
+
+                  return (
+                    <MenuItem key={index} value={season}>
+                      {season}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          </FormControl>
+          <FormControl required>
+            <InputLabel htmlFor="competition">competition</InputLabel>
+            <Select
+              id="competition"
+              name="competition"
+              value={competition}
+              label="competition"
+              onChange={(event) => {
+                setCompetition(event.target.value as string);
+              }}
+            >
+              {competitions.map((competition) => {
+                return (
+                  <MenuItem key={competition.id} value={competition.id}>
+                    {competition.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+          <FormControl required>
+            <InputLabel htmlFor="awayTeam">away Team</InputLabel>
+            <Select
+              id="awayTeam"
+              name="awayTeam"
+              value={awayTeam}
+              label="awayTeam"
+              onChange={(event) => {
+                setAwayTeam(event.target.value as string);
               }}
             >
               {teams.map((team) => {
@@ -110,9 +156,23 @@ export function SignUpForm({ teams }: { teams: Team[] }) {
               })}
             </Select>
           </FormControl>
+          <FormControl required>
+            <InputLabel htmlFor="venue">venue</InputLabel>
+            <Input id="venue" name="venue" type="text" 
+            onChange={(event) => {
+                setVenue(event.target.value as string);
+              }}/>
+          </FormControl>
+          <FormControl required>
+            <InputLabel htmlFor="kickoff" shrink>kickoff</InputLabel>
+            <Input id="kickoff" name="kickoff" type="datetime-local" 
+            onChange={(event) => {
+                setKickoff(event.target.value as string);
+              }}/>
+          </FormControl>
           <FormControl>
-            <Button variant="contained" type="submit" loading={loading}>
-              Create User
+            <Button variant="contained" type="submit" disabled={loading}>
+            {loading ? "Creating..." : "Create match"}
             </Button>
           </FormControl>
         </FormGroup>
