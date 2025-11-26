@@ -11,7 +11,6 @@ import Divider from "@mui/material/Divider";
 import { fetchPersonsFromTeamId } from "@/lib/fetchPersonFromTeam";
 import { fetchPersonFromTeamIdByRole } from "@/lib/fetchPersonFromRoleAndTeam";
 import { fetchPersonById } from "@/lib/fetchPerson";
-import { join } from "path";
 
 export default async function Page({ params }: any) {
   const { id } = await params;
@@ -55,11 +54,11 @@ export default async function Page({ params }: any) {
         <h3 className="text-base font-semibold text-neutral-900 mb-1">
           Members
         </h3>
-        {members.map((m)=> (
-          <div key={m.id} className="nb-1">
-          <span className="font-medium">{m.firstName} {m.lastName}</span>
-          {m.roles && m.roles.length > 0 && (
-            <span className="text-sm text-neutral-600"> — {m.roles.map(r => r.name).join(",")}</span>
+        {members.map((member)=> (
+          <div key={member.id} className="nb-1">
+          <span className="font-medium">{member.firstName} {member.lastName}</span>
+          {member.roles && member.roles.length > 0 && (
+            <span className="text-sm text-neutral-600"> — {member.roles.map(role => role.name).join(",")}</span>
           )}
         </div>
         ))}
