@@ -10,9 +10,15 @@ public class Competition {
     private String season;
     private String name;
 
-    public Competition() {}
+    public Competition() {
+    }
 
     public Competition(String name) {
+        this.name = name;
+    }
+
+    public Competition(String season, String name) {
+        this.season = season;
         this.name = name;
     }
 
