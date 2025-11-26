@@ -12,6 +12,11 @@ if (!BACKEND_URL && !isBuild) {
 }
 
 export async function fetchPersonsFromTeamId(teamId: string) {
+  const safePattern = /^[a-zA-Z0-9_-]+$/;
+  if (!safePattern.test(teamId)) {
+    throw new Error(`Invalid teamId parameter.`);
+  }
+
   const res = await fetch(`${BACKEND_URL}/api/person/getFromTeam/${teamId}`);
   if (!res.ok) {
     throw new Error(

@@ -11,6 +11,11 @@ if (!BACKEND_URL && !isBuild) {
 }
 
 export async function fetchPersonById(PersonId: string): Promise<Person> {
+  const safePattern = /^[a-zA-Z0-9_-]+$/;
+  if (!safePattern.test(PersonId)) {
+    throw new Error(`Invalid PersonId parameter.`);
+  }
+
   const res = await fetch(`${BACKEND_URL}/api/person/get/${PersonId}`);
   if (!res.ok) {
     throw new Error(

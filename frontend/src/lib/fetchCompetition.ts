@@ -40,6 +40,11 @@ export async function fetchCompetitions(): Promise<Competition[]> {
 export async function fetchCompetitionById(
   competitionId: string
 ): Promise<Competition> {
+  const safePattern = /^[a-zA-Z0-9_-]+$/;
+  if (!safePattern.test(competitionId)) {
+    throw new Error(`Invalid competitionId parameter.`);
+  }
+
   const res = await fetch(
     `${BACKEND_URL}/api/competition/get/${competitionId}`
   );

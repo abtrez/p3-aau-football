@@ -14,6 +14,14 @@ export async function fetchPersonFromTeamIdByRole(
   teamId: string,
   roleName: string
 ) {
+  const safePattern = /^[a-zA-Z0-9_-]+$/;
+  if (!safePattern.test(teamId)) {
+    throw new Error(`Invalid teamId parameter.`);
+  }
+  if (!safePattern.test(roleName)) {
+    throw new Error(`Invalid roleName parameter.`);
+  }
+
   const res = await fetch(
     `${BACKEND_URL}/api/person/getFromTeam/${teamId}/role/${roleName}`
   );

@@ -35,6 +35,11 @@ export async function fetchMatchOverview(): Promise<Match[]> {
 }
 
 export async function fetchMatchById(matchId: string): Promise<Match> {
+  const safePattern = /^[a-zA-Z0-9_-]+$/;
+  if (!safePattern.test(matchId)) {
+    throw new Error(`Invalid matchId parameter.`);
+  }
+
   const res = await fetch(`${BACKEND_URL}/api/match/get/${matchId}`);
   if (!res.ok) {
     throw new Error(
