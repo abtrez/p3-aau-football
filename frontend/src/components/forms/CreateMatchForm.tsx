@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth/auth-client";
+import { fetchTeams } from "@/lib/fetchTeam";
 import { Team } from "@/lib/schemas/teamSchema";
 import {
   FormControl,
@@ -16,11 +17,13 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-export function SignUpForm({ teams }: { teams: Team[] }) {
+const teams: Team[] = await fetchTeams();
+
+export function CreateMatchForm({ homeTeam }: { homeTeam: Team }) {
   const [currentTeam, setCurrentTeam] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [userCreated, setUserCreated] = useState(false);
+  const [matchCreated, setMatchCreated] = useState(false);
 
   return (
     <Paper elevation={3} className="w-95 h-110 p-10">
@@ -29,23 +32,23 @@ export function SignUpForm({ teams }: { teams: Team[] }) {
           event.preventDefault();
           setLoading(true);
           setErrorMessage("");
-          setUserCreated(false);
+          setMatchCreated(false);
 
           const formValues = event.currentTarget;
           const formData = new FormData(event.currentTarget);
 
-          const email = formData.get("email")?.toString();
-          const password = formData.get("password")?.toString();
           const team = formData.get("team")?.toString();
 
-          if (!email || !password || !team) {
+          if (!team) {
             throw new Error("No correct values");
           }
 
-          const response = await authClient.signUp.email({
-            name: email,
-            email: email,
-            password: password,
+          const response = await authClient.createMatch.team({
+            season: String,
+            competitionId: String,
+            homeTeam: team,
+            awayTeam: team,
+            venue: venue,
             team: team,
           });
 
@@ -53,10 +56,10 @@ export function SignUpForm({ teams }: { teams: Team[] }) {
             if (response.error.message) {
               setErrorMessage(response.error.message);
             } else {
-              setErrorMessage("Error creating user");
+              setErrorMessage("Error creating match");
             }
           } else {
-            setUserCreated(true);
+            setMatchCreated(true);
             formValues.reset();
             setCurrentTeam("");
           }
@@ -66,7 +69,7 @@ export function SignUpForm({ teams }: { teams: Team[] }) {
       >
         <FormGroup className="gap-5">
           <Typography variant="h4" className="text-center">
-            Create new user
+            Create new match
           </Typography>
           <Alert
             severity="error"
@@ -78,20 +81,20 @@ export function SignUpForm({ teams }: { teams: Team[] }) {
           <Alert
             severity="success"
             className="text-center"
-            hidden={userCreated == false}
+            hidden={matchCreated == false}
           >
-            User created
+            Match created
           </Alert>
           <FormControl required>
-            <InputLabel htmlFor="email">Email address</InputLabel>
-            <Input id="email" name="email" type="email" />
+            <InputLabel htmlFor="season">season</InputLabel>
+            <Input id="season" name="season" type="season" />
           </FormControl>
           <FormControl required>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input id="password" name="password" type="password" />
+            <InputLabel htmlFor="competition">competition</InputLabel>
+            <Input id="competition" name="competition" type="competition" />
           </FormControl>
           <FormControl required>
-            <InputLabel htmlFor="team">Team</InputLabel>
+            <InputLabel htmlFor="team">away Team</InputLabel>
             <Select
               id="team"
               name="team"
@@ -110,9 +113,17 @@ export function SignUpForm({ teams }: { teams: Team[] }) {
               })}
             </Select>
           </FormControl>
+          <FormControl required>
+            <InputLabel htmlFor="venue">venue</InputLabel>
+            <Input id="venue" name="venue" type="venue" />
+          </FormControl>
+          <FormControl required>
+            <InputLabel htmlFor="kickoff">kickoff</InputLabel>
+            <Input id="kickoff" name="kickoff" type="kickoff" />
+          </FormControl>
           <FormControl>
             <Button variant="contained" type="submit" loading={loading}>
-              Create User
+              Create match
             </Button>
           </FormControl>
         </FormGroup>

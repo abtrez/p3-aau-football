@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth/auth";
-import { fetchTeams } from "@/lib/fetchTeam";
+import { fetchTeamById } from "@/lib/fetchTeam";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { CreateMatchForm } from "@/components/forms/CreateMatchForm";
@@ -9,15 +9,15 @@ export default async function Page() {
     headers: await headers(),
   });
 
-  if (!session || !session.user.admin) {
+  if (!session) {
     redirect("/sign-in");
   }
-
-  const teams = await fetchTeams();
+  
+  const team = await fetchTeamById(session.user.team);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen w-full">
-      <CreateMatchForm teams={teams} />
+      <CreateMatchForm homeTeam={team} />
     </div>
   );
 }
