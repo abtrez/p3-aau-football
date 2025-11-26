@@ -1,7 +1,7 @@
 "use client";
 
-import { authClient } from "@/lib/auth/auth-client";
-import { fetchTeams } from "@/lib/fetchTeam";
+import { addMatch } from "@/lib/fetchMatch";
+import { Competition } from "@/lib/schemas/competitionSchema";
 import { Team } from "@/lib/schemas/teamSchema";
 import {
   FormControl,
@@ -17,16 +17,23 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-const teams: Team[] = await fetchTeams();
 
-export function CreateMatchForm({ homeTeam }: { homeTeam: Team }) {
-  const [currentTeam, setCurrentTeam] = useState("");
+
+export function CreateMatchForm({ homeTeam, teams, competitions}: { homeTeam: Team, teams: Team[], competitions: Competition[] }) {
+
+  const [season, setSeason] = useState("");
+  const [competition, setCompetition] = useState("");
+  const [awayTeam, setAwayTeam] = useState("");
+  const [venue, setVenue] = useState("");
+  const [kickoff,setKickoff] = useState("");
+  
+
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [matchCreated, setMatchCreated] = useState(false);
 
   return (
-    <Paper elevation={3} className="w-95 h-110 p-10">
+    <Paper elevation={3} className="w-[90%] max-w-3xl mx-auto p-8 my-10">
       <form
         onSubmit={async (event) => {
           event.preventDefault();
@@ -34,34 +41,32 @@ export function CreateMatchForm({ homeTeam }: { homeTeam: Team }) {
           setErrorMessage("");
           setMatchCreated(false);
 
-          const formValues = event.currentTarget;
-          const formData = new FormData(event.currentTarget);
-
-          const team = formData.get("team")?.toString();
-
-          if (!team) {
-            throw new Error("No correct values");
+          if (!season || !competition || !awayTeam || !venue || !kickoff) {
+            throw new Error("Please fill all fields");
           }
 
-          const response = await authClient.createMatch.team({
-            season: String,
-            competitionId: String,
-            homeTeam: team,
-            awayTeam: team,
-            venue: venue,
-            team: team,
+          const response = await addMatch({
+            season,
+            competition,
+            homeTeam: homeTeam.id,
+            awayTeam,
+            venue,
+            kickoff: new Date(kickoff).toISOString(),
           });
 
           if (response.error) {
-            if (response.error.message) {
-              setErrorMessage(response.error.message);
-            } else {
-              setErrorMessage("Error creating match");
+            if (response.error) {
+              setErrorMessage(response.error);
             }
           } else {
             setMatchCreated(true);
-            formValues.reset();
-            setCurrentTeam("");
+            event.currentTarget.reset();
+            setSeason("");
+            setCompetition("");
+            setAwayTeam("");
+            setVenue("");
+            setKickoff("");           
+            
           }
 
           setLoading(false);
@@ -86,22 +91,60 @@ export function CreateMatchForm({ homeTeam }: { homeTeam: Team }) {
             Match created
           </Alert>
           <FormControl required>
-            <InputLabel htmlFor="season">season</InputLabel>
-            <Input id="season" name="season" type="season" />
+            <InputLabel htmlFor="season">Season</InputLabel>
+            <Select
+              id="season"
+              name="season"
+              value={season}
+              label="Season"
+              onChange={(event) => {
+                setSeason(event.target.value as string);
+              }}
+            >
+              {Array(5)
+                .fill(0)
+                .map((_, index) => {
+                  const thisYear = new Date().getFullYear() + index;
+                  const nextYear = thisYear + 1;
+                  const season = `${thisYear}/${nextYear.toString().slice(2)}`;
+
+                  return (
+                    <MenuItem key={index} value={season}>
+                      {season}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
           </FormControl>
           <FormControl required>
             <InputLabel htmlFor="competition">competition</InputLabel>
-            <Input id="competition" name="competition" type="competition" />
+            <Select
+              id="competition"
+              name="competition"
+              value={competition}
+              label="competition"
+              onChange={(event) => {
+                setCompetition(event.target.value as string);
+              }}
+            >
+              {competitions.map((competition) => {
+                return (
+                  <MenuItem key={competition.id} value={competition.id}>
+                    {competition.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
           </FormControl>
           <FormControl required>
-            <InputLabel htmlFor="team">away Team</InputLabel>
+            <InputLabel htmlFor="awayTeam">away Team</InputLabel>
             <Select
-              id="team"
-              name="team"
-              value={currentTeam}
-              label="Team"
+              id="awayTeam"
+              name="awayTeam"
+              value={awayTeam}
+              label="awayTeam"
               onChange={(event) => {
-                setCurrentTeam(event.target.value as string);
+                setAwayTeam(event.target.value as string);
               }}
             >
               {teams.map((team) => {
@@ -115,15 +158,21 @@ export function CreateMatchForm({ homeTeam }: { homeTeam: Team }) {
           </FormControl>
           <FormControl required>
             <InputLabel htmlFor="venue">venue</InputLabel>
-            <Input id="venue" name="venue" type="venue" />
+            <Input id="venue" name="venue" type="text" 
+            onChange={(event) => {
+                setVenue(event.target.value as string);
+              }}/>
           </FormControl>
           <FormControl required>
-            <InputLabel htmlFor="kickoff">kickoff</InputLabel>
-            <Input id="kickoff" name="kickoff" type="kickoff" />
+            <InputLabel htmlFor="kickoff" shrink>kickoff</InputLabel>
+            <Input id="kickoff" name="kickoff" type="datetime-local" 
+            onChange={(event) => {
+                setKickoff(event.target.value as string);
+              }}/>
           </FormControl>
           <FormControl>
-            <Button variant="contained" type="submit" loading={loading}>
-              Create match
+            <Button variant="contained" type="submit" disabled={loading}>
+            {loading ? "Creating..." : "Create match"}
             </Button>
           </FormControl>
         </FormGroup>
