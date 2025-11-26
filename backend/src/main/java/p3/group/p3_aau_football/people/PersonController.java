@@ -99,7 +99,7 @@ public class PersonController {
                     roles,
                     request.teamId()
             );
-
+            System.out.println(insertedPerson);
             return ResponseEntity.ok(insertedPerson);
         } catch (Exception e) {
             System.out.println(e.getMessage());

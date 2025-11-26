@@ -7,32 +7,47 @@ import {
   FormGroup,
   Box,
   Typography,
+  Alert,
   Button,
   Paper,
   Select,
   MenuItem,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import addPlayerToTeam from "@/lib/fetchPerson";
 
 interface AddMemberFormProps {
   teamId: string;
 }
 
 export default function AddMemberForm({ teamId }: AddMemberFormProps) {
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [playerAdded, setPlayerAdded] = useState(false);
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData(e.currentTarget);
 
-    // Add the team's ID from the leaders session which comes from the prop
-    formData.append("teamId", teamId);
+    // Create payload with the form data
+    const payload = {
+      firstName: formData.get("firstName"),
+      lastName: formData.get("lastName"),
+      role: "PLAYER",
+      teamId: teamId,
+      shirtNumber: Number(formData.get("shirtNumber")),
+      positionGroup: formData.get("positionGroup"),
+      position: formData.get("position"),
+    };
 
-    const firstName = formData.get("first-name");
-    const lastName = formData.get("last-name");
-    const role = formData.get("role");
-    const addedTeamId = formData.get("teamId");
-    const shirtNumber = formData.get("shirt-number");
-    const positionGroup = formData.get("position-group");
-    const position = formData.get("position");
+    const response = await addPlayerToTeam(payload);
+    console.log(response);
+    if (response.error) {
+      setErrorMessage(response.error);
+    } else {
+      setPlayerAdded(true);
+    }
+    setLoading(false);
   }
   return (
     <Paper
@@ -50,17 +65,33 @@ export default function AddMemberForm({ teamId }: AddMemberFormProps) {
         <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
           Fill out the details below to add a new player to your team.
         </Typography>
+        <Alert
+          sx={{ mb: 3 }}
+          severity="error"
+          className="text-center"
+          hidden={errorMessage == ""}
+        >
+          {errorMessage}
+        </Alert>
+        <Alert
+          sx={{ mb: 3 }}
+          severity="success"
+          className="text-center"
+          hidden={playerAdded == false}
+        >
+          Player has successfully been added to the team
+        </Alert>
 
         {/* First + Last name */}
         <FormGroup row sx={{ gap: 2, mb: 2 }}>
           <FormControl fullWidth>
-            <InputLabel htmlFor="first-name">First Name</InputLabel>
-            <Input id="first-name" name="first-name" />
+            <InputLabel htmlFor="firstName">First Name</InputLabel>
+            <Input id="firstName" name="firstName" />
           </FormControl>
 
           <FormControl fullWidth>
-            <InputLabel htmlFor="last-name">Last Name</InputLabel>
-            <Input id="last-name" name="last-name" />
+            <InputLabel htmlFor="lastName">Last Name</InputLabel>
+            <Input id="lastName" name="lastName" />
           </FormControl>
         </FormGroup>
 
@@ -70,11 +101,11 @@ export default function AddMemberForm({ teamId }: AddMemberFormProps) {
           <Input id="role" name="role" value="PLAYER" type="hidden" />
 
           <FormControl fullWidth>
-            <InputLabel htmlFor="position-group">Position group</InputLabel>
+            <InputLabel htmlFor="positionGroup">Position group</InputLabel>
             <Select
-              id="position-group"
-              name="position-group"
-              label="Position group"
+              id="positionGroup"
+              name="positionGroup"
+              label="positionGroup"
               defaultValue=""
             >
               <MenuItem value="DEF">DEF</MenuItem>
@@ -113,10 +144,10 @@ export default function AddMemberForm({ teamId }: AddMemberFormProps) {
         {/* Shirt number */}
         <FormGroup sx={{ gap: 2, mb: 3 }}>
           <FormControl fullWidth>
-            <InputLabel htmlFor="shirt-number">Shirt number</InputLabel>
+            <InputLabel htmlFor="shirtNumber">Shirt number</InputLabel>
             <Input
-              id="shirt-number"
-              name="shirt-number"
+              id="shirtNumber"
+              name="shirtNumber"
               type="number"
               inputProps={{ min: 1 }}
             />

@@ -24,9 +24,10 @@ export const addPlayerToTeamSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   teamId: z.string(),
+  role: z.literal("PLAYER"),
   positionGroup: positionGroupEnum,
   position: positionEnum,
   shirtNumber: z.int(),
 });
 
-export type CreateTeamPlayerRequest = z.infer<typeof addPlayerToTeamSchema>;
+export type AddPlayerToTeam = z.infer<typeof addPlayerToTeamSchema>;

@@ -1,6 +1,10 @@
 "use server";
 
 import { personSchema } from "@/lib/schemas/personSchema";
+import {
+  addPlayerToTeamSchema,
+  type AddPlayerToTeam,
+} from "@/lib/schemas/addPlayerToTeamSchema";
 
 const BACKEND_URL = process.env.BACKEND_URI || "https://example.com/mock-api";
 
@@ -27,21 +31,42 @@ export async function fetchPersonById(PersonId: string) {
   return result.data;
 }
 
-export default async function addPlayerToTeam(payload: object) {
+export default async function addPlayerToTeam(formData: unknown) {
+  // Validate the form data with zod
+  const parsed = addPlayerToTeamSchema.safeParse(formData);
+
+  if (!parsed.success) {
+    return {
+      result: null,
+      error: "Received invalid form data from the frontend",
+    };
+  }
+
+  // Validated form data
+  const validatedFormData: AddPlayerToTeam = parsed.data;
+
   const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ payload }),
+    body: JSON.stringify({ validatedFormData }),
   };
 
-  const res = await fetch("/api/person/add-player");
+  const res = await fetch(
+    "http://localhost:8080/api/person/add-player",
+    options,
+  );
 
   if (!res.ok) {
     return {
       result: null,
-      error: `Failed to add player to : ${res.status} ${res.statusText}`,
+      error: `Failed to add player to team: ${res.status} ${res.statusText}`,
     };
   }
+
+  const result = res.json();
+
+  // Return status code and state of response
+  return { result: result, error: null };
 }
