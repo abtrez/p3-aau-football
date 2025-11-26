@@ -36,8 +36,8 @@ export default async function Page({ params }: any) {
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
         <InfoItem label="Contact Person" value= {contactPerson ?`${contactPerson?.firstName} ${contactPerson?.lastName}` : "N/A"} />
-        <InfoItem label="Leader" value= {leader.length>0? leader.map(l => `${l.firstName} ${l.lastName}`).join(", ") :"N/A"} />
-        <InfoItem label="Coach" value= {coach.length>0? coach.map(c => `${c.firstName} ${c.lastName}`).join(", ") :"N/A"} />
+        <InfoItem label="Leader" value= {leader.length>0? leader.map(leader => `${leader.firstName} ${leader.lastName}`).join(", ") :"N/A"} />
+        <InfoItem label="Coach" value= {coach.length>0? coach.map(coach => `${coach.firstName} ${coach.lastName}`).join(", ") :"N/A"} />
         <InfoItem label="Established" value= {team.yearEstablished|| "N/A"} />
         <InfoItem label="Squad Size" value= {members.length|| "N/A"} />
         <InfoItem label="Assistant" value= {coach.length>0?`${coach[1].firstName} ${coach[1].lastName}`:"N/A"}/>
