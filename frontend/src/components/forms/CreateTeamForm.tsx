@@ -19,7 +19,7 @@ export function CreateTeamForm() {
   const [competitionCreated, setTeamCreated] = useState(false);
 
   return (
-    <Paper elevation={3} className="w-95 h-110 p-10">
+    <Paper elevation={3} className="w-95 h-125 p-10">
       <form
         onSubmit={async (event) => {
           event.preventDefault();
