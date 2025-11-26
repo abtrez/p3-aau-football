@@ -81,6 +81,32 @@ public class PersonController {
         return personService.addTeamToPerson(id, teamId);
     }
 
+    @PostMapping("/add-player")
+    public ResponseEntity<Person> addPlayer(@RequestBody AddPlayerToTeamDTO request) {
+        try {
+            Player player = new Player(
+                    request.positionGroup(),
+                    request.position(),
+                    request.shirtNumber()
+            );
+
+            List<Role> roles = new ArrayList<>();
+            roles.add(player);
+
+            Person insertedPerson = personService.insertPerson(
+                    request.firstName(),
+                    request.lastName(),
+                    roles,
+                    request.teamId()
+            );
+
+            return ResponseEntity.ok(insertedPerson);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
     /*
      * @PatchMapping("/{id}/edit")

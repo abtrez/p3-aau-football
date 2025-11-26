@@ -7,5 +7,6 @@ public record AddPlayerToTeamDTO(
         String lastName,
         String teamId,
         Player.PositionGroup positionGroup,
-        Player.Position position
+        Player.Position position,
+        int shirtNumber
 ) {}

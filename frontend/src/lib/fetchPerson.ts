@@ -36,5 +36,12 @@ export default async function addPlayerToTeam(payload: object) {
     body: JSON.stringify({ payload }),
   };
 
-  const res await fetch("/api/")
+  const res = await fetch("/api/person/add-player");
+
+  if (!res.ok) {
+    return {
+      result: null,
+      error: `Failed to add player to : ${res.status} ${res.statusText}`,
+    };
+  }
 }
