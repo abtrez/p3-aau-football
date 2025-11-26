@@ -3,7 +3,7 @@ import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { nextCookies } from "better-auth/next-js";
 
-const MONGODB_URI = process.env.MONGODB_URI || "https://example.com/mock-api";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://example.com/mock-api";
 
 if (!process.env.MONGODB_URI) console.error("MONGODB_URI NOT SET!");
 
