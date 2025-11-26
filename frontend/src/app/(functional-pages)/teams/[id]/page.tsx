@@ -36,11 +36,11 @@ export default async function Page({ params }: any) {
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
         <InfoItem label="Contact Person" value= {contactPerson ?`${contactPerson?.firstName} ${contactPerson?.lastName}` : "N/A"} />
-        <InfoItem label="Leader" value= {leader[0]?`${leader[0].firstName} ${leader[0].lastName}`:"N/A"} />
-        <InfoItem label="Coach" value= {coach[0]?`${coach[0].firstName} ${coach[0].lastName}`:"N/A"} />
+        <InfoItem label="Leader" value= {leader.length>0? leader.map(leader => `${leader.firstName} ${leader.lastName}`).join(", ") :"N/A"} />
+        <InfoItem label="Coach" value= {coach.length>0? coach.map(coach => `${coach.firstName} ${coach.lastName}`).join(", ") :"N/A"} />
         <InfoItem label="Established" value= {team.yearEstablished|| "N/A"} />
         <InfoItem label="Squad Size" value= {members.length|| "N/A"} />
-        <InfoItem label="Assistant" value= "N/A"/>
+        <InfoItem label="Assistant" value= {coach.length>0?`${coach[1].firstName} ${coach[1].lastName}`:"N/A"}/>
       </div>
       <section className="rounded-2xl bg-white p-4 my-4">
         <h3 className="text-base font-semibold text-neutral-900 mb-1">
@@ -54,8 +54,13 @@ export default async function Page({ params }: any) {
         <h3 className="text-base font-semibold text-neutral-900 mb-1">
           Members
         </h3>
-        {members.map((m)=> (
-          <div key={m.id}>{m.firstName} {m.lastName}</div>
+        {members.map((member)=> (
+          <div key={member.id} className="nb-1">
+          <span className="font-medium">{member.firstName} {member.lastName}</span>
+          {member.roles && member.roles.length > 0 && (
+            <span className="text-sm text-neutral-600"> — {member.roles.map(role => role.name).join(",")}</span>
+          )}
+        </div>
         ))}
       </section>
     </div>

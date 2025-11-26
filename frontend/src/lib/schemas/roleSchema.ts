@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const playerRoleSchema = z.object({
     type: z.literal("PLAYER"),
-    name:z.string(),
+    name: z.string(),
     shirtNumber: z.number().int().nonnegative(),
     positionGroup: z.enum(["DEF", "MID", "FOW"]),
     position: z.enum(["CB", "LB", "RB", "LWB", "RWB", "CDM", "CM", "CAM",
@@ -11,12 +11,12 @@ export const playerRoleSchema = z.object({
 
 export const leaderRoleSchema = z.object ({
     type: z.literal("LEADER"),
-    name:z.string().nullable().optional()
+    name: z.string()
 })
 
 export const coachRoleSchema = z.object ({
     type: z.literal("COACH"),
-    name: z.string().nullable().optional(),
+    name: z.string(),
     isAssistant: z.boolean().nullable().optional()
 })
 
