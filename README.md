@@ -1,3 +1,11 @@
+#### MAIN
+[![(MAIN) Java build and test](https://github.com/abtrez/p3-aau-football/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/abtrez/p3-aau-football/actions/workflows/gradle.yml)
+[![(MAIN) Node.js build and test](https://github.com/abtrez/p3-aau-football/actions/workflows/node.yml/badge.svg?branch=main)](https://github.com/abtrez/p3-aau-football/actions/workflows/node.yml)
+
+#### DEV
+[![(DEV) Java build and test](https://github.com/abtrez/p3-aau-football/actions/workflows/gradle.yml/badge.svg?branch=dev)](https://github.com/abtrez/p3-aau-football/actions/workflows/gradle.yml)
+[![(DEV) Node.js build and test](https://github.com/abtrez/p3-aau-football/actions/workflows/node.yml/badge.svg?branch=dev)](https://github.com/abtrez/p3-aau-football/actions/workflows/node.yml)
+
 # p3-aau-liga
 
 # Frontend
