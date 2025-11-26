@@ -24,7 +24,11 @@ function sortLeagueStatistics(stats: LeagueStatistics[]) {
   return sortedArray;
 }
 
-export default async function Page({ params }: any) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   const competition: Competition = await fetchCompetitionById(id);
   const { season } = competition;

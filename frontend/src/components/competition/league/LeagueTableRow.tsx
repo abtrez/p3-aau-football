@@ -1,4 +1,3 @@
-import TeamLogo from "@/components/team/TeamLogo";
 import { LeagueStatistics } from "@/lib/schemas/leagueStatisticsSchema";
 
 interface LeagueTableRowProps {

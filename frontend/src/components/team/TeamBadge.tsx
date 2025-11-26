@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import TeamLogo from "@/components/team/TeamLogo";
 
 interface TeamBadgeInterface {
