@@ -60,7 +60,7 @@ export default async function addPlayerToTeam(formData: unknown) {
   if (!res.ok) {
     return {
       result: null,
-      error: `Failed to add player to team: ${res.status} ${res.statusText}`,
+      error: `Failed to add player to team: status code ${res.status} ${res.statusText}`,
     };
   }
 

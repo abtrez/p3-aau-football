@@ -12,12 +12,13 @@ export const positionEnum = z.enum([
   "CM",
   "CAM",
   "LM",
-  "ST",
-  "CF",
+  "RM",
   "LW",
   "RW",
   "LA",
   "RA",
+  "CF",
+  "ST",
 ]);
 
 export const addPlayerToTeamSchema = z.object({
@@ -26,8 +27,14 @@ export const addPlayerToTeamSchema = z.object({
   teamId: z.string(),
   role: z.literal("PLAYER"),
   positionGroup: positionGroupEnum,
-  position: positionEnum,
-  shirtNumber: z.int(),
+  position: z.preprocess(
+    (value) => (value === "" || value == null ? null : value),
+    positionEnum.nullable(),
+  ),
+  shirtNumber: z.preprocess(
+    (value) => (value === "" || value == null ? null : Number(value)),
+    z.number().int().nullable(),
+  ),
 });
 
 export type AddPlayerToTeam = z.infer<typeof addPlayerToTeamSchema>;

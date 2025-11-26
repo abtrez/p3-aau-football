@@ -13,7 +13,7 @@ export default async function Page() {
   const teamId = session.user.team;
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center h-screen">
       <AddMemberForm teamId={teamId} />
     </div>
   );
