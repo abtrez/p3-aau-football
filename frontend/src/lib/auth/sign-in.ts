@@ -2,7 +2,7 @@
 import { auth } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 
-export async function signIn(formData: FormData, redirectUrl: string) {
+export async function signIn(formData: FormData) {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
 
@@ -14,13 +14,12 @@ export async function signIn(formData: FormData, redirectUrl: string) {
     body: {
       email: email,
       password: password,
-      callbackURL: "/admin",
     },
     asResponse: true,
   });
 
   if (response.ok) {
-    redirect(redirectUrl);
+    redirect("/sign-in/pending");
   } else {
     return { type: "CredentialsSignin", error: response.statusText };
   }
