@@ -16,11 +16,10 @@ public class Player extends Role {
         LM, ST, CF, LW, RW, LA, RA
     }
 
-    public Player() {
-        super("Player");
-    }
+    public Player() {}
 
     public Player(PositionGroup positionGroup, Position position, int shirtNumber) {
+        super("Player");
         this.positionGroup = positionGroup;
         this.position = position;
         this.shirtNumber = shirtNumber;
