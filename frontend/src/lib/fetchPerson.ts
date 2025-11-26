@@ -34,7 +34,6 @@ export async function fetchPersonById(PersonId: string) {
 export default async function addPlayerToTeam(formData: unknown) {
   // Validate the form data with zod
   const parsed = addPlayerToTeamSchema.safeParse(formData);
-
   if (!parsed.success) {
     return {
       result: null,
@@ -50,7 +49,7 @@ export default async function addPlayerToTeam(formData: unknown) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ validatedFormData }),
+    body: JSON.stringify(validatedFormData),
   };
 
   const res = await fetch(

@@ -41,7 +41,6 @@ export default function AddMemberForm({ teamId }: AddMemberFormProps) {
     };
 
     const response = await addPlayerToTeam(payload);
-    console.log(response);
     if (response.error) {
       setErrorMessage(response.error);
     } else {
