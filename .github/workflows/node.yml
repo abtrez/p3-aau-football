@@ -29,6 +29,9 @@ jobs:
 
       - run: npm run test
         working-directory: frontend
+        env:
+          BACKEND_URI: http://mock
+          NEXT_PHASE: ""
 
       - run: npm run build --if-present
         working-directory: frontend
