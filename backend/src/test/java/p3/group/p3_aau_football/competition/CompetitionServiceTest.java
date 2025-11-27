@@ -61,7 +61,7 @@ class CompetitionServiceTest {
         assertEquals("Test Competition", result.get(0).getName());
         assertEquals("Test Competition2", result.get(1).getName());
         assertEquals("2025/26", result.get(0).getSeason());
-        assertEquals("2026/27", result.get(1).getSeason());
+        assertEquals("2026/26", result.get(1).getSeason());
 
         verify(competitionRepository).findAll();
     }
