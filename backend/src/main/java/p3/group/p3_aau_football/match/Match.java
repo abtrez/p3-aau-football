@@ -5,6 +5,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import p3.group.p3_aau_football.role.Referee;
 import p3.group.p3_aau_football.team.Team;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import java.util.List;
@@ -23,7 +25,9 @@ public class Match {
     @DocumentReference
     private Venue venue;
     private LocalDateTime kickoff;
+    private Boolean canceled = false;
     private List<Referee> referees;
+    private LocalDate date;
 
     private int homeScore;
     private int awayScore;
@@ -95,7 +99,17 @@ public class Match {
         this.venue = venue;
     }
 
-    ;
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Boolean getCanceled() {
+        return this.canceled;
+    }
+
+    public void setCanceled(Boolean canceled) {
+        this.canceled = canceled;
+    }
 
     public void setKickoff(LocalDateTime kickoff) {
         this.kickoff = kickoff;

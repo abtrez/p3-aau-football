@@ -45,7 +45,7 @@ public class MatchService {
 
     }
 
-    public Optional<Match> updateMatch(String id, String date, String venue, Boolean cancel) {
+    public Optional<Match> updateMatch(String id, String date, Venue venue, Boolean cancel) {
 
         Query query = new Query(Criteria.where("_id").is(id));
         Update update = new Update();
