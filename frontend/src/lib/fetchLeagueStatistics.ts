@@ -32,7 +32,7 @@ export async function fetchLeagueStatistics(
 
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch competitions: ${res.status} ${res.statusText}`
+      `Failed to fetch league statistics: ${res.status} ${res.statusText}`
     );
   }
   const json = await res.json();

@@ -61,7 +61,7 @@ export async function fetchCompetitionById(
   if (!result.success) {
     console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
     throw new Error(
-      `Backend returned invalid team data for id ${competitionId}`
+      `Backend returned invalid competition data for id ${competitionId}`
     );
   }
 
