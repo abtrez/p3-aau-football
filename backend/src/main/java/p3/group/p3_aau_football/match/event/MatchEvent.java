@@ -3,10 +3,6 @@ package p3.group.p3_aau_football.match.event;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
-import p3.group.p3_aau_football.role.Player;
-import p3.group.p3_aau_football.team.Team;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -22,12 +18,21 @@ import p3.group.p3_aau_football.team.Team;
 public abstract class MatchEvent {
 
     private String id;
+    private String teamId; //Required since playerId optional, must know what team the event belongs to
     private String playerId; //Optional. Don't force teams to log
-    private String teamId; //If player null, must know what team event belongs to
     private Integer minute; //Optional. Integer wrapper class to allow null, rather than primitive int that defaults to 0.
 
     public MatchEvent() {
+        this.id = new ObjectId().toHexString(); // Consider deleting. Should only create a new id on new events, which is handled by the other constructor. This is a no args for mongo, where ids are already stored, this is overwritten by mongo (reflection?)
+    }
+
+    /** Used by matchService (indirectly through subclasses) to create an MatchEvent object from DTO */
+    public MatchEvent(String teamId, String playerId, Integer minute) {
+        // consider wether to use the ObjectId().toHexString here in addition/instead of above
         this.id = new ObjectId().toHexString();
+        this.teamId = teamId;
+        this.playerId = playerId;
+        this.minute = minute;
     }
 
     public String getId() {
@@ -37,6 +42,9 @@ public abstract class MatchEvent {
     public String getPlayerId() {
         return this.playerId;
     }
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
 
     public String getTeamId() {
         return this.teamId;
@@ -45,4 +53,25 @@ public abstract class MatchEvent {
     public Integer getMinute() {
         return this.minute;
     }
+    public void setMinute(Integer minute) {
+        this.minute = minute;
+    }
+
+    /**
+     * @param data interface type to avoid direct dependency on dto from model
+     */
+    public void applyUpdate (MatchEventUpdateData data) {
+
+        // Common Editable fields for all subtypes, id and team not allowed
+        this.setPlayerId(data.playerId());
+        this.setMinute(data.minute());
+
+        // Subclass updates its own type-specific field, makes this a "Template Method"
+        applySpecificUpdate(data);
+    }
+
+    /**
+     * Force subclasses to implement their specific update logic
+     */
+    protected abstract void applySpecificUpdate(MatchEventUpdateData data);
 }

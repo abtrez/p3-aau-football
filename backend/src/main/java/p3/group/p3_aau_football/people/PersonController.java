@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import p3.group.p3_aau_football.role.Player;
 import p3.group.p3_aau_football.role.Role;
-import p3.group.p3_aau_football.team.Team;
 
 @RestController // flags class, so it is ready for use by Spring MVC to handle web requests.
 @RequestMapping("/api/person")
@@ -37,14 +35,30 @@ public class PersonController {
         return personService.getPerson(id);
     }
 
+    @GetMapping("/getFromTeam/{teamId}")
+    public List<Person> getPersonsFromTeam(@PathVariable("teamId") String teamId) {
+        return personService.getPersonsByTeamId(teamId);
+    }
+
+    @GetMapping("/getFromTeam/{teamId}/role/{roleName}")
+    public List<Person> getPersonFromTeamIdAndRole(@PathVariable String teamId, @PathVariable String roleName) {
+        return personService.getPersonFromTeamIdAndRole(teamId, roleName);
+    }
+
+    @GetMapping("/get/roles/{personId}")
+    public List<Role> getRolesFromPerson(@PathVariable String personId) {
+        var person = personService.getPerson(personId);
+        return person.get().getRoles();
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Person> addPerson(@RequestBody CreatePersonRequest request) {
         try {
             Person insertedPerson = personService.insertPerson(
-                    request.getFirstName(),
-                    request.getLastName(),
-                    request.getRoles(),
-                    request.getTeamId());
+                    request.firstName(),
+                    request.lastName(),
+                    request.roles(),
+                    request.teamId());
 
             return ResponseEntity.ok(insertedPerson);
 
@@ -54,16 +68,6 @@ public class PersonController {
         }
     }
 
-    @PostMapping("/add/{id}/addPlayer")
-    public ResponseEntity<Person> addPlayerToPerson(
-            @PathVariable("id") String id,
-            @RequestBody Player player) {
-
-        return personService.addPlayerToPerson(id, player)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @PostMapping("/add/{id}/addTeam/{teamId}")
     public ResponseEntity<Person> addTeamToPerson(
             @PathVariable("id") String id,
@@ -71,6 +75,33 @@ public class PersonController {
 
         return personService.addTeamToPerson(id, teamId);
     }
+
+    @PostMapping("/addPlayer")
+    public ResponseEntity<Person> addPlayer(@RequestBody AddPlayerToTeamDTO request) {
+        try {
+            Player player = new Player(
+                    request.positionGroup(),
+                    request.position(),
+                    request.shirtNumber()
+            );
+
+            List<Role> roles = new ArrayList<>();
+            roles.add(player);
+
+            Person insertedPerson = personService.insertPerson(
+                    request.firstName(),
+                    request.lastName(),
+                    roles,
+                    request.teamId()
+            );
+            System.out.println(insertedPerson);
+            return ResponseEntity.ok(insertedPerson);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
     /*
      * @PatchMapping("/{id}/edit")

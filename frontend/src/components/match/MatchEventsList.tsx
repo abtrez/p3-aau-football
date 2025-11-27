@@ -24,7 +24,7 @@ export default function MatchEventsList({ matchEvents, homeTeamId} : MatchEvents
                     <MatchEventRow
                         key={matchEvent.id}
                         matchEvent={matchEvent}
-                        isHomeTeamEvent={matchEvent.team?.id === homeTeamId}
+                        isHomeTeamEvent={matchEvent.teamId === homeTeamId}
                     />
                 ))}
             </div>

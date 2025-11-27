@@ -12,11 +12,10 @@ public class LeagueStatistics extends Statistics {
 
     @Id
     private String id;
-
     @DocumentReference
     private Team team;
+    private String competitionId;
     private String season;
-    private String competition;
     private int matchesPlayed;
     private int won;
     private int drawn;
@@ -28,10 +27,10 @@ public class LeagueStatistics extends Statistics {
     public LeagueStatistics() {
     }
 
-    public LeagueStatistics(Team team, String season, String competition, int matchesPlayed, int won, int drawn, int lost, int goalsFor, int goalsAgainst, int points) {
+    public LeagueStatistics(Team team, String season, String competitionId, int matchesPlayed, int won, int drawn, int lost, int goalsFor, int goalsAgainst, int points) {
         this.team = team;
         this.season = season;
-        this.competition = competition;
+        this.competitionId = competitionId;
         this.matchesPlayed = matchesPlayed;
         this.won = won;
         this.drawn = drawn;
@@ -81,27 +80,27 @@ public class LeagueStatistics extends Statistics {
         return this.matchesPlayed;
     }
 
-    public int getWins() {
+    public int getWon() {
         return this.won;
     }
 
-    public void setWins(int wins) {
+    public void setWon(int wins) {
         this.won = wins;
     }
 
-    public int getDraws() {
+    public int getDrawn() {
         return this.drawn;
     }
 
-    public void setDraws(int draws) {
+    public void setDrawn(int draws) {
         this.drawn = draws;
     }
 
-    public int getLosses() {
+    public int getLost() {
         return this.lost;
     }
 
-    public void setLosses(int losses) {
+    public void setLost(int losses) {
         this.lost = losses;
     }
 
@@ -121,35 +120,35 @@ public class LeagueStatistics extends Statistics {
         this.goalsAgainst = goalsAgainst;
     }
 
-    public void setCompetition(String comp) {
-        this.competition = comp;
+    public void setCompetitionId(String competitionId) {
+        this.competitionId = competitionId;
     }
 
-    public String getCompetition() {
-        return this.competition;
+    public String getCompetitionId() {
+        return this.competitionId;
     }
 
     public void update(UpdateLeagueStatistics updateLeagueStats) {
         if (updateLeagueStats.matchesPlayed != null) {
-            this.matchesPlayed = updateLeagueStats.matchesPlayed;
+            this.matchesPlayed += updateLeagueStats.matchesPlayed;
         }
         if (updateLeagueStats.won != null) {
-            this.won = updateLeagueStats.won;
+            this.won += updateLeagueStats.won;
         }
         if (updateLeagueStats.drawn != null) {
-            this.drawn = updateLeagueStats.drawn;
+            this.drawn += updateLeagueStats.drawn;
         }
         if (updateLeagueStats.lost != null) {
-            this.lost = updateLeagueStats.lost;
+            this.lost += updateLeagueStats.lost;
         }
         if (updateLeagueStats.goalsFor != null) {
-            this.goalsFor = updateLeagueStats.goalsFor;
+            this.goalsFor += updateLeagueStats.goalsFor;
         }
         if (updateLeagueStats.goalsAgainst != null) {
-            this.goalsAgainst = updateLeagueStats.goalsAgainst;
+            this.goalsAgainst += updateLeagueStats.goalsAgainst;
         }
         if (updateLeagueStats.points != null) {
-            this.points = updateLeagueStats.points;
+            this.points += updateLeagueStats.points;
         }
     }
 }

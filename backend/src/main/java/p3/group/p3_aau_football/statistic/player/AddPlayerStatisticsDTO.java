@@ -1,0 +1,15 @@
+package p3.group.p3_aau_football.statistic.player;
+
+public record AddPlayerStatisticsDTO(
+        String personId,
+        int won,
+        int lost,
+        int drawn,
+        int goals,
+        int assists,
+        int yellowCards,
+        int redCards,
+        int matchesPlayed,
+        String competitionId,
+        String season) {
+}

@@ -1,13 +1,17 @@
 import "@/components/team/TeamLogo";
 import TeamLogo from "@/components/team/TeamLogo";
+import { Person } from "@/lib/schemas/personSchema";
 import type { Team } from "@/lib/schemas/teamSchema";
 import Link from "next/link";
+
+import { fetchPersonsFromTeamId } from "@/lib/fetchPersonFromTeam";
 
 interface TeamCardProps {
   team: Team;
 }
 
-export default function TeamCard({ team }: TeamCardProps) {
+export default async function TeamCard({ team }: TeamCardProps) {
+  const members: Person[] = await fetchPersonsFromTeamId(team.id);
   return (
     <Link href={`/teams/${team.id}`}>
       <div className="flex rounded-2xl bg-white shadow-sm border border-gray-100 gap-4 p-4">
@@ -23,7 +27,7 @@ export default function TeamCard({ team }: TeamCardProps) {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-500">EST. {team.yearEstablished}</span>
-            <span className="text-gray-500">{team.size} members</span>
+            <span className="text-gray-500">{members.length} members</span>
           </div>
         </div>
       </div>
