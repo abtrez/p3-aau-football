@@ -27,7 +27,7 @@ const config: Config = {
     "^@/(.*)$": "<rootDir>/$1",
   },
 
-  setupFiles: ["<rootDir>/src/__test__/utils/setEnvVars.ts"],
+  setupFiles: ["<rootDir>/src/__test__/utils/setEnvVars.js"],
 };
 
 export default createJestConfig(config);
