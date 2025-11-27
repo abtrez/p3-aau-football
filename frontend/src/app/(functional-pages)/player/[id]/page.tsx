@@ -1,17 +1,12 @@
-"use client";
+"use server";
 
-import NotFound from "@/app/not-found";
 import InfoItem from "@/components/statistics/InfoItem";
 import TeamLogo from "@/components/team/TeamLogo";
 
 import Divider from "@mui/material/Divider";
 
-import { useParams } from "next/navigation";
-
 import { fetchPersonById } from "@/lib/fetchPerson";
 import { fetchTeamById } from "@/lib/fetchTeam";
-import { fetchPlayerStatistics } from "@/lib/fetchPlayerStatistics";
-import { aggregatePlayerStatistics } from "@/lib/aggregatePlayerStatistics";
 import { useEffect, useState } from "react";
 
 export default function Page() {
@@ -23,17 +18,6 @@ export default function Page() {
 
   const [player, setPlayer] = useState<any | null>(null);
   const [team, setTeam] = useState<any | null>(null);
-  const [stats, setStats] = useState<any | null>(null);
-  const [aggregatedStats, setAggregatedStats] = useState<{
-    wins: number;
-    losses: number;
-    draws: number;
-    goals: number;
-    assists: number;
-    yellowCards: number;
-    redCards: number;
-    matchesPlayed: number;
-  } | null>(null);
 
   useEffect(() => {
     if (!idParam) return;
@@ -41,14 +25,6 @@ export default function Page() {
     fetchPersonById(idParam)
       .then((personData) => {
         setPlayer(personData);
-
-        fetchPlayerStatistics(idParam, "2024/25", "69259efacd3900a562867eb0").then((statsData) => {
-          setStats(statsData);
-          const totals = aggregatePlayerStatistics(statsData);
-          setAggregatedStats(totals);
-          console.log(statsData, totals);
-        });
-
         if (personData.team) {
           return fetchTeamById(personData.team);
         } else {
@@ -60,7 +36,6 @@ export default function Page() {
       })
       .catch((err) => console.error(err));
   }, [idParam]);
-
 
 
   if (player == null) {
@@ -75,7 +50,7 @@ export default function Page() {
           {player.firstName} {player.lastName}
         </h1>
         <h2 className="text-2xl font-semibold  text-neutral-900 text-center -m-4">
-          {team ? team.name : player.team}
+          {team ? team.name : player.teamId}
         </h2>
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />

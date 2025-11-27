@@ -1,18 +1,20 @@
 "use client";
 
+import { authClient } from "@/lib/auth/auth-client";
 import Button from "@mui/material/Button";
 import { redirect } from "next/navigation";
 
-export default function LoginButton() {
+export function SignoutButton() {
   return (
     <Button
       variant="contained"
-      onClick={() => {
+      onClick={async () => {
+        await authClient.signOut();
         redirect("/sign-in");
       }}
       className="float-right"
     >
-      Login
+      Signout
     </Button>
   );
 }

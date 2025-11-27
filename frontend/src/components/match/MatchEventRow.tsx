@@ -1,34 +1,35 @@
-import TeamBadge from "@/components/team/TeamBadge";
-import {MatchEvent} from "@/lib/schemas/matchSchema";
+import { MatchEvent } from "@/lib/schemas/matchSchema";
 
 export interface MatchEventRowProps {
   matchEvent: MatchEvent;
   isHomeTeamEvent: boolean;
 }
 
-export default function MatchEventRow({ matchEvent, isHomeTeamEvent}: MatchEventRowProps) {
-    const minuteLabel = matchEvent.minute != null ? `${matchEvent.minute}'` : "";
-    const text = `${matchEvent.type} ${matchEvent.teamId}`;
+export default function MatchEventRow({
+  matchEvent,
+  isHomeTeamEvent,
+}: MatchEventRowProps) {
+  const minuteLabel = matchEvent.minute != null ? `${matchEvent.minute}'` : "";
+  const text = `${matchEvent.type} ${matchEvent.teamId}`;
 
-    return (
+  return (
     <div className=" p-4">
       <div className="grid grid-cols-[1fr_auto_1fr] items-center">
-
-          {/*left */}
+        {/*left */}
         <div className="text-center">
           <p>{isHomeTeamEvent ? text : minuteLabel}</p>
         </div>
 
-          {/*icon */}
+        {/*icon */}
         <div className="flex flex-col items-center justify-center gap-1 text-gray-500">
           <span className="px-4 text-sm font-semibold text-gray-500 justify-self-center">
             ICON
           </span>
         </div>
 
-          {/*right */}
+        {/*right */}
         <div className="text-center">
-            <p>{isHomeTeamEvent ? minuteLabel : text}</p>
+          <p>{isHomeTeamEvent ? minuteLabel : text}</p>
         </div>
       </div>
     </div>

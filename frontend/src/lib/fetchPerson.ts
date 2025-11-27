@@ -1,28 +1,35 @@
 "use server";
 
-import { personSchema } from "@/lib/schemas/personSchema";
+import { Person, personSchema } from "@/lib/schemas/personSchema";
 
-const BACKEND_URL = process.env.BACKEND_URI || "https://example.com/mock-api";
+const BACKEND_URL = process.env.BACKEND_URI;
 
-if (!BACKEND_URL) {
+const isBuild = !!process.env.NEXT_PHASE;
+
+if (!BACKEND_URL && !isBuild) {
   throw new Error("BACKEND_URI environment variable is not defined");
 }
 
-export async function fetchPersonById(PersonId: string) {
+export async function fetchPersonById(PersonId: string): Promise<Person> {
+  const safePattern = /^[a-zA-Z0-9_-]+$/;
+  if (!safePattern.test(PersonId)) {
+    throw new Error(`Invalid PersonId parameter.`);
+  }
+
   const res = await fetch(`${BACKEND_URL}/api/person/get/${PersonId}`);
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch person ${PersonId}: ${res.status} ${res.statusText}`,
+      `Failed to fetch person ${PersonId}: ${res.status} ${res.statusText}`
     );
   }
   const json = await res.json();
-  
-    const result = personSchema.safeParse(json);
-  
-    if (!result.success) {
-      console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
-      throw new Error(`Backend returned invalid Person data from ${PersonId}`);
-    }
-    // Return validated single person data
-    return result.data;
+
+  const result = personSchema.safeParse(json);
+
+  if (!result.success) {
+    console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
+    throw new Error(`Backend returned invalid Person data from ${PersonId}`);
   }
+  // Return validated single person data
+  return result.data;
+}

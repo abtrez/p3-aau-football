@@ -29,7 +29,7 @@ export default function MatchCard({ match }: MatchCardProps) {
                   minute: "2-digit",
                 })}
               </span>
-              <span className="text-center">"Domen"</span>
+              <span className="text-center">{'"Domen"'}</span>
             </div>
           </div>
           <div className="justify-self-end">

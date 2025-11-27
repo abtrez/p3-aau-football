@@ -2,7 +2,11 @@ import { fetchMatchById } from "@/lib/fetchMatch";
 import MatchEventsList from "@/components/match/MatchEventsList";
 import { Match } from "@/lib/schemas/matchSchema";
 
-export default async function Page({ params }: any) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = await params;
   const match: Match = await fetchMatchById(id);
 
@@ -14,13 +18,12 @@ export default async function Page({ params }: any) {
       </p>
 
       <p>
-            {match.homeScore} - {match.awayScore}
+        {match.homeScore} - {match.awayScore}
       </p>
 
-
       <MatchEventsList
-          matchEvents={match.matchEvents}
-          homeTeamId = {match.homeTeam.id}
+        matchEvents={match.matchEvents}
+        homeTeamId={match.homeTeam.id}
       />
     </div>
   );

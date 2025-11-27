@@ -1,6 +1,5 @@
-import { SignUpForm } from "@/components/forms/SignUpForm";
+import { CreateTeamForm } from "@/components/forms/CreateTeamForm";
 import { auth } from "@/lib/auth/auth";
-import { fetchTeams } from "@/lib/fetchTeam";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -13,11 +12,9 @@ export default async function Page() {
     redirect("/sign-in");
   }
 
-  const teams = await fetchTeams();
-
   return (
     <div className="flex flex-col justify-center items-center h-screen w-full">
-      <SignUpForm teams={teams} />
+      <CreateTeamForm />
     </div>
   );
 }
