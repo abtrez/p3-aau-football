@@ -1,5 +1,7 @@
 "use server";
-const BACKEND_URL = process.env.BACKEND_URI || "https://example.com/mock-api";
+const BACKEND_URL = process.env.BACKEND_URI;
+
+const isBuild = !!process.env.NEXT_PHASE;
 
 import {
   competitionsArraySchema,
@@ -7,15 +9,17 @@ import {
   competitionSchema,
 } from "@/lib/schemas/competitionSchema";
 
-if (!BACKEND_URL) {
+if (!BACKEND_URL && !isBuild) {
   throw new Error("BACKEND_URI environment variable is not defined");
 }
 
 export async function fetchCompetitions(): Promise<Competition[]> {
+  if (isBuild) return [];
+
   const res = await fetch(`${BACKEND_URL}/api/competition/get`);
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch competitions: ${res.status} ${res.statusText}`,
+      `Failed to fetch competitions: ${res.status} ${res.statusText}`
     );
   }
 
@@ -34,14 +38,19 @@ export async function fetchCompetitions(): Promise<Competition[]> {
 }
 
 export async function fetchCompetitionById(
-  competitionId: string,
+  competitionId: string
 ): Promise<Competition> {
+  const safePattern = /^[a-zA-Z0-9_-]+$/;
+  if (!safePattern.test(competitionId)) {
+    throw new Error(`Invalid competitionId parameter.`);
+  }
+
   const res = await fetch(
-    `${BACKEND_URL}/api/competition/get/${competitionId}`,
+    `${BACKEND_URL}/api/competition/get/${competitionId}`
   );
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch competition ${competitionId}: ${res.status} ${res.statusText}`,
+      `Failed to fetch competition ${competitionId}: ${res.status} ${res.statusText}`
     );
   }
   const json = await res.json();
@@ -52,10 +61,44 @@ export async function fetchCompetitionById(
   if (!result.success) {
     console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
     throw new Error(
-      `Backend returned invalid team data for id ${competitionId}`,
+      `Backend returned invalid team data for id ${competitionId}`
     );
   }
 
   // Return validated single team data
   return result.data;
+}
+
+export async function addCompetition(name: string, season: string) {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: name, season: season }),
+  };
+
+  const res = await fetch(`${BACKEND_URL}/api/competition/add`, options);
+
+  if (!res.ok) {
+    return {
+      result: null,
+      error: `Failed to add competition: ${res.status} ${res.statusText}`,
+    };
+  }
+
+  const json = await res.json();
+
+  // Validate returned json with Zod
+  const result = competitionSchema.safeParse(json);
+
+  if (!result.success) {
+    return {
+      result: null,
+      error: "Backend returned invalid competition data",
+    };
+  }
+
+  // Return status code and state of response
+  return { result: result.data, error: null };
 }

@@ -41,8 +41,14 @@ public class PersonController {
     }
 
     @GetMapping("/getFromTeam/{teamId}/role/{roleName}")
-    public List<Person> getPersonFromTeamIdAndRole(@PathVariable String teamId, @PathVariable String roleName){
+    public List<Person> getPersonFromTeamIdAndRole(@PathVariable String teamId, @PathVariable String roleName) {
         return personService.getPersonFromTeamIdAndRole(teamId, roleName);
+    }
+
+    @GetMapping("/get/roles/{personId}")
+    public List<Role> getRolesFromPerson(@PathVariable String personId) {
+        var person = personService.getPerson(personId);
+        return person.get().getRoles();
     }
 
     @PostMapping("/add")
@@ -62,16 +68,6 @@ public class PersonController {
         }
     }
 
-    @PostMapping("/add/{id}/addPlayer")
-    public ResponseEntity<Person> addPlayerToPerson(
-            @PathVariable("id") String id,
-            @RequestBody Player player) {
-
-        return personService.addPlayerToPerson(id, player)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @PostMapping("/add/{id}/addTeam/{teamId}")
     public ResponseEntity<Person> addTeamToPerson(
             @PathVariable("id") String id,
@@ -80,7 +76,7 @@ public class PersonController {
         return personService.addTeamToPerson(id, teamId);
     }
 
-    @PostMapping("/add-player")
+    @PostMapping("/addPlayer")
     public ResponseEntity<Person> addPlayer(@RequestBody AddPlayerToTeamDTO request) {
         try {
             Player player = new Player(

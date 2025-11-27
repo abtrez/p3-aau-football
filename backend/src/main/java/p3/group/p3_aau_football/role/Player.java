@@ -1,7 +1,7 @@
 package p3.group.p3_aau_football.role;
 
 public class Player extends Role {
-    
+
     private int shirtNumber;
 
     private PositionGroup positionGroup;

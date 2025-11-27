@@ -5,9 +5,11 @@ public class ContactPerson extends Role {
     private String phoneNumber;
 
     public ContactPerson() {
+        super("Contact Person");
     }
 
     public ContactPerson(String phoneNumber) {
+        super("Contact Person");
         this.phoneNumber = phoneNumber;
     }
 

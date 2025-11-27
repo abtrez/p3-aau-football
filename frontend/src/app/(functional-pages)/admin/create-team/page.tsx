@@ -1,4 +1,4 @@
-import { CreateCompetitionForm } from "@/components/forms/CreateCompetitionForm";
+import { CreateTeamForm } from "@/components/forms/CreateTeamForm";
 import { auth } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -14,7 +14,7 @@ export default async function Page() {
 
   return (
     <div className="flex flex-col justify-center items-center h-screen w-full">
-      <CreateCompetitionForm />
+      <CreateTeamForm />
     </div>
   );
 }
