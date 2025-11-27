@@ -28,6 +28,7 @@ const config: Config = {
   },
 
   setupFiles: ["<rootDir>/src/__test__/utils/setEnvVars.js"],
+  testEnvironment: "node",
 };
 
 export default createJestConfig(config);
