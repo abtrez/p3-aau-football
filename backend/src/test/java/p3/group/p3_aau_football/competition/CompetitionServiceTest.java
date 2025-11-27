@@ -88,4 +88,16 @@ class CompetitionServiceTest {
         assertEquals("2025/26", competition.getSeason());
         verify(competitionRepository).insert(any(Competition.class));
     }
+
+    @Test
+    void shouldThrowExceptionWhenCompetitionAlreadyExists() {
+        when(competitionRepository.existsBySeasonAndName(any(String.class), any(String.class))).thenReturn(true);
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> competitionService.insertCompetition("2025/26", "test"));
+
+        assertEquals("A competition with the same season and name already exists: Season: 2025/26, Name: test", exception.getMessage());
+
+        verify(competitionRepository).existsBySeasonAndName(any(String.class), any(String.class));
+    }
 }
