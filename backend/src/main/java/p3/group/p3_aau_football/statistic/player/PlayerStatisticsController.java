@@ -29,9 +29,9 @@ public class PlayerStatisticsController implements StatisticsController {
     public ResponseEntity<PlayerStatistics> addPlayerStats(@RequestBody AddPlayerStatisticsDTO request) {
         PlayerStatistics savedPlayerStatistics = this.playerStatisticsService.addPlayerStatistics(
                 request.personId(),
-                request.wins(),
-                request.losses(),
-                request.draws(),
+                request.won(),
+                request.lost(),
+                request.drawn(),
                 request.goals(),
                 request.assists(),
                 request.yellowCards(),

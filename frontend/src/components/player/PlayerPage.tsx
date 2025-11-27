@@ -48,11 +48,11 @@ export default function PlayerPage({ player, team, statistics }: PlayerPageInter
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
-        <InfoItem label="Wins" value={statistics?.wins ?? 0} />
-        <InfoItem label="Losses" value={statistics?.losses ?? 0} />
-        <InfoItem label="Draws" value={statistics?.draws ?? 0} />
+        <InfoItem label="Wins" value={statistics?.won ?? 0} />
+        <InfoItem label="Losses" value={statistics?.lost ?? 0} />
+        <InfoItem label="Draws" value={statistics?.drawn ?? 0} />
         <InfoItem label="Played" value={statistics?.matchesPlayed ?? 0} />
-        <InfoItem label="Win Percentage" value={`${((statistics?.wins ?? 0) / (statistics?.matchesPlayed ?? 1)) * 100}%`} />
+        <InfoItem label="Win Percentage" value={`${((statistics?.won ?? 0) / (statistics?.matchesPlayed ?? 1)) * 100}%`} />
         <InfoItem label="Goals" value={statistics?.goals ?? 0} />
         <InfoItem label="Assists" value={statistics?.assists ?? 0} />
         <InfoItem

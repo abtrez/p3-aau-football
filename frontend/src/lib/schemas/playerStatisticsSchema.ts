@@ -3,9 +3,9 @@ import { z } from "zod";
 export const playerStatisticsSchema = z.object({
     id: z.string(),
     personId: z.string(),
-    wins: z.number(),
-    losses: z.number(),
-    draws: z.number(),
+    won: z.number(),
+    lost: z.number(),
+    drawn: z.number(),
     goals: z.number(),
     assists: z.number(),
     yellowCards: z.number(),

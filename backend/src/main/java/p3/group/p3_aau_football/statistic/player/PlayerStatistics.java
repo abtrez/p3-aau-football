@@ -9,9 +9,9 @@ public class PlayerStatistics extends Statistics {
     @Id
     private String id;
     private String personId;
-    private int wins;
-    private int losses;
-    private int draws;
+    private int won;
+    private int lost;
+    private int drawn;
     private int goals;
     private int assists;
     private int yellowCards;
@@ -20,13 +20,13 @@ public class PlayerStatistics extends Statistics {
     private String competitionId;
     private String season;
 
-    public PlayerStatistics(String personId, int wins, int losses, int draws, int goals, int assists, int yellowCards,
+    public PlayerStatistics(String personId, int won, int lost, int drawn, int goals, int assists, int yellowCards,
             int redCards, int matchesPlayed,
             String competitionId, String season) {
         this.personId = personId;
-        this.wins = wins;
-        this.losses = losses;
-        this.draws = draws;
+        this.won = won;
+        this.lost = lost;
+        this.drawn = drawn;
         this.goals = goals;
         this.assists = assists;
         this.yellowCards = yellowCards;
@@ -37,16 +37,16 @@ public class PlayerStatistics extends Statistics {
     }
 
     // setters
-    public void setWins(int wins) {
-        this.wins = wins;
+    public void setWon(int won) {
+        this.won = won;
     }
 
-    public void setLosses(int losses) {
-        this.losses = losses;
+    public void setLost(int lost) {
+        this.lost = lost;
     }
 
-    public void setDraws(int draws) {
-        this.draws = draws;
+    public void setDrawn(int drawn) {
+        this.drawn = drawn;
     }
 
     public void setGoals(int goals) {
@@ -82,16 +82,16 @@ public class PlayerStatistics extends Statistics {
     }
 
     // getters
-    public int getWins() {
-        return this.wins;
+    public int getWon() {
+        return this.won;
     }
 
-    public int getLosses() {
-        return this.losses;
+    public int getLost() {
+        return this.lost;
     }
 
-    public int getDraws() {
-        return this.draws;
+    public int getDrawn() {
+        return this.drawn;
     }
 
     public String getId() {

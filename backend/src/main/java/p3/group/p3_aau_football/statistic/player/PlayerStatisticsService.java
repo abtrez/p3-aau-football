@@ -27,12 +27,12 @@ public class PlayerStatisticsService implements StatisticsService {
         return statsList;
     }
 
-    public PlayerStatistics addPlayerStatistics(String personId, int wins, int losses, int draws, int goals,
+    public PlayerStatistics addPlayerStatistics(String personId, int won, int lost, int drawn, int goals,
             int assists,
             int yellowCards, int redCards,
             int matchesPlayed, String competitionId, String season) {
         /// TODO: add exists check to avoid duplication in DB
-        return this.playerStatisticsRepository.save(new PlayerStatistics(personId, wins, losses, draws, goals, assists,
+        return this.playerStatisticsRepository.save(new PlayerStatistics(personId, won, lost, drawn, goals, assists,
                 yellowCards, redCards, matchesPlayed, competitionId, season));
     }
 }

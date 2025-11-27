@@ -3,9 +3,9 @@ import { PlayerStatistics } from "./schemas/playerStatisticsSchema";
 export function aggregatePlayerStatistics(stats: PlayerStatistics[]) {
   return stats.reduce(
     (acc, stat) => {
-      acc.wins += stat.wins;
-      acc.losses += stat.losses;
-      acc.draws += stat.draws;
+      acc.won += stat.won;
+      acc.lost += stat.lost;
+      acc.drawn += stat.drawn;
       acc.goals += stat.goals;
       acc.assists += stat.assists;
       acc.yellowCards += stat.yellowCards;
@@ -18,9 +18,9 @@ export function aggregatePlayerStatistics(stats: PlayerStatistics[]) {
       personId: "",
       competitionId: "",
       season: "",
-      wins: 0,
-      losses: 0,
-      draws: 0,
+      won: 0,
+      lost: 0,
+      drawn: 0,
       goals: 0,
       assists: 0,
       yellowCards: 0,
