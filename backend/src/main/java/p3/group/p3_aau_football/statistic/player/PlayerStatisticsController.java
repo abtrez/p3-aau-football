@@ -1,5 +1,7 @@
 package p3.group.p3_aau_football.statistic.player;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import p3.group.p3_aau_football.statistic.common.StatisticsController;
@@ -14,26 +16,30 @@ public class PlayerStatisticsController implements StatisticsController {
         this.playerStatisticsService = playerStatsService;
     }
 
-    //the most important is per season & league
+    // the most important is per season & league
     @GetMapping("/get/player")
-    public PlayerStatistics getPlayerStats(@RequestParam String id, @RequestParam String season, @RequestParam String competitionId) {
-        return playerStatisticsService.getPlayerStats(id, season, competitionId);
+    public List<PlayerStatistics> getPlayerStats(
+            @RequestParam String personId,
+            @RequestParam String season,
+            @RequestParam String competitionId) {
+        return playerStatisticsService.getPlayerStats(personId, season, competitionId);
     }
 
     @PostMapping("/add/player")
     public ResponseEntity<PlayerStatistics> addPlayerStats(@RequestBody AddPlayerStatisticsDTO request) {
         PlayerStatistics savedPlayerStatistics = this.playerStatisticsService.addPlayerStatistics(
                 request.personId(),
+                request.won(),
+                request.lost(),
+                request.drawn(),
                 request.goals(),
                 request.assists(),
                 request.yellowCards(),
                 request.redCards(),
                 request.matchesPlayed(),
                 request.competitionId(),
-                request.season()
-        );
+                request.season());
         return ResponseEntity.ok(savedPlayerStatistics);
     }
-
 
 }

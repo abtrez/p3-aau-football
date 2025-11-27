@@ -42,8 +42,14 @@ public class PersonController {
     }
 
     @GetMapping("/getFromTeam/{teamId}/role/{roleName}")
-    public List<Person> getPersonFromTeamIdAndRole(@PathVariable String teamId, @PathVariable String roleName){
+    public List<Person> getPersonFromTeamIdAndRole(@PathVariable String teamId, @PathVariable String roleName) {
         return personService.getPersonFromTeamIdAndRole(teamId, roleName);
+    }
+
+    @GetMapping("/get/roles/{personId}")
+    public List<Role> getRolesFromPerson(@PathVariable String personId) {
+        var person = personService.getPerson(personId);
+        return person.get().getRoles();
     }
 
     @PostMapping("/add")
@@ -80,7 +86,6 @@ public class PersonController {
 
         return personService.addTeamToPerson(id, teamId);
     }
-
 
     /*
      * @PatchMapping("/{id}/edit")

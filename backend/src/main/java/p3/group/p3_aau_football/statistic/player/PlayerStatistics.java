@@ -9,6 +9,9 @@ public class PlayerStatistics extends Statistics {
     @Id
     private String id;
     private String personId;
+    private int won;
+    private int lost;
+    private int drawn;
     private int goals;
     private int assists;
     private int yellowCards;
@@ -17,12 +20,35 @@ public class PlayerStatistics extends Statistics {
     private String competitionId;
     private String season;
 
-    public PlayerStatistics(String personId, int goals, int assists, int yellowCards, int redCards, int matchesPlayed,
-                            String competitionId, String season) {
-        super();
+    public PlayerStatistics(String personId, int won, int lost, int drawn, int goals, int assists, int yellowCards,
+            int redCards, int matchesPlayed,
+            String competitionId, String season) {
+        this.personId = personId;
+        this.won = won;
+        this.lost = lost;
+        this.drawn = drawn;
+        this.goals = goals;
+        this.assists = assists;
+        this.yellowCards = yellowCards;
+        this.redCards = redCards;
+        this.matchesPlayed = matchesPlayed;
+        this.competitionId = competitionId;
+        this.season = season;
     }
 
     // setters
+    public void setWon(int won) {
+        this.won = won;
+    }
+
+    public void setLost(int lost) {
+        this.lost = lost;
+    }
+
+    public void setDrawn(int drawn) {
+        this.drawn = drawn;
+    }
+
     public void setGoals(int goals) {
         this.goals = goals;
     }
@@ -56,6 +82,18 @@ public class PlayerStatistics extends Statistics {
     }
 
     // getters
+    public int getWon() {
+        return this.won;
+    }
+
+    public int getLost() {
+        return this.lost;
+    }
+
+    public int getDrawn() {
+        return this.drawn;
+    }
+
     public String getId() {
         return this.id;
     }

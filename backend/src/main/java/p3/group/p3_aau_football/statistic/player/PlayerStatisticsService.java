@@ -1,5 +1,7 @@
 package p3.group.p3_aau_football.statistic.player;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import p3.group.p3_aau_football.statistic.common.StatisticsService;
 
@@ -12,15 +14,25 @@ public class PlayerStatisticsService implements StatisticsService {
         this.playerStatisticsRepository = playerStatsRepo;
     }
 
-    public PlayerStatistics getPlayerStats(String id, String season, String competitionId) {
-        return this.playerStatisticsRepository.findByPersonIdAndSeasonAndCompetitionId(id, season, competitionId)
-                .orElseThrow(() -> new PlayerStatisticsNotFoundException(String.format("A Player Statistics Document with ID: %s does not exist in the database", id)));
+    public List<PlayerStatistics> getPlayerStats(String personId, String season, String competitionId) {
+        List<PlayerStatistics> statsList = this.playerStatisticsRepository
+                .findAllByPersonIdAndSeasonAndCompetitionId(personId, season, competitionId);
+
+        if (statsList.isEmpty()) {
+            throw new PlayerStatisticsNotFoundException(
+                    String.format("No Player Statistics found for personId=%s, season=%s, competitionId=%s",
+                            personId, season, competitionId));
+        }
+
+        return statsList;
     }
 
-    public PlayerStatistics addPlayerStatistics(String personId, int goals, int assists, int yellowCards, int redCards
-            , int matchesPlayed, String competitionId, String season) {
+    public PlayerStatistics addPlayerStatistics(String personId, int won, int lost, int drawn, int goals,
+            int assists,
+            int yellowCards, int redCards,
+            int matchesPlayed, String competitionId, String season) {
         /// TODO: add exists check to avoid duplication in DB
-        return this.playerStatisticsRepository.save(new PlayerStatistics(personId, goals, assists, yellowCards, redCards
-                , matchesPlayed, competitionId, season));
+        return this.playerStatisticsRepository.save(new PlayerStatistics(personId, won, lost, drawn, goals, assists,
+                yellowCards, redCards, matchesPlayed, competitionId, season));
     }
 }
