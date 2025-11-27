@@ -21,13 +21,13 @@ const baseMatchEventSchema = z.object({
   id: z.string().nullish(),
   playerId: z.string().nullish(),
   teamId: z.string().nullish(),
-  minute: z.number().int().nonnegative().nullish()
+  minute: z.number().int().nonnegative().nullish(),
 });
 
 /** Extends {@link baseMatchEventSchema} with keys for the schema's corresponding java class's fields */
 const goalMatchEventSchema = baseMatchEventSchema.extend({
-    type: z.literal("GOAL"), //as defined by jackson in backend MatchEvent class
-    assisterId: z.string().nullish()
+  type: z.literal("GOAL"), //as defined by jackson in backend MatchEvent class
+  assisterId: z.string().nullish(),
 });
 
 /** Extends {@link baseMatchEventSchema} with the keys for the schema's corresponding java class's fields */
@@ -47,7 +47,7 @@ export const matchEventSchema = z.discriminatedUnion("type", [
 export const matchSchema = z.object({
   id: z.string(),
   season: z.string().nullish(),
-  competition: z.string().nullish(),
+  competitionId: z.string().nullish(),
   homeTeam: teamSchema,
   awayTeam: teamSchema,
   venue: venueSchema.nullish(),
