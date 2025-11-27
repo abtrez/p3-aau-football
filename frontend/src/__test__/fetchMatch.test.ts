@@ -1,5 +1,4 @@
 import { createMockFetchResponse } from "@/__test__/utils/mockFetch";
-import { fetchMatchById, fetchMatchOverview } from "@/lib/fetchMatch";
 
 describe("fetchMatch environment validation", () => {
   const ORIGINAL_ENV = process.env;
@@ -45,6 +44,8 @@ describe("fetchMatch environment validation", () => {
     expect(fetchMatch.fetchMatchOverview()).resolves.toStrictEqual([]);
   });
 });
+
+import { fetchMatchById, fetchMatchOverview } from "@/lib/fetchMatch";
 
 describe("fetchMatchOverview", () => {
   it("fetches match overview", () => {
