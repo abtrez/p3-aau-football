@@ -15,7 +15,7 @@ class CompetitionRepositoryTest {
     private CompetitionRepository competitionRepository;
 
     @Test
-    void ShouldReturnTrueWhenCompetitionAlreadyExists() {
+    void shouldReturnTrueWhenCompetitionAlreadyExists() {
         when(competitionRepository.existsBySeasonAndName("2025/26", "test")).thenReturn(true);
 
         Boolean result = competitionRepository.existsBySeasonAndName("2025/26", "test");
@@ -26,7 +26,7 @@ class CompetitionRepositoryTest {
     }
 
     @Test
-    void ShouldReturnFalseWhenCompetitionDoesNotAlreadyExist() {
+    void shouldReturnFalseWhenCompetitionDoesNotAlreadyExist() {
         when(competitionRepository.existsBySeasonAndName("2025/26", "test")).thenReturn(false);
 
         Boolean result = competitionRepository.existsBySeasonAndName("2025/26", "test");
