@@ -1,11 +1,14 @@
 package p3.group.p3_aau_football.competition;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
@@ -44,5 +47,45 @@ class CompetitionServiceTest {
 
         assertEquals("Competition not found with ID: 321", exception.getMessage());
         verify(competitionRepository).findById("321");
+    }
+
+    @Test
+    void ShouldReturnAllCompetitionsWhenTheyExist() {
+        List<Competition> mockCompetitions = List.of(new Competition("2025/26", "Test Competition"), new Competition("2026/27", "Test Competition2"));
+
+        when(competitionRepository.findAll()).thenReturn(mockCompetitions);
+
+        List<Competition> result = competitionService.getOverview();
+
+        assertEquals(false, result.isEmpty());
+        assertEquals("Test Competition", result.get(0).getName());
+        assertEquals("Test Competition2", result.get(1).getName());
+        assertEquals("2025/26", result.get(0).getSeason());
+        assertEquals("2026/27", result.get(1).getSeason());
+
+        verify(competitionRepository).findAll();
+    }
+
+    @Test
+    void shouldThrowExceptionWhenNoCompetitionsExist() {
+        when(competitionRepository.findAll()).thenReturn(new ArrayList<>());
+
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> competitionService.getOverview());
+
+        assertEquals("No competitions in the collection", exception.getMessage());
+        verify(competitionRepository).findAll();
+    }
+
+    @Test
+    void shouldCreateCompetitionSuccessfully() {
+        Competition savedCompetition = new Competition("2025/26", "test");
+        when(competitionRepository.insert(any(Competition.class))).thenReturn(savedCompetition);
+
+        Competition competition = competitionService.insertCompetition("2025/26", "test");
+
+        assertEquals("test", competition.getName());
+        assertEquals("2025/26", competition.getSeason());
+        verify(competitionRepository).insert(any(Competition.class));
     }
 }
