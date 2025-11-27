@@ -68,14 +68,7 @@ describe("fetchCompetitionOverview", () => {
   it("gives an error if fetch returns not ok", () => {
     global.fetch = jest
       .fn()
-      .mockResolvedValue(
-        createMockFetchResponse(
-          [{ id: 123, season: "2025/26", name: "test" }],
-          {},
-          false,
-          404
-        )
-      );
+      .mockResolvedValue(createMockFetchResponse([], {}, false, 404));
 
     expect(fetchCompetitions()).rejects.toThrow(
       "Failed to fetch competitions: 404 Failed"
@@ -119,14 +112,7 @@ describe("fetchCompetitionById", () => {
   it("gives an error if fetch returns not ok", () => {
     global.fetch = jest
       .fn()
-      .mockResolvedValue(
-        createMockFetchResponse(
-          { id: 1, season: "2025/26", name: "test" },
-          {},
-          false,
-          404
-        )
-      );
+      .mockResolvedValue(createMockFetchResponse({}, {}, false, 404));
 
     expect(fetchCompetitionById("1")).rejects.toThrow(
       "Failed to fetch competition 1: 404 Failed"
