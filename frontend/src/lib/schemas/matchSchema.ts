@@ -50,7 +50,7 @@ export const matchSchema = z.object({
   competitionId: z.string().nullish(),
   homeTeam: teamSchema,
   awayTeam: teamSchema,
-  venue: venueSchema.nullish(),
+  venue: z.string().nullish(),
   kickoff: z.string().nullish(),
   referees: z.array(refereeSchema).nullish(),
   homeScore: z.number(),

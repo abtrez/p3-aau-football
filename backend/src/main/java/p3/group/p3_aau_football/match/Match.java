@@ -27,8 +27,8 @@ public class Match {
     @DocumentReference
     private final Team awayTeam;
 
-    @DocumentReference
-    private Venue venue;
+ 
+    private String venue;
     private LocalDateTime kickoff;
     private List<Referee> referees;
 
@@ -63,7 +63,7 @@ public class Match {
         return this.awayScore;
     }
 
-    public Venue getVenue() {
+    public String getVenue() {
         return this.venue;
     }
 
@@ -176,7 +176,7 @@ public class Match {
         this.awayScore = awayScore;
     }
 
-    public void setVenue(Venue venue) {
+    public void setVenue(String venue) {
         this.venue = venue;
     }
 
