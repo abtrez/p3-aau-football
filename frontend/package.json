@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "jest --passWithNoTests",
+    "test:runInBand": "jest --passWithNoTests --runInBand",
     "test:coverage": "jest --passWithNoTests --coverage",
     "test:watch": "jest --watch --passWithNoTests"
   },
