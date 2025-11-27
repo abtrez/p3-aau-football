@@ -29,6 +29,22 @@ export default async function Page({
     } else {
       aggregatedStatistics = null;
     }
+  } else {
+    return (
+      <div className="container overflow-auto mx-auto">
+        <div className="flex flex-col items-center gap-4">
+          <h1 className="text-4xl font-semibold  text-neutral-900 text-center">
+            {player.firstName} {player.lastName}
+          </h1>
+          <h2 className="text-2xl font-semibold  text-neutral-900 text-center -m-4">
+            {team ? team.name : player.teamId}
+          </h2>
+        </div>
+        <h1 className="text-2xl font-semibold  text-neutral-900 text-center mt-12 italic">
+          This person is not a player.
+        </h1>
+      </div>
+    )
   }
 
   return (
