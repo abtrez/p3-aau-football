@@ -25,7 +25,7 @@ class CompetitionServiceTest {
     private CompetitionService competitionService;
 
     @Test
-    void ShouldReturnCompetitionWhenIdExists() {
+    void shouldReturnCompetitionWhenIdExists() {
         Competition mockCompetition = new Competition("2025/26", "Test Competition");
         mockCompetition.setId("123");
         when(competitionRepository.findById("123")).thenReturn(Optional.of(mockCompetition));
@@ -50,7 +50,7 @@ class CompetitionServiceTest {
     }
 
     @Test
-    void ShouldReturnAllCompetitionsWhenTheyExist() {
+    void shouldReturnAllCompetitionsWhenTheyExist() {
         List<Competition> mockCompetitions = List.of(new Competition("2025/26", "Test Competition"), new Competition("2026/27", "Test Competition2"));
 
         when(competitionRepository.findAll()).thenReturn(mockCompetitions);
