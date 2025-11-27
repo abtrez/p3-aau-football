@@ -42,7 +42,7 @@ describe("fetchMatch environment validation", () => {
 
     const fetchMatch = await import("@/lib/fetchMatch");
 
-    expect(fetchMatch.fetchMatchOverview()).resolves.toEqual([]);
+    expect(fetchMatch.fetchMatchOverview()).resolves.toStrictEqual([]);
   });
 });
 
@@ -79,7 +79,7 @@ describe("fetchMatchOverview", () => {
       ])
     );
 
-    expect(fetchMatchOverview()).resolves.toEqual([
+    expect(fetchMatchOverview()).resolves.toStrictEqual([
       {
         id: "123",
         season: "2025/26",
@@ -163,7 +163,7 @@ describe("fetchMatchById", () => {
       })
     );
 
-    expect(fetchMatchById("123")).resolves.toEqual({
+    expect(fetchMatchById("123")).resolves.toStrictEqual({
       id: "123",
       season: "2025/26",
       competition: "1",
