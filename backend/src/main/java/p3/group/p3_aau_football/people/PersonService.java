@@ -56,7 +56,7 @@ public class PersonService {
         return personRepository.findByTeamId(teamId);
     }
 
-    public List<Person> getPersonFromTeamIdAndRole(String teamId, String roleName){
+    public List<Person> getPersonFromTeamIdAndRole(String teamId, String roleName) {
         return personRepository.findByTeamIdAndRoles_Name(teamId, roleName);
     }
 

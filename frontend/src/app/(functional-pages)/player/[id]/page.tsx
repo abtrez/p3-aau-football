@@ -13,15 +13,22 @@ export default async function Page({
   const { id } = await params;
 
   const player = await fetchPersonById(id);
-  let team;
+  let team = null;
 
   if (player.teamId) {
     team = await fetchTeamById(player.teamId);
   }
 
+  let statistics = null;
+  let aggregatedStatistics = null;
+  if (player.roles?.some(role => role.type === "PLAYER")) {
+    statistics = await fetchPlayerStatistics(id, "2024/25", "69259efacd3900a562867eb0");
+    aggregatedStatistics = aggregatePlayerStatistics(statistics);
+  }
+
   return (
     <div className="container overflow-auto mx-auto">
-      <PlayerPage />
+      <PlayerPage player={player} team={team} statistics={aggregatedStatistics} />
     </div>
   );
 }

@@ -14,6 +14,10 @@ export function aggregatePlayerStatistics(stats: PlayerStatistics[]) {
       return acc;
     },
     {
+      id: "",
+      personId: "",
+      competitionId: "",
+      season: "",
       wins: 0,
       losses: 0,
       draws: 0,
@@ -22,6 +26,6 @@ export function aggregatePlayerStatistics(stats: PlayerStatistics[]) {
       yellowCards: 0,
       redCards: 0,
       matchesPlayed: 0,
-    }
+    } satisfies PlayerStatistics
   );
 }
