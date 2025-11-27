@@ -14,6 +14,27 @@ interface PlayerPageInterface {
 export default function PlayerPage({ player, team, statistics }: PlayerPageInterface) {
   const playerRole = player.roles?.find(role => role.type === "PLAYER");
 
+  if (statistics == null) {
+    return (
+      <>
+        <div className="flex flex-col items-center gap-4">
+          <TeamLogo logo={"/placeholder-logo.png"} height={120} width={120} />
+          <h1 className="text-4xl font-semibold  text-neutral-900 text-center">
+            {player.firstName} {player.lastName}
+          </h1>
+          <h2 className="text-2xl font-semibold  text-neutral-900 text-center -m-4">
+            {team ? team.name : player.teamId}
+          </h2>
+        </div>
+        <div>
+          <h1 className="text-2xl font-semibold  text-neutral-900 text-center mt-12 italic">
+            No stats found for player for current competition.
+          </h1>
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
       <div className="flex flex-col items-center gap-4">
@@ -31,7 +52,7 @@ export default function PlayerPage({ player, team, statistics }: PlayerPageInter
         <InfoItem label="Losses" value={statistics?.losses ?? 0} />
         <InfoItem label="Draws" value={statistics?.draws ?? 0} />
         <InfoItem label="Played" value={statistics?.matchesPlayed ?? 0} />
-        <InfoItem label="Win Percentage" value={`${100}%`} />
+        <InfoItem label="Win Percentage" value={`${((statistics?.wins ?? 0) / (statistics?.matchesPlayed ?? 1)) * 100}%`} />
         <InfoItem label="Goals" value={statistics?.goals ?? 0} />
         <InfoItem label="Assists" value={statistics?.assists ?? 0} />
         <InfoItem
@@ -40,7 +61,7 @@ export default function PlayerPage({ player, team, statistics }: PlayerPageInter
         />
         <InfoItem label="Shirt Number" value={playerRole?.shirtNumber ?? "N/A"} />
         <InfoItem label="Position" value={(playerRole?.positionGroup ?? "N/A") + ", " + (playerRole?.position ?? "N/A")} />
-        <InfoItem label="Joined Team" value={2025} />
+        {/* <InfoItem label="Joined Team" value={2025} /> */}
       </div>
     </>
   )

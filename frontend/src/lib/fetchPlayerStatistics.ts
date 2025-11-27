@@ -15,7 +15,7 @@ export async function fetchPlayerStatistics(
     personId: string,
     season: string,
     competitionId: string,
-): Promise<PlayerStatistics[]> {
+): Promise<PlayerStatistics[] | null> {
     const url =
         `${BACKEND_URL}/api/statistics/get/player` +
         `?personId=${encodeURIComponent(personId)}` +
@@ -23,6 +23,12 @@ export async function fetchPlayerStatistics(
         `&competitionId=${encodeURIComponent(competitionId)}`;
 
     const res = await fetch(url);
+
+    if (res.status === 404) {
+        // no document found matching parameters
+        return null;
+    }
+
     if (!res.ok) {
         throw new Error(
             `Failed to fetch player statistics: ${res.status} ${res.statusText}`,
