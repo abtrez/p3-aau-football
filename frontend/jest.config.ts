@@ -26,6 +26,8 @@ const config: Config = {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
   },
+
+  setupFiles: ["<rootDir>/src/__test__/utils/setEnvVars.ts"],
 };
 
 export default createJestConfig(config);
