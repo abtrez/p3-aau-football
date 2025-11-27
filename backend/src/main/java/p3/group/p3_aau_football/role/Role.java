@@ -19,7 +19,7 @@ public abstract class Role {
     public Role() {
     }
 
-    public Role(String name) {
+    public Role(String name){
         this.name = name;
     }
 

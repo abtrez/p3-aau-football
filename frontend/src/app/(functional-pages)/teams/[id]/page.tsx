@@ -1,13 +1,17 @@
 import InfoItem from "@/components/statistics/InfoItem";
 import TeamLogo from "@/components/team/TeamLogo";
+import FloatingActionButton from "@/components/FloatingActionButton";
 import { fetchTeamById } from "@/lib/fetchTeam";
 import { Team } from "@/lib/schemas/teamSchema";
 import { Person } from "@/lib/schemas/personSchema";
+import AddIcon from "@mui/icons-material/Add";
 
 import Divider from "@mui/material/Divider";
 import { fetchPersonsFromTeamId } from "@/lib/fetchPersonFromTeam";
 import { fetchPersonFromTeamIdByRole } from "@/lib/fetchPersonFromRoleAndTeam";
 import { fetchPersonById } from "@/lib/fetchPerson";
+import { auth } from "@/lib/auth/auth";
+import { headers } from "next/headers";
 
 export default async function Page({
   params,
@@ -15,6 +19,9 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const team: Team = await fetchTeamById(id);
   const members: Person[] = await fetchPersonsFromTeamId(id);
   const leader: Person[] = await fetchPersonFromTeamIdByRole(id, "Leader");
@@ -102,6 +109,9 @@ export default async function Page({
           </div>
         ))}
       </section>
+      {session && (
+        <FloatingActionButton icon={AddIcon} link="/leader/add-member" />
+      )}
     </div>
   );
 }

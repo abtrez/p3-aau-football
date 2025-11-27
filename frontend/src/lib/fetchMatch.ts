@@ -58,3 +58,45 @@ export async function fetchMatchById(matchId: string): Promise<Match> {
   // Return validated single match data
   return result.data;
 }
+
+//add match 
+export async function addMatch(data: {
+  season: string;
+  competition: string
+  homeTeam: string;
+  awayTeam: string;
+  venue: string;
+  kickoff: string;
+}) {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ data }),
+  };
+
+  const res = await fetch(`${BACKEND_URL}/api/match/add`, options);
+
+  if (!res.ok) {
+    return {
+      result: null,
+      error: `Failed to add match: ${res.status} ${res.statusText}`,
+    };
+  }
+
+  const json = await res.json();
+
+  // Validate returned json with Zod
+  const result = matchSchema.safeParse(json);
+
+  if (!result.success) {
+    return {
+      result: null,
+      error: "Backend returned invalid match data",
+    };
+  }
+
+  // Return status code and state of response
+  return { result: result.data, error: null };
+}
