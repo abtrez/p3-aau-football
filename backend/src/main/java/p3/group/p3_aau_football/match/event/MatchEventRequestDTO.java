@@ -1,16 +1,11 @@
 package p3.group.p3_aau_football.match.event;
 
 /**
- * Used to parse add matchEvent requestDTO into java object
+ * Polymorphic base (super) type for incoming 'Match Event' requests.
+ * Sealed interface, as subtypes are "records", which already inherit from java.lang.Record
  */
-public record MatchEventRequestDTO(
-        String type,    // "GOAL" or "CARD", see jackson annotations on MatchEvent.java
-        String teamId,
-        String playerId,
-        Integer minute,
-        //Goal specific
-        String assisterId,
-        //Card specific
-        CardType cardType
-) implements MatchEventUpdateData {
+public sealed interface MatchEventRequestDTO permits GoalEventRequestDTO, CardEventRequestDTO {
+        String teamId();
+        String playerId();
+        Integer minute();
 }

@@ -3,16 +3,19 @@ import {MatchEvent} from "@/lib/schemas/matchEventSchema";
 import MatchEventInfo from "@/components/match/MatchEventInfo";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 export interface MatchEventRowProps {
   matchEvent: MatchEvent;
   isHomeTeamEvent: boolean;
+  onEdit: (matchEvent: MatchEvent) => void;
   onDelete: (eventId: string) => void;
 }
 
 export default function MatchEventRow({
     matchEvent,
     isHomeTeamEvent,
+    onEdit,
     onDelete
 }: MatchEventRowProps) {
 
@@ -25,8 +28,8 @@ export default function MatchEventRow({
 
     return (
     <div className=" p-4">
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center">
-          {/*left */}
+      <div className="grid grid-cols-[1fr_auto_1fr_auto_auto] items-center gap-2">
+        {/*left event info */}
         <MatchEventInfo label={leftContent}/>
 
           {/*icon */}
@@ -36,9 +39,15 @@ export default function MatchEventRow({
           </span>
         </div>
 
-          {/*right make MatchEventInfo component*/}
+        {/*right  event info */}
         <MatchEventInfo label={rightContent}/>
 
+        {/* Edit button */}
+        <IconButton aria-label="edit" onClick={() => onEdit(matchEvent)}>
+              <EditIcon />
+        </IconButton>
+
+        {/* Delete button */}
         <IconButton aria-label="delete" onClick={() => onDelete("" + matchEvent.id)}>
               <DeleteIcon />
         </IconButton>

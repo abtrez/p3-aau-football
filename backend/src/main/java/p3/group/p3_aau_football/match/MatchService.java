@@ -92,7 +92,9 @@ public class MatchService {
         // Create Match Event objects (of appropriate subclass) from each request dto, append to the temporary list
         for (MatchEventRequestDTO dto : requests ) {
             //TODO: dto validation, expeption handling? validate team belongs to this match?
-            newMatchEvents.add(matchEventDtoToModel(dto));
+            MatchEvent model = matchEventDtoToModel(dto);
+            System.out.println(model);
+            newMatchEvents.add(model);
         }
 
         /// Delegate addition to model logic, passing the new events

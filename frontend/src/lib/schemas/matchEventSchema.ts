@@ -33,7 +33,7 @@ export const matchEventSchema = z.discriminatedUnion("type", [
     cardMatchEventSchema,
 ]);
 
-//Typescript t to use in React Components
+//Typescript type to use in React Components
 export type MatchEvent = z.infer<typeof matchEventSchema>;
 
 // Request Schemas: Defines what frontend should send to backend, used to validate user input
@@ -42,3 +42,15 @@ export const deleteMatchEventInputSchema = z.object({
     eventId: z.string()
 });
 export type DeleteMatchEventInput = z.infer<typeof deleteMatchEventInputSchema>
+
+
+// Create
+export const createMatchEventInputSchema = z.object({
+    matchId: z.string(),
+    type: z.enum(["GOAL", "CARD"]),
+    teamId: z.string(),
+    minute: z.number().int().nonnegative(),
+    // later extend with playerId, assisterId, cardType etc.
+});
+
+export type CreateMatchEventInput = z.infer<typeof createMatchEventInputSchema>;
