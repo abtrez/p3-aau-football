@@ -1,9 +1,10 @@
 package p3.group.p3_aau_football.match.event;
 /**
- * Factory for MatchEventRequestMapper instances.
- *
- * Maps DTO class -> mapper instance and provides convenience methods
- * for creating/updating model objects from generic MatchEventRequestDTO.
+ *     Factory for mapping MatchEventRequestDTO subtypes to MatchEvent model objects
+ * <ul>
+ *     <li>Centralises DTO -> Model conversion logic for polymorphic match events.</li>
+ *     <li>New event types can be added by registering new mapper.</li>
+ * </ul>
  */
 
 public class MatchEventRequestMapperFactory {

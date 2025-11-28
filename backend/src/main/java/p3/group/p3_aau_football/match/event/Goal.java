@@ -22,8 +22,9 @@ public class Goal extends MatchEvent {
     }
 
     @Override
-    protected void applySpecificUpdate(MatchEventUpdateData data) {
-        // Other fields are handled by super
-        this.setAssisterId(data.assisterId());
+    protected void applySpecificUpdate(MatchEventRequestDTO dto) {
+        //TODO: fix with mapper
+        //Other fields are handled by super
+        //this.setAssisterId(dto.assisterId());
     }
 }

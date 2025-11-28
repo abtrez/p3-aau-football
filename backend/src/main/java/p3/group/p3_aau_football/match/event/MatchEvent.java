@@ -58,20 +58,21 @@ public abstract class MatchEvent {
     }
 
     /**
-     * @param data interface type to avoid direct dependency on dto from model
+     * @param dto interface type to avoid direct dependency on dto from model
      */
-    public void applyUpdate (MatchEventUpdateData data) {
+    public void applyUpdate (MatchEventRequestDTO dto) {
 
         // Common Editable fields for all subtypes, id and team not allowed
-        this.setPlayerId(data.playerId());
-        this.setMinute(data.minute());
+        this.setPlayerId(dto.playerId());
+        this.setMinute(dto.minute());
 
+        //TODO: fix with mapper
         // Subclass updates its own type-specific field, makes this a "Template Method"
-        applySpecificUpdate(data);
+        applySpecificUpdate(dto);
     }
 
     /**
      * Force subclasses to implement their specific update logic
      */
-    protected abstract void applySpecificUpdate(MatchEventUpdateData data);
+    protected abstract void applySpecificUpdate(MatchEventRequestDTO dto);
 }

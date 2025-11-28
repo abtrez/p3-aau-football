@@ -1,7 +1,9 @@
 package p3.group.p3_aau_football.match.event;
 
 /**
- * One directional mapper: DTO -> Model
+ * <p>One directional mapper: DTO -> Model.</p>
+ * <p>Responsibility: Conversion only. </p>
+ * Subtype <b>assumptions</b>: Given a validated DTO, produce the corresponding model object.
  * @param <D> generic type for DTO,          MatchEventRequestDTO subtype
  * @param <M> generic type Model,                      MatchEvent subtype
  */

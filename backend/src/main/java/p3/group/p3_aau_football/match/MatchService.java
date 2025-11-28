@@ -62,23 +62,16 @@ public class MatchService {
      * @return Goal object, Card object, or throws exception
      */
     private MatchEvent matchEventDtoToModel(MatchEventRequestDTO dto) {
+        //TODO: fix with mapper
+        throw new UnsupportedOperationException("TODO: replace with mapper factory");
         //Switch Expression on DTO record. Evaluates to a single value, which is returned.
+        /*
         return switch (dto.type()) {
             // -> syntax no need for 'break' statements
-            case "GOAL" -> new Goal(
-                    dto.teamId(),
-                    dto.playerId(),
-                    dto.minute(),
-                    dto.assisterId()
-            );
-            case "CARD" -> new Card(
-                    dto.teamId(),
-                    dto.playerId(),
-                    dto.minute(),
-                    dto.cardType()
-            );
+            case "GOAL" ->
+            case "CARD" ->
             default -> throw new IllegalArgumentException("Unknown type: " + dto.type()); //TODO: Figure out exact Exception type later
-        };
+        };*/
     }
 
     // Works, but improvements pending
@@ -92,7 +85,7 @@ public class MatchService {
         // Create Match Event objects (of appropriate subclass) from each request dto, append to the temporary list
         for (MatchEventRequestDTO dto : requests ) {
             //TODO: dto validation, expeption handling? validate team belongs to this match?
-            MatchEvent model = matchEventDtoToModel(dto);
+            MatchEvent model = matchEventDtoToModel(dto); //TODO: fix with mapper
             System.out.println(model);
             newMatchEvents.add(model);
         }
