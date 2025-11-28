@@ -2,16 +2,14 @@ package p3.group.p3_aau_football.competition;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import p3.group.p3_aau_football.match.MatchService;
 
 import java.util.List;
-import java.util.Optional;
 
-@RestController // flags class, so it is ready for use by Spring MVC to handle web requests.
+@RestController
 @RequestMapping("/api/competition")
 public class CompetitionController {
 
-    private CompetitionService competitionService;
+    private final CompetitionService competitionService;
 
     public CompetitionController(CompetitionService competitionService) {
         this.competitionService = competitionService;
@@ -23,18 +21,17 @@ public class CompetitionController {
     }
 
     @GetMapping("/get/{id}")
-    public Optional<Competition> getCompetition(@PathVariable("id") String id) {
+    public Competition getCompetition(@PathVariable("id") String id) {
         return competitionService.getCompetition(id);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Competition> addCompetition(@RequestBody Competition competition) {
-        try {
-            Competition insertedCompetition = competitionService.insertCompetition(competition);
-            return ResponseEntity.ok(insertedCompetition);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Competition> addCompetition(@RequestBody CreateCompetitionRequestDTO request) {
+        Competition insertedCompetition = competitionService.insertCompetition(
+                request.season(),
+                request.name()
+        );
+        return ResponseEntity.ok(insertedCompetition);
     }
+
 }

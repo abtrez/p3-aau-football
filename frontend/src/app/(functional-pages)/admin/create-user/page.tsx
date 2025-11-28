@@ -1,4 +1,4 @@
-import { SignUpForm } from "@/components/authentication/SignUpForm";
+import { SignUpForm } from "@/components/forms/SignUpForm";
 import { auth } from "@/lib/auth/auth";
 import { fetchTeams } from "@/lib/fetchTeam";
 import { headers } from "next/headers";

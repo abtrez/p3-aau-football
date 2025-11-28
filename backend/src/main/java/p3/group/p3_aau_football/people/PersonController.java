@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import p3.group.p3_aau_football.role.Player;
@@ -42,8 +41,14 @@ public class PersonController {
     }
 
     @GetMapping("/getFromTeam/{teamId}/role/{roleName}")
-    public List<Person> getPersonFromTeamIdAndRole(@PathVariable String teamId, @PathVariable String roleName){
+    public List<Person> getPersonFromTeamIdAndRole(@PathVariable String teamId, @PathVariable String roleName) {
         return personService.getPersonFromTeamIdAndRole(teamId, roleName);
+    }
+
+    @GetMapping("/get/roles/{personId}")
+    public List<Role> getRolesFromPerson(@PathVariable String personId) {
+        var person = personService.getPerson(personId);
+        return person.get().getRoles();
     }
 
     @PostMapping("/add")
@@ -63,22 +68,38 @@ public class PersonController {
         }
     }
 
-    @PostMapping("/add/{id}/addPlayer")
-    public ResponseEntity<Person> addPlayerToPerson(
-            @PathVariable("id") String id,
-            @RequestBody Player player) {
-
-        return personService.addPlayerToPerson(id, player)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     @PostMapping("/add/{id}/addTeam/{teamId}")
     public ResponseEntity<Person> addTeamToPerson(
             @PathVariable("id") String id,
             @PathVariable("teamId") String teamId) {
 
         return personService.addTeamToPerson(id, teamId);
+    }
+
+    @PostMapping("/addPlayer")
+    public ResponseEntity<Person> addPlayer(@RequestBody AddPlayerToTeamDTO request) {
+        try {
+            Player player = new Player(
+                    request.positionGroup(),
+                    request.position(),
+                    request.shirtNumber()
+            );
+
+            List<Role> roles = new ArrayList<>();
+            roles.add(player);
+
+            Person insertedPerson = personService.insertPerson(
+                    request.firstName(),
+                    request.lastName(),
+                    roles,
+                    request.teamId()
+            );
+            System.out.println(insertedPerson);
+            return ResponseEntity.ok(insertedPerson);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 

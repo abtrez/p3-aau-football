@@ -1,3 +1,13 @@
+#### MAIN
+[![(MAIN) Java build and test](https://github.com/abtrez/p3-aau-football/actions/workflows/gradle.yml/badge.svg?branch=main)](https://github.com/abtrez/p3-aau-football/actions/workflows/gradle.yml)
+[![(MAIN) Node.js build and test](https://github.com/abtrez/p3-aau-football/actions/workflows/node.yml/badge.svg?branch=main)](https://github.com/abtrez/p3-aau-football/actions/workflows/node.yml)
+[![(MAIN) CodeQL Advanced](https://github.com/abtrez/p3-aau-football/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/abtrez/p3-aau-football/actions/workflows/codeql.yml)
+
+#### DEV
+[![(DEV) Java build and test](https://github.com/abtrez/p3-aau-football/actions/workflows/gradle.yml/badge.svg?branch=dev)](https://github.com/abtrez/p3-aau-football/actions/workflows/gradle.yml)
+[![(DEV) Node.js build and test](https://github.com/abtrez/p3-aau-football/actions/workflows/node.yml/badge.svg?branch=dev)](https://github.com/abtrez/p3-aau-football/actions/workflows/node.yml)
+[![(DEV) CodeQL Advanced](https://github.com/abtrez/p3-aau-football/actions/workflows/codeql.yml/badge.svg?branch=dev)](https://github.com/abtrez/p3-aau-football/actions/workflows/codeql.yml)
+
 # p3-aau-liga
 
 # Frontend

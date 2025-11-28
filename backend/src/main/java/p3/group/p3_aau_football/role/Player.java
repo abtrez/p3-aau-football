@@ -1,7 +1,7 @@
 package p3.group.p3_aau_football.role;
 
 public class Player extends Role {
-    
+
     private int shirtNumber;
 
     private PositionGroup positionGroup;
@@ -12,8 +12,9 @@ public class Player extends Role {
     }
 
     public enum Position {
-        CB, LB, RB, LWB, RWB, CDM, CM, CAM,
-        LM, ST, CF, LW, RW, LA, RA
+        CB, LB, RB, LWB, RWB,
+        CDM, CM, CAM, LM, RM,
+        LW, RW, LA, RA, CF, ST
     }
 
     public Player() {
@@ -21,6 +22,7 @@ public class Player extends Role {
     }
 
     public Player(PositionGroup positionGroup, Position position, int shirtNumber) {
+        super("Player");
         this.positionGroup = positionGroup;
         this.position = position;
         this.shirtNumber = shirtNumber;

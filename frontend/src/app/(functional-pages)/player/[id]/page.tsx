@@ -1,76 +1,55 @@
-"use client";
-
-import NotFound from "@/app/not-found";
-import InfoItem from "@/components/statistics/InfoItem";
-import TeamLogo from "@/components/team/TeamLogo";
-
-import Divider from "@mui/material/Divider";
-
-import { useParams } from "next/navigation";
+import PlayerPage from "@/components/player/PlayerPage";
 
 import { fetchPersonById } from "@/lib/fetchPerson";
 import { fetchTeamById } from "@/lib/fetchTeam";
-import { useEffect, useState } from "react";
+import { fetchPlayerStatistics } from "@/lib/fetchPlayerStatistics";
+import { aggregatePlayerStatistics } from "@/lib/aggregatePlayerStatistics";
 
-export default function Page() {
-  const { id } = useParams();
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
 
-  if (!id) return <NotFound />;
+  const player = await fetchPersonById(id);
+  let team = null;
 
-  const idParam = Array.isArray(id) ? id[0] : id;
+  if (player.teamId) {
+    team = await fetchTeamById(player.teamId);
+  }
 
-  const [player, setPlayer] = useState<any | null>(null);
-  const [team, setTeam] = useState<any | null>(null);
+  let statistics = null;
+  let aggregatedStatistics = null;
+  if (player.roles?.some(role => role.type === "PLAYER")) {
+    statistics = await fetchPlayerStatistics(id, "2024/25", "69259efacd3900a562867eb0");
 
-  useEffect(() => {
-    if (!idParam) return;
-
-    fetchPersonById(idParam)
-      .then((personData) => {
-        setPlayer(personData);
-        if (personData.team) {
-          return fetchTeamById(personData.team);
-        } else {
-          return null;
-        }
-      })
-      .then((teamData) => {
-        if (teamData) setTeam(teamData);
-      })
-      .catch((err) => console.error(err));
-  }, [idParam]);
-
-
-  if (player == null) {
-    return <p>loading</p>
+    if (statistics != null) {
+      aggregatedStatistics = aggregatePlayerStatistics(statistics);
+    } else {
+      aggregatedStatistics = null;
+    }
+  } else {
+    return (
+      <div className="container overflow-auto mx-auto">
+        <div className="flex flex-col items-center gap-4">
+          <h1 className="text-4xl font-semibold  text-neutral-900 text-center">
+            {player.firstName} {player.lastName}
+          </h1>
+          <h2 className="text-2xl font-semibold  text-neutral-900 text-center -m-4">
+            {team ? team.name : player.teamId}
+          </h2>
+        </div>
+        <h1 className="text-2xl font-semibold  text-neutral-900 text-center mt-12 italic">
+          This person is not a player.
+        </h1>
+      </div>
+    )
   }
 
   return (
     <div className="container overflow-auto mx-auto">
-      <div className="flex flex-col items-center gap-4">
-        <TeamLogo logo={"/placeholder-logo.png"} height={120} width={120} />
-        <h1 className="text-4xl font-semibold  text-neutral-900 text-center">
-          {player.firstName} {player.lastName}
-        </h1>
-        <h2 className="text-2xl font-semibold  text-neutral-900 text-center -m-4">
-          {team ? team.name : player.team}
-        </h2>
-      </div>
-      <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
-      <div className="grid grid-cols-2 gap-3">
-        <InfoItem label="Wins" value={67} />
-        <InfoItem label="Losses" value={0} />
-        <InfoItem label="Draws" value={0} />
-        <InfoItem label="Played" value={67} />
-        <InfoItem label="Win Percentage" value={`${100}%`} />
-        <InfoItem label="Goals" value={452} />
-        <InfoItem label="Assists" value={231} />
-        <InfoItem label="Discipline" value={`Y (${768}) R (${1296})`} />
-        <InfoItem label="Shirt Number" value={100} />
-        <InfoItem label="Position" value={"GK"} />
-        <InfoItem label="Age" value={89} />
-        <InfoItem label="Joined Team" value={2025} />
-      </div>
+      <PlayerPage player={player} team={team} statistics={aggregatedStatistics} />
     </div>
   );
 }
