@@ -58,10 +58,10 @@ public class MatchController {
     @PostMapping("/add/{matchId}/events")
     public ResponseEntity<Match> createMatchEvents(
             @PathVariable("matchId") String matchId,
-            @RequestBody List<MatchEventRequestDTO> matchEventRequestDTOS // deserialize/parse the req body (json formatted array) to a list of MatchEventsReqDtos //TODO: bean validation @Valid
+            @RequestBody List<MatchEventRequestDTO> dtos // deserialize/parse the req body (json formatted array) to a list of MatchEventsReqDtos //TODO: bean validation @Valid
     ) {
         try {
-            Match updatedMatch = matchService.addMatchEvents(matchId, matchEventRequestDTOS);
+            Match updatedMatch = matchService.addMatchEvents(matchId, dtos);
             return ResponseEntity.ok(updatedMatch);
         } catch(NoSuchElementException e) { //TODO: Improve Exception handling
             System.out.println(e.getMessage());
@@ -83,7 +83,6 @@ public class MatchController {
         }
     }
 
-    // Considering patch mapping, however less complexity
     @PutMapping("/update/{matchId}/events/{eventId}")
     public ResponseEntity<Match> updateMatchEvent(
             @PathVariable("matchId") String matchId,

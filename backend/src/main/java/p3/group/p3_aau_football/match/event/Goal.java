@@ -21,10 +21,4 @@ public class Goal extends MatchEvent {
         this.assisterId = assisterId;
     }
 
-    @Override
-    protected void applySpecificUpdate(MatchEventRequestDTO dto) {
-        //TODO: fix with mapper
-        //Other fields are handled by super
-        //this.setAssisterId(dto.assisterId());
-    }
 }

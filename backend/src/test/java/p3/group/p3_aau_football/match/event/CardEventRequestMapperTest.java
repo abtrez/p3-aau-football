@@ -5,9 +5,20 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CardEventRequestMapperTest {
+    CardEventRequestMapper mapper = new CardEventRequestMapper();
 
     @Test
-    public void shouldMapCardEventRequestDtoToCardModel() {
+    void sourceTypeIsCardEventRequestDTO() {
+        assertEquals(CardEventRequestDTO.class, mapper.sourceType());
+    }
+
+    @Test
+    void targetTypeIsCard() {
+        assertEquals(Card.class, mapper.targetType());
+    }
+
+    @Test
+    void shouldMapCardEventRequestDtoToCardModel() {
         //Arrange
         CardEventRequestDTO dto = new CardEventRequestDTO(
                 "someTeamId",
@@ -15,7 +26,6 @@ public class CardEventRequestMapperTest {
                 63,
                 CardType.RED_CARD
         );
-        CardEventRequestMapper mapper = new CardEventRequestMapper();
 
         //Act
         Card model = mapper.toModel(dto);

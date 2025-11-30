@@ -6,6 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GoalEventRequestMapperTest {
 
+    GoalEventRequestMapper mapper = new GoalEventRequestMapper();
+
+    @Test
+    void sourceTypeIsGoalEventRequestDTO() {
+        assertEquals(GoalEventRequestDTO.class, mapper.sourceType());
+    }
+
+    @Test
+    void targetTypeIsGoal() {
+        assertEquals(Goal.class, mapper.targetType());
+    }
+
     @Test
     void shouldMapGoalEventRequestDtoToGoalModel() {
         //Arrange
@@ -16,8 +28,6 @@ public class GoalEventRequestMapperTest {
                 "someAssisterId"
         );
 
-        GoalEventRequestMapper mapper = new GoalEventRequestMapper();
-
         //Act
         Goal model = mapper.toModel(dto);
 
@@ -27,5 +37,4 @@ public class GoalEventRequestMapperTest {
         assertEquals(12, model.getMinute());
         assertEquals("someAssisterId", model.getAssisterId());
     }
-
 }

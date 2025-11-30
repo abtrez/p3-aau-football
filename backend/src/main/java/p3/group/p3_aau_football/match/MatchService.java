@@ -6,10 +6,9 @@ import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
-import p3.group.p3_aau_football.match.event.Card;
-import p3.group.p3_aau_football.match.event.Goal;
 import p3.group.p3_aau_football.match.event.MatchEvent;
 import p3.group.p3_aau_football.match.event.MatchEventRequestDTO;
+import p3.group.p3_aau_football.match.event.MatchEventRequestMapperRegistry;
 import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
 import p3.group.p3_aau_football.team.TeamService;
 
@@ -19,11 +18,13 @@ public class MatchService {
     private MatchRepository matchRepository;
     private TeamService teamService;
     private LeagueStatisticsService leagueStatsService;
+    private MatchEventRequestMapperRegistry matchEventRequestMapperRegistry;
 
-    public MatchService(MatchRepository matchRepository, TeamService teamService, LeagueStatisticsService leagueStatsService) {
+    public MatchService(MatchRepository matchRepository, TeamService teamService, LeagueStatisticsService leagueStatsService, MatchEventRequestMapperRegistry matchEventRequestMapperRegistry) {
         this.matchRepository = matchRepository;
         this.teamService = teamService;
         this.leagueStatsService = leagueStatsService;
+        this.matchEventRequestMapperRegistry = matchEventRequestMapperRegistry;
     }
 
     public List<Match> getOverview() {
@@ -56,26 +57,7 @@ public class MatchService {
 
     }
 
-    /**
-     * Intermediate step DTO --> Model Object to be persisted with Mongo
-     * @param dto required fields of a match event excluding id, as this is generated in model constructor
-     * @return Goal object, Card object, or throws exception
-     */
-    private MatchEvent matchEventDtoToModel(MatchEventRequestDTO dto) {
-        //TODO: fix with mapper
-        throw new UnsupportedOperationException("TODO: replace with mapper factory");
-        //Switch Expression on DTO record. Evaluates to a single value, which is returned.
-        /*
-        return switch (dto.type()) {
-            // -> syntax no need for 'break' statements
-            case "GOAL" ->
-            case "CARD" ->
-            default -> throw new IllegalArgumentException("Unknown type: " + dto.type()); //TODO: Figure out exact Exception type later
-        };*/
-    }
-
-    // Works, but improvements pending
-    public Match addMatchEvents(String matchId, List<MatchEventRequestDTO> requests) {
+    public Match addMatchEvents(String matchId, List<MatchEventRequestDTO> requestsDTOs) {
         /// Get match on which to add events. Reuse validation/error handling of getMatch() method
         Match match = getMatch(matchId);  //may throw NoSuchElementException
 
@@ -83,10 +65,9 @@ public class MatchService {
         List<MatchEvent> newMatchEvents = new ArrayList<>();
 
         // Create Match Event objects (of appropriate subclass) from each request dto, append to the temporary list
-        for (MatchEventRequestDTO dto : requests ) {
+        for (MatchEventRequestDTO dto : requestsDTOs ) {
             //TODO: dto validation, expeption handling? validate team belongs to this match?
-            MatchEvent model = matchEventDtoToModel(dto); //TODO: fix with mapper
-            System.out.println(model);
+            MatchEvent model = matchEventRequestMapperRegistry.toModel(dto);
             newMatchEvents.add(model);
         }
 
@@ -123,8 +104,8 @@ public class MatchService {
             throw new IllegalArgumentException("Team cannot change");
         }
 
-        /// Delegate updating to polymorphic model logic
-        event.applyUpdate(dto);
+        /// Delegate all DTO -> model update logic to mappers + registry
+        matchEventRequestMapperRegistry.applyUpdate(dto, event);
 
         /// Persist changes
         return matchRepository.save(match);

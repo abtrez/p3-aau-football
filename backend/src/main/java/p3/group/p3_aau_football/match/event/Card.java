@@ -17,10 +17,4 @@ public class Card extends MatchEvent {
         this.cardType = cardType;
     }
 
-    @Override
-    protected void applySpecificUpdate(MatchEventRequestDTO dto) {
-        //TODO: fix with mapper
-        // Other fields are handled by super
-        //this.setCardType(data.cardType());
-    }
 }
