@@ -1,7 +1,7 @@
 "use client"
 
 import MatchEventRow from "./MatchEventRow";
-import {MatchEventResponse} from "@/lib/schemas/matchEventSchema";
+import {MatchEventRequest, matchEventRequestSchema, MatchEventResponse} from "@/lib/schemas/matchEventSchema";
 import {useState} from "react";
 import {deleteMatchEvent, updateMatchEvent} from "@/lib/fetchMatchEvent";
 import {EditMatchEventForm} from "@/components/match/EditMatchEventForm";
@@ -42,10 +42,31 @@ export default function MatchEventsList({
         teamId: string;
         minute: number;
     }) {
+
+        //TODO: fix on new branch.
+        //Build DTO from edit form
+        const raw: any = {
+            type: input.type,
+            teamId: input.teamId,
+            playerId: null,
+            minute: input.minute,
+        };
+
+        if (input.type === "GOAL") {
+            raw.assisterId = null;
+        } else {
+            raw.cardType = "YELLOW_CARD"; // default, refine later
+        }
+
+        const eventDto: MatchEventRequest = matchEventRequestSchema.parse(raw);
+
+
         const updatedMatch = await updateMatchEvent({
             matchId,
-            ...input,
+            eventId: input.eventId,
+            event: eventDto,
         });
+
         setEvents(updatedMatch.matchEvents);
         setEditingEvent(null);
     }

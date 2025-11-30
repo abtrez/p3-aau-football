@@ -4,6 +4,7 @@ import {FormEvent, useState} from "react";
 import {MatchEventFields, MatchEventType} from "@/components/match/MatchEventFields";
 import { Paper, FormControl, Button } from "@mui/material";
 import {createMatchEvents} from "@/lib/fetchMatchEvent";
+import {MatchEventRequest, matchEventRequestSchema} from "@/lib/schemas/matchEventSchema";
 
 // Remember to remove
 export type NewMatchEventInput = {
@@ -37,11 +38,27 @@ export function CreateMatchEventForm({
         const numericMinute = Number(minute);
 
         try {
-            await createMatchEvents({
-                matchId: matchId,
-                type: type,
-                teamId: teamId,
+            //TODO: fix on a new branch
+            //Build raw DTO payload matching MatchEventRequestDTO
+            const raw: any = {
+                type,
+                teamId,
+                playerId: null,
                 minute: numericMinute,
+            };
+
+            if (type === "GOAL") {
+                raw.assisterId = null;
+            } else {
+                raw.cardType = "YELLOW_CARD"; // default until you add UI for cardType
+            }
+
+            // Validate against Zod request schema (optional but nice)
+            const eventDto: MatchEventRequest = matchEventRequestSchema.parse(raw);
+
+            await createMatchEvents({
+                matchId,
+                events: [eventDto],
             });
 
             // e.g. reset minute only
