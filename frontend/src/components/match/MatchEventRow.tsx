@@ -1,14 +1,14 @@
 import TeamBadge from "@/components/team/TeamBadge";
-import {MatchEvent} from "@/lib/schemas/matchEventSchema";
+import {MatchEventResponse} from "@/lib/schemas/matchEventSchema";
 import MatchEventInfo from "@/components/match/MatchEventInfo";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 export interface MatchEventRowProps {
-  matchEvent: MatchEvent;
+  matchEvent: MatchEventResponse;
   isHomeTeamEvent: boolean;
-  onEdit: (matchEvent: MatchEvent) => void;
+  onEdit: (matchEvent: MatchEventResponse) => void;
   onDelete: (eventId: string) => void;
 }
 

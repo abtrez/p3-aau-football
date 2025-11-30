@@ -3,7 +3,7 @@
 import {FormEvent, useState} from "react";
 import {MatchEventFields, MatchEventType} from "@/components/match/MatchEventFields";
 import { Paper, FormControl, Button } from "@mui/material";
-import {createMatchEvent} from "@/lib/fetchMatchEvent";
+import {createMatchEvents} from "@/lib/fetchMatchEvent";
 
 // Remember to remove
 export type NewMatchEventInput = {
@@ -37,7 +37,7 @@ export function CreateMatchEventForm({
         const numericMinute = Number(minute);
 
         try {
-            await createMatchEvent({
+            await createMatchEvents({
                 matchId: matchId,
                 type: type,
                 teamId: teamId,

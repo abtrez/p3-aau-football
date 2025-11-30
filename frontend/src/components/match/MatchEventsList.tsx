@@ -1,14 +1,14 @@
 "use client"
 
 import MatchEventRow from "./MatchEventRow";
-import {MatchEvent} from "@/lib/schemas/matchEventSchema";
+import {MatchEventResponse} from "@/lib/schemas/matchEventSchema";
 import {useState} from "react";
 import {deleteMatchEvent, updateMatchEvent} from "@/lib/fetchMatchEvent";
 import {EditMatchEventForm} from "@/components/match/EditMatchEventForm";
 
 interface MatchEventsListProps {
     matchId: string;
-    initialMatchEvents: MatchEvent[]
+    initialMatchEvents: MatchEventResponse[]
     homeTeamId: string;
 }
 
@@ -20,7 +20,7 @@ export default function MatchEventsList({
 
     // Local state variable for the component. Essentially holds the list of MatchEvents.
     const [events, setEvents] = useState(initialMatchEvents);
-    const [editingEvent, setEditingEvent] = useState<MatchEvent | null>(null);
+    const [editingEvent, setEditingEvent] = useState<MatchEventResponse | null>(null);
 
     /** Event Handler passed down to subcomponents, async due to backend request*/
     async function handleDelete(eventId: string) {
@@ -32,7 +32,7 @@ export default function MatchEventsList({
         setEvents(updatedMatch.matchEvents)
     }
 
-    function handleEditClick(event: MatchEvent) {
+    function handleEditClick(event: MatchEventResponse) {
         setEditingEvent(event);
     }
 
@@ -63,7 +63,7 @@ export default function MatchEventsList({
             </header>
 
             <div className="flex flex-col">
-                {events.map((matchEvent: MatchEvent) => (
+                {events.map((matchEvent: MatchEventResponse) => (
                     <MatchEventRow
                         key={matchEvent.id}
                         matchEvent={matchEvent}

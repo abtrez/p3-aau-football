@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { Paper, FormControl, Button } from "@mui/material";
-import { MatchEvent } from "@/lib/schemas/matchEventSchema";
+import { MatchEventResponse } from "@/lib/schemas/matchEventSchema";
 import {
     MatchEventFields,
     MatchEventType,
 } from "@/components/match/MatchEventFields";
 
 interface EditMatchEventFormProps {
-    matchEvent: MatchEvent;
+    matchEvent: MatchEventResponse;
     homeTeamId: string;
     awayTeamId: string;
     onSave: (input: {

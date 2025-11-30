@@ -1,56 +1,110 @@
 import { z } from "zod";
 
-// Response Schemas: defines what backend should send.
-/** Base schema mirroring backend's MatchEvent abstract class.
- * As with the java subclasses, zod schemas are defined for each subtype, in turn mirroring their corresponding backend class.
- * This schema serves as a base, which subtype schemas (goal, card) extend upon with a discriminator literal ("type") and subtype-specific fields.
+/** Grouped by responsibility
+ *
+ * Response side:   shape of (MatchEvent) model objects returned by backend.
+ * Request side:    payload shape for create/update functionality (MatchEventRequestDTO)
+ * Operational:     input objects for server actions (path params + DTO payload ^)
+ *
+ * Base schemas for shared fields, are extended upon by subtype specific schemas with:
+ *     - a discriminator literal ("type")
+ *     - subtype-specific fields.
+ *
+ * Both response and request hierarchies use a discriminated union on the "type" field
+ * ("GOAL" | "CARD"), mirroring the backend's Jackson @JsonTypeInfo configuration.
  */
-const baseMatchEventSchema = z.object({
-    id: z.string().nullish(),
-    playerId: z.string().nullish(),
-    teamId: z.string().nullish(),
-    minute: z.number().int().nonnegative().nullish()
+
+/** _________________________________________________________________________________
+ *  Response Side:  MatchEvent (Goal, Card) domain objects backend returns inside Match.
+                    Mirrors backend MatchEvent abstract class and its subclasses.
+ _________________________________________________________________________________ */
+const baseMatchEventResponseSchema = z.object({
+    //TODO: tighten schema, nullish, nullable, optional
+    id: z.string().nullish(),        //Always present once persisted
+    teamId: z.string().nullish(),    //Required in domain
+    playerId: z.string().nullish(),  //Optional
+    minute: z.number().int().nonnegative().nullish() //Optional >= 0 if present, consider max()
 });
 
-/** Extends {@link baseMatchEventSchema} with keys for the schema's corresponding java class's fields */
-const goalMatchEventSchema = baseMatchEventSchema.extend({
-    type: z.literal("GOAL"), //as defined by jackson in backend MatchEvent class
-    assisterId: z.string().nullish()
+const goalEventResponseSchema = baseMatchEventResponseSchema.extend({
+    type: z.literal("GOAL"), //discriminator as defined by Jackson on MatchEvent backend class
+    assisterId: z.string().nullish() //TODO: nullable instead?
 });
 
-/** Extends {@link baseMatchEventSchema} with the keys for the schema's corresponding java class's fields */
-const cardMatchEventSchema = baseMatchEventSchema.extend({
-    type: z.literal("CARD"), //as defined by jackson in backend MatchEvent class
+const cardEventResponseSchema = baseMatchEventResponseSchema.extend({
+    type: z.literal("CARD"), //discriminator as defined by Jackson on MatchEvent backend class
     cardType: z.enum(["YELLOW_CARD", "RED_CARD"]),
 });
 
-/** Zod runtime validation logic
- * MatchEvent schema representing all possible match events.
- * "type" argument is the discriminator, which zod uses to decide which
- * subtype schema to validate against. */
-export const matchEventSchema = z.discriminatedUnion("type", [
-    goalMatchEventSchema,
-    cardMatchEventSchema,
+/** Runtime validation for any MatchEvent responses
+ * "type" argument: discriminator zod uses to decide: which subtype schema to validate against. */
+export const matchEventResponseSchema = z.discriminatedUnion("type", [
+    goalEventResponseSchema,
+    cardEventResponseSchema,
 ]);
 
-//Typescript type to use in React Components
-export type MatchEvent = z.infer<typeof matchEventSchema>;
+/** Typescript type to use in React Components */
+export type MatchEventResponse = z.infer<typeof matchEventResponseSchema>;
 
-// Request Schemas: Defines what frontend should send to backend, used to validate user input
+
+/** _________________________________________________________________________________
+ *  Request Side:   MatchEventRequestDTO (GoalEventRequestDTO, CardEventRequestDTO)
+                    Defines payload data frontend sends to backend for create/update.
+ _________________________________________________________________________________ */
+const baseMatchEventRequestSchema = z.object({
+    //TODO: tighten schema, nullish, nullable, optional
+    teamId: z.string().nullable(),
+    playerId: z.string().nullable(),
+    minute: z.number().int().nonnegative().nullable(), //Optional >= 0 if present, consider max()
+});
+
+const goalEventRequestSchema = baseMatchEventRequestSchema.extend({
+    type: z.literal("GOAL"),
+    assisterId: z.string().nullish(), //TODO: nullable instead?
+});
+
+const cardEventRequestSchema = baseMatchEventRequestSchema.extend({
+    type: z.literal("CARD"),
+    cardType: z.enum(["YELLOW_CARD", "RED_CARD"]),
+});
+
+/** Discriminated union for any match event request payload.
+ * Runtime validation for the JSON body expected by POST/PUT event endpoints.
+ */
+export const matchEventRequestSchema = z.discriminatedUnion("type", [
+    goalEventRequestSchema,
+    cardEventRequestSchema,
+]);
+
+/** Typescript type to use in React Components */
+export type MatchEventRequest = z.infer<typeof matchEventRequestSchema>;
+
+export const matchEventRequestArraySchema = z.array(matchEventRequestSchema);
+export type MatchEventRequestArray = z.infer<typeof matchEventRequestArraySchema>;
+
+
+/** _________________________________________________________________________________
+ *  Operational:   server action input schemas. Combine path parameters with DTO payloads
+ _________________________________________________________________________________ */
+
+/** Input object for DELETING a single match event. */
 export const deleteMatchEventInputSchema = z.object({
-    matchId: z.string(),
-    eventId: z.string()
+    matchId: z.string(), //path param
+    eventId: z.string()  //path param
 });
 export type DeleteMatchEventInput = z.infer<typeof deleteMatchEventInputSchema>
 
-
-// Create
-export const createMatchEventInputSchema = z.object({
-    matchId: z.string(),
-    type: z.enum(["GOAL", "CARD"]),
-    teamId: z.string(),
-    minute: z.number().int().nonnegative(),
-    // later extend with playerId, assisterId, cardType etc.
+/** Input object for CREATING one or more match events on a given match. */
+export const createMatchEventsInputSchema = z.object({
+    matchId: z.string(),                 //path param
+    events: matchEventRequestArraySchema //payload, request body. List of events.
 });
+export type CreateMatchEventsInput = z.infer<typeof createMatchEventsInputSchema>;
 
-export type CreateMatchEventInput = z.infer<typeof createMatchEventInputSchema>;
+/** Input object for UPDATING a single match event. */
+export const updateMatchEventInputSchema = z.object({
+    matchId: z.string(), //path param
+    eventId: z.string(), //path param
+    event: matchEventRequestSchema //payload, request body: Single event.
+});
+export type UpdateMatchEventInput = z.infer<typeof updateMatchEventInputSchema>;

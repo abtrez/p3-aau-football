@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { teamSchema } from "@/lib/schemas/teamSchema";
-import {matchEventSchema} from "@/lib/schemas/matchEventSchema";
+import {matchEventResponseSchema} from "@/lib/schemas/matchEventSchema";
 
 const venueSchema = z.object({
   id: z.string(),
@@ -25,7 +25,7 @@ export const matchSchema = z.object({
   referees: z.array(refereeSchema).nullish(),
   homeScore: z.number(),
   awayScore: z.number(),
-  matchEvents: z.array(matchEventSchema),
+  matchEvents: z.array(matchEventResponseSchema),
 });
 
 export const matchesArraySchema = z.array(matchSchema);

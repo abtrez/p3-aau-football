@@ -19,7 +19,7 @@ public class GoalEventRequestMapperTest {
     }
 
     @Test
-    void shouldMapGoalEventRequestDtoToGoalModel() {
+    void shouldMapGoalDtoToGoalModel() {
         //Arrange
         GoalEventRequestDTO dto = new GoalEventRequestDTO(
                 "someTeamId",
@@ -36,5 +36,26 @@ public class GoalEventRequestMapperTest {
         assertEquals("somePlayerId", model.getPlayerId());
         assertEquals(12, model.getMinute());
         assertEquals("someAssisterId", model.getAssisterId());
+    }
+
+    @Test
+    void shouldUpdateMutableGoalFieldsWithGoalDto() {
+
+        //Arrange
+        Goal model = new Goal("team1", null, null, null);
+        String originalId = model.getId();
+
+        GoalEventRequestDTO dto = new GoalEventRequestDTO("triedChangingTeam", "player", 42, "assister");
+
+        //Act
+        mapper.applyUpdate(dto, model);
+
+        //Assert
+        assertEquals(originalId, model.getId());              //id must be unchanged
+        assertEquals("team1", model.getTeamId());    //team should not change
+
+        assertEquals("player", model.getPlayerId());
+        assertEquals(42, model.getMinute());
+        assertEquals("assister", model.getAssisterId());
     }
 }
