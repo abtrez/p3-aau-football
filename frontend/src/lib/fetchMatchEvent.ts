@@ -77,12 +77,7 @@ export async function createMatchEvents(input: CreateMatchEventsInput) : Promise
 export async function updateMatchEvent(input: UpdateMatchEventInput): Promise<Match> {
 
     //Validate input prior to making request
-    const parsedInput = updateMatchEventInputSchema.safeParse(input);
-    if (!parsedInput.success) {
-        throw new Error("Invalid update match event input");
-    }
-
-    const { matchId, eventId, event} = parsedInput.data;
+    const { matchId, eventId, event} = updateMatchEventInputSchema.parse(input);
 
     //Make update request
     const response = await fetch(
