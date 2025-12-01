@@ -1,0 +1,61 @@
+# (Replace the existing .github/workflows/node.yml with this content or
+# merge the test-run steps into your current workflow.)
+name: Node.js build and test
+
+on:
+  push:
+    branches: ["main", "dev"]
+  pull_request:
+    branches: ["main", "dev"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Print Node & npm versions and env
+        run: |
+          echo "node: $(node -v)"
+          echo "npm:  $(npm -v)"
+          echo "---- ENV ----"
+          env | sort
+        shell: bash
+
+      - name: Install dependencies (CI)
+        run: npm ci
+        working-directory: frontend
+
+      - name: Run tests (verbose) and save output
+        run: |
+          # ensure BACKEND_URI/NEXT_PHASE match your current test env
+          echo "BACKEND_URI=${BACKEND_URI:-unset}"
+          echo "NEXT_PHASE=${NEXT_PHASE:-unset}"
+          npm run test:runInBand -- --verbose --testLocationInResults 2>&1 | tee frontend/test-output.txt
+        working-directory: frontend
+        env:
+          BACKEND_URI: http://mock
+          NEXT_PHASE: ""
+        continue-on-error: true
+
+      - name: Upload test output
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-test-output
+          path: frontend/test-output.txt
+
+      - name: Fail if tests failed
+        if: always()
+        run: |
+          grep -q "FAIL" frontend/test-output.txt && (echo "Tests failed; see artifact frontend-test-output" && exit 1) || echo "Tests passed"
