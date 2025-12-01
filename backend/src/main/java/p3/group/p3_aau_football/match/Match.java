@@ -27,21 +27,18 @@ public class Match {
     @DocumentReference
     private final Team awayTeam;
 
-    @DocumentReference
-    private Venue venue;
+    private String venue;
     private LocalDateTime kickoff;
     private List<Referee> referees;
 
     private int homeScore;
     private int awayScore;
-    private List<MatchEvent> matchEvents = new ArrayList<>(); // Ensure non-null initialization, to protect logic from null-pointer exceptions
+    private List<MatchEvent> matchEvents = new ArrayList<>();
 
-    //Constructor, should probably have date, venue
+
     public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-        //date
-        //venue
     }
 
     //Getters
@@ -52,6 +49,7 @@ public class Match {
     public Team getHomeTeam() {
         return this.homeTeam;
     }
+
     public Team getAwayTeam() {
         return this.awayTeam;
     }
@@ -59,11 +57,12 @@ public class Match {
     public int getHomeScore() {
         return this.homeScore;
     }
+
     public int getAwayScore() {
         return this.awayScore;
     }
 
-    public Venue getVenue() {
+    public String getVenue() {
         return this.venue;
     }
 
@@ -97,6 +96,7 @@ public class Match {
 
     /**
      * Appends all provided matchEvents to this match's list. Whether a single or multiple new events are provided.
+     *
      * @param newEvents to be added
      */
     public void addEvents(List<MatchEvent> newEvents) {
@@ -124,10 +124,10 @@ public class Match {
     /**
      * Recalculates and sets the match scores based on Goal Events
      * Private helper: match itself should ensure alignment between its score variables and goal events.
-
+     * <p>
      * If a GOAL event belongs to neither team, the match is in an inconsistent state,
      * an IllegalStateException is thrown. Not caught, data integrity issue.
-
+     * <p>
      * Called upon addition/removal of match events, excluding edits: currently a goal shouldn't be reassigned to the other team. Such a case considered a different event, rather than a typo to be changed.
      */
     private void recalculateScoreFromEvents() {
@@ -176,7 +176,7 @@ public class Match {
         this.awayScore = awayScore;
     }
 
-    public void setVenue(Venue venue) {
+    public void setVenue(String venue) {
         this.venue = venue;
     }
 
