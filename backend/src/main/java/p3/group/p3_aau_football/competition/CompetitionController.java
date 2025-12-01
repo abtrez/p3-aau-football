@@ -25,6 +25,11 @@ public class CompetitionController {
         return competitionService.getCompetition(id);
     }
 
+    @GetMapping("/get/{name}/{season}")
+    public Competition getCompetitionBySeasonAndName(@PathVariable("name") String name, @PathVariable("season") String season) {
+        return competitionService.getCompetitionBySeasonAndName(season, name);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<Competition> addCompetition(@RequestBody CreateCompetitionRequestDTO request) {
         Competition insertedCompetition = competitionService.insertCompetition(
@@ -33,5 +38,6 @@ public class CompetitionController {
         );
         return ResponseEntity.ok(insertedCompetition);
     }
+
 
 }

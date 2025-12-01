@@ -26,6 +26,11 @@ public class CompetitionService {
                 .orElseThrow(() -> new CompetitionNotFoundException(String.format("Competition not found with ID: %s", id)));
     }
 
+    public Competition getCompetitionBySeasonAndName(String season, String name) {
+        return this.competitionRepository.findBySeasonAndName(season, name)
+                .orElseThrow(() -> new CompetitionNotFoundException(String.format("Competition not found with Season: %s and Name: %s", season, name)));
+    }
+
     public Competition insertCompetition(String season, String name) {
         boolean exists = this.competitionRepository.existsBySeasonAndName(season, name);
         if (exists) {
