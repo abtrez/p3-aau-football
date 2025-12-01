@@ -1,4 +1,3 @@
-import TeamBadge from "@/components/team/TeamBadge";
 import {MatchEventResponse} from "@/lib/schemas/matchEventSchema";
 import MatchEventInfo from "@/components/match/MatchEventInfo";
 import IconButton from '@mui/material/IconButton';

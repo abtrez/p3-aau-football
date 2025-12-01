@@ -1,4 +1,3 @@
-import type {Match} from "@/lib/schemas/matchSchema";
 
 interface MatchEventSideProps {
     label: string;

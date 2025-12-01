@@ -45,21 +45,24 @@ export default function MatchEventsList({
 
         //TODO: fix on new branch.
         //Build DTO from edit form
-        const raw: any = {
+        const base = {
             type: input.type,
             teamId: input.teamId,
             playerId: null,
             minute: input.minute,
         };
 
-        if (input.type === "GOAL") {
-            raw.assisterId = null;
-        } else {
-            raw.cardType = "YELLOW_CARD"; // default, refine later
-        }
-
-        const eventDto: MatchEventRequest = matchEventRequestSchema.parse(raw);
-
+        const eventDto: MatchEventRequest = matchEventRequestSchema.parse(
+            input.type === "GOAL"
+                ? {
+                    ...base,
+                    assisterId: null,
+                }
+                : {
+                    ...base,
+                    cardType: "YELLOW_CARD" as const, // refine later
+                },
+        );
 
         const updatedMatch = await updateMatchEvent({
             matchId,

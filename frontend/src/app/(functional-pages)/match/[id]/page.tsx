@@ -3,9 +3,9 @@ import MatchEventsList from "@/components/match/MatchEventsList";
 import { Match } from "@/lib/schemas/matchSchema";
 import {CreateMatchEventForm} from "@/components/match/CreateMatchEventForm";
 
-export default async function Page({ params }: any) {
+export default async function Page({ params }: { params: { id: string } }) {
   //Fetch initial data
-  const { id } = await params;
+  const { id } = params;
   const match: Match = await fetchMatchById(id);
 
   return (

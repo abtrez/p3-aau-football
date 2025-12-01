@@ -31,7 +31,7 @@ export function CreateMatchEventForm({
     const [loading, setLoading] = useState(false)
 
     /** Event handler */
-    async function handleSubmit(event: FormEvent) {
+    async function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
         setLoading(true);
 
@@ -40,21 +40,27 @@ export function CreateMatchEventForm({
         try {
             //TODO: fix on a new branch
             //Build raw DTO payload matching MatchEventRequestDTO
-            const raw: any = {
+            const numericMinute = Number(minute);
+
+            const base = {
                 type,
                 teamId,
                 playerId: null,
                 minute: numericMinute,
             };
 
-            if (type === "GOAL") {
-                raw.assisterId = null;
-            } else {
-                raw.cardType = "YELLOW_CARD"; // default until adding specific goal and card ui
-            }
-
-            // Validate against Zod request schema (optional but nice)
-            const eventDto: MatchEventRequest = matchEventRequestSchema.parse(raw);
+            // Validate against Zod request schema
+            const eventDto: MatchEventRequest = matchEventRequestSchema.parse(
+                type === "GOAL"
+                    ? {
+                        ...base,
+                        assisterId: null,
+                    }
+                    : {
+                        ...base,
+                        cardType: "YELLOW_CARD" as const,
+                    },
+            );
 
             await createMatchEvents({
                 matchId,
