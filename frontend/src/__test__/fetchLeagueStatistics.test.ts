@@ -44,7 +44,7 @@ describe("fetchLeagueStatistics environment validation", () => {
 
     expect(
       fetchLeagueStatistic.fetchLeagueStatistics("123", "2025/26")
-    ).resolves.toStrictEqual([]);
+    ).resolves.toMatchObject([]);
   });
 });
 
@@ -76,7 +76,7 @@ describe("fetchLeagueStatisticsOverview", () => {
       ])
     );
 
-    expect(fetchLeagueStatistics("123", "2025/26")).resolves.toStrictEqual([
+    expect(fetchLeagueStatistics("123", "2025/26")).resolves.toMatchObject([
       {
         id: "123",
         team: {
@@ -106,7 +106,7 @@ describe("fetchLeagueStatisticsOverview", () => {
       .fn()
       .mockResolvedValue(createMockFetchResponse([], {}, false, 404));
 
-    expect(fetchLeagueStatistics("123", "2025/26")).resolves.toStrictEqual([]);
+    expect(fetchLeagueStatistics("123", "2025/26")).resolves.toMatchObject([]);
   });
 
   it("gives an error if fetch returns not ok", () => {

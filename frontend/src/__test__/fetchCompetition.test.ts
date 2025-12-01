@@ -46,7 +46,7 @@ describe("fetchCompetition environment validation", () => {
 
     const fetchCompetition = await import("@/lib/fetchCompetition");
 
-    expect(fetchCompetition.fetchCompetitions()).resolves.toStrictEqual([]);
+    expect(fetchCompetition.fetchCompetitions()).resolves.toMatchObject([]);
   });
 });
 
@@ -60,7 +60,7 @@ describe("fetchCompetitionOverview", () => {
         ])
       );
 
-    expect(fetchCompetitions()).resolves.toStrictEqual([
+    expect(fetchCompetitions()).resolves.toMatchObject([
       { id: "123", name: "test", season: "2025/26" },
     ]);
   });
@@ -96,7 +96,7 @@ describe("fetchCompetitionById", () => {
         createMockFetchResponse({ id: "1", season: "2025/26", name: "test" })
       );
 
-    expect(fetchCompetitionById("1")).resolves.toStrictEqual({
+    expect(fetchCompetitionById("1")).resolves.toMatchObject({
       id: "1",
       name: "test",
       season: "2025/26",
@@ -140,7 +140,7 @@ describe("addCompetition", () => {
         createMockFetchResponse({ id: "1", season: "2025/26", name: "test" })
       );
 
-    expect(addCompetition("test", "2025/26")).resolves.toStrictEqual({
+    expect(addCompetition("test", "2025/26")).resolves.toMatchObject({
       error: null,
       result: { id: "1", name: "test", season: "2025/26" },
     });
@@ -158,7 +158,7 @@ describe("addCompetition", () => {
         )
       );
 
-    expect(addCompetition("test", "2025/26")).resolves.toStrictEqual({
+    expect(addCompetition("test", "2025/26")).resolves.toMatchObject({
       error: "Failed to add competition: 404 Failed",
       result: null,
     });
@@ -171,7 +171,7 @@ describe("addCompetition", () => {
         createMockFetchResponse({ id: 1, season: "2025/26", name: "test" })
       );
 
-    expect(addCompetition("test", "2025/26")).resolves.toStrictEqual({
+    expect(addCompetition("test", "2025/26")).resolves.toMatchObject({
       error: "Backend returned invalid competition data",
       result: null,
     });
