@@ -53,7 +53,7 @@ describe("fetchMatchOverview", () => {
         {
           id: "123",
           season: "2025/26",
-          competition: "1",
+          competitionId: "1",
           homeTeam: {
             id: "1",
             name: "test",
@@ -83,7 +83,7 @@ describe("fetchMatchOverview", () => {
       {
         id: "123",
         season: "2025/26",
-        competition: "1",
+        competitionId: "1",
         homeTeam: {
           id: "1",
           name: "test",
@@ -138,7 +138,7 @@ describe("fetchMatchById", () => {
       createMockFetchResponse({
         id: "123",
         season: "2025/26",
-        competition: "1",
+        competitionId: "1",
         homeTeam: {
           id: "1",
           name: "test",
@@ -166,7 +166,7 @@ describe("fetchMatchById", () => {
     expect(fetchMatchById("123")).resolves.toMatchObject({
       id: "123",
       season: "2025/26",
-      competition: "1",
+      competitionId: "1",
       homeTeam: {
         id: "1",
         name: "test",
