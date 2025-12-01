@@ -51,17 +51,18 @@ jobs:
           BACKEND_URI: http://mock
           NEXT_PHASE: ""
 
-      - name: Upload test output
+      - name: Upload test output (unique per matrix)
         uses: actions/upload-artifact@v4
         with:
-          name: frontend-test-output
+          # include matrix.node-version so artifacts don't collide across matrix jobs
+          name: frontend-test-output-${{ matrix.node-version }}
           path: frontend/test-output.txt
 
       - name: Fail if tests failed
         if: always()
         run: |
           if grep -q "FAIL" frontend/test-output.txt; then
-            echo "Tests failed; see artifact frontend-test-output"
+            echo "Tests failed; see artifact frontend-test-output-${{ matrix.node-version }}"
             exit 1
           else
             echo "Tests passed"
