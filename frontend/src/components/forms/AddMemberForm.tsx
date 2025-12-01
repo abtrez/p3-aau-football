@@ -45,8 +45,6 @@ export default function AddMemberForm({ teamId }: AddMemberFormProps) {
       shirtNumber: formData.get("shirtNumber"),
     };
 
-    console.log(payload);
-
     const response = await addPlayerToTeam(payload);
     if (response.error) {
       setErrorMessage(response.error);

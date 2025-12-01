@@ -15,19 +15,18 @@ import {
   MenuItem,
   Alert,
 } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export function CreateMatchForm({
-  homeTeam,
-  teams,
-  competitions,
+  homeTeamId,
+  opponentTeams,
+  competition,
 }: {
-  homeTeam: Team;
-  teams: Team[];
-  competitions: Competition[];
+  homeTeamId: string;
+  opponentTeams: Team[];
+  competition: Competition;
 }) {
   const [season, setSeason] = useState("");
-  const [competition, setCompetition] = useState("");
   const [awayTeam, setAwayTeam] = useState("");
   const [venue, setVenue] = useState("");
   const [kickoff, setKickoff] = useState("");
@@ -36,45 +35,58 @@ export function CreateMatchForm({
   const [errorMessage, setErrorMessage] = useState("");
   const [matchCreated, setMatchCreated] = useState(false);
 
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setLoading(true);
+
+    setErrorMessage("");
+    setMatchCreated(false);
+
+    if (!awayTeam || !venue || !kickoff) {
+      setErrorMessage("Please fill all fields");
+      setLoading(false);
+      return;
+    }
+
+    const formValues = event.currentTarget;
+    const formData = new FormData(event.currentTarget);
+
+    // Create payload with the form data
+    const payload = {
+      season,
+      competition: competition || null,
+      homeTeam: homeTeamId,
+      awayTeam: awayTeam,
+    };
+
+    const response = await addMatch({
+      season,
+      competition,
+      homeTeam: homeTeamId,
+      awayTeam,
+      venue,
+      kickoff: new Date(kickoff).toISOString(),
+    });
+
+    if (response.error) {
+      if (response.error) {
+        setErrorMessage(response.error);
+      }
+    } else {
+      setMatchCreated(true);
+      event.currentTarget.reset();
+      setSeason("");
+      setAwayTeam("");
+      setVenue("");
+      setKickoff("");
+    }
+
+    setLoading(false);
+  }
+
   return (
     <Paper elevation={3} className="w-[90%] max-w-3xl mx-auto p-8 my-10">
-      <form
-        onSubmit={async (event) => {
-          event.preventDefault();
-          setLoading(true);
-          setErrorMessage("");
-          setMatchCreated(false);
-
-          if (!season || !competition || !awayTeam || !venue || !kickoff) {
-            throw new Error("Please fill all fields");
-          }
-
-          const response = await addMatch({
-            season,
-            competition,
-            homeTeam: homeTeam.id,
-            awayTeam,
-            venue,
-            kickoff: new Date(kickoff).toISOString(),
-          });
-
-          if (response.error) {
-            if (response.error) {
-              setErrorMessage(response.error);
-            }
-          } else {
-            setMatchCreated(true);
-            event.currentTarget.reset();
-            setSeason("");
-            setCompetition("");
-            setAwayTeam("");
-            setVenue("");
-            setKickoff("");
-          }
-
-          setLoading(false);
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <FormGroup className="gap-5">
           <Typography variant="h4" className="text-center">
             Create new match
@@ -89,56 +101,10 @@ export function CreateMatchForm({
           <Alert
             severity="success"
             className="text-center"
-            hidden={matchCreated == false}
+            hidden={!matchCreated}
           >
             Match created
           </Alert>
-          <FormControl required>
-            <InputLabel htmlFor="season">Season</InputLabel>
-            <Select
-              id="season"
-              name="season"
-              value={season}
-              label="Season"
-              onChange={(event) => {
-                setSeason(event.target.value as string);
-              }}
-            >
-              {Array(5)
-                .fill(0)
-                .map((_, index) => {
-                  const thisYear = new Date().getFullYear() + index;
-                  const nextYear = thisYear + 1;
-                  const season = `${thisYear}/${nextYear.toString().slice(2)}`;
-
-                  return (
-                    <MenuItem key={index} value={season}>
-                      {season}
-                    </MenuItem>
-                  );
-                })}
-            </Select>
-          </FormControl>
-          <FormControl required>
-            <InputLabel htmlFor="competition">Competition</InputLabel>
-            <Select
-              id="competition"
-              name="competition"
-              value={competition}
-              label="competition"
-              onChange={(event) => {
-                setCompetition(event.target.value as string);
-              }}
-            >
-              {competitions.map((competition) => {
-                return (
-                  <MenuItem key={competition.id} value={competition.id}>
-                    {competition.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
           <FormControl required>
             <InputLabel htmlFor="awayTeam">Opponent team</InputLabel>
             <Select
@@ -150,8 +116,8 @@ export function CreateMatchForm({
                 setAwayTeam(event.target.value as string);
               }}
             >
-              {teams.map((team) => {
-                if (team.id === homeTeam.id) return null;
+              {opponentTeams.map((team) => {
+                if (team.id === homeTeamId) return null;
                 return (
                   <MenuItem key={team.id} value={team.id}>
                     {team.name}

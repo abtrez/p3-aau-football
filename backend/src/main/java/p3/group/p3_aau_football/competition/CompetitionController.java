@@ -25,8 +25,8 @@ public class CompetitionController {
         return competitionService.getCompetition(id);
     }
 
-    @GetMapping("/get/{name}/{season}")
-    public Competition getCompetitionBySeasonAndName(@PathVariable("name") String name, @PathVariable("season") String season) {
+    @GetMapping("/get")
+    public Competition getCompetitionBySeasonAndName(@RequestParam("name") String name, @RequestParam("season") String season) {
         return competitionService.getCompetitionBySeasonAndName(season, name);
     }
 
