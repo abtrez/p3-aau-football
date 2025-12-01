@@ -17,16 +17,20 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-
-
-export function CreateMatchForm({ homeTeam, teams, competitions}: { homeTeam: Team, teams: Team[], competitions: Competition[] }) {
-
+export function CreateMatchForm({
+  homeTeam,
+  teams,
+  competitions,
+}: {
+  homeTeam: Team;
+  teams: Team[];
+  competitions: Competition[];
+}) {
   const [season, setSeason] = useState("");
   const [competition, setCompetition] = useState("");
   const [awayTeam, setAwayTeam] = useState("");
   const [venue, setVenue] = useState("");
-  const [kickoff,setKickoff] = useState("");
-  
+  const [kickoff, setKickoff] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -65,8 +69,7 @@ export function CreateMatchForm({ homeTeam, teams, competitions}: { homeTeam: Te
             setCompetition("");
             setAwayTeam("");
             setVenue("");
-            setKickoff("");           
-            
+            setKickoff("");
           }
 
           setLoading(false);
@@ -117,7 +120,7 @@ export function CreateMatchForm({ homeTeam, teams, competitions}: { homeTeam: Te
             </Select>
           </FormControl>
           <FormControl required>
-            <InputLabel htmlFor="competition">competition</InputLabel>
+            <InputLabel htmlFor="competition">Competition</InputLabel>
             <Select
               id="competition"
               name="competition"
@@ -137,7 +140,7 @@ export function CreateMatchForm({ homeTeam, teams, competitions}: { homeTeam: Te
             </Select>
           </FormControl>
           <FormControl required>
-            <InputLabel htmlFor="awayTeam">away Team</InputLabel>
+            <InputLabel htmlFor="awayTeam">Opponent team</InputLabel>
             <Select
               id="awayTeam"
               name="awayTeam"
@@ -148,6 +151,7 @@ export function CreateMatchForm({ homeTeam, teams, competitions}: { homeTeam: Te
               }}
             >
               {teams.map((team) => {
+                if (team.id === homeTeam.id) return null;
                 return (
                   <MenuItem key={team.id} value={team.id}>
                     {team.name}
@@ -158,21 +162,31 @@ export function CreateMatchForm({ homeTeam, teams, competitions}: { homeTeam: Te
           </FormControl>
           <FormControl required>
             <InputLabel htmlFor="venue">venue</InputLabel>
-            <Input id="venue" name="venue" type="text" 
-            onChange={(event) => {
+            <Input
+              id="venue"
+              name="venue"
+              type="text"
+              onChange={(event) => {
                 setVenue(event.target.value as string);
-              }}/>
+              }}
+            />
           </FormControl>
           <FormControl required>
-            <InputLabel htmlFor="kickoff" shrink>kickoff</InputLabel>
-            <Input id="kickoff" name="kickoff" type="datetime-local" 
-            onChange={(event) => {
+            <InputLabel htmlFor="kickoff" shrink>
+              kickoff
+            </InputLabel>
+            <Input
+              id="kickoff"
+              name="kickoff"
+              type="datetime-local"
+              onChange={(event) => {
                 setKickoff(event.target.value as string);
-              }}/>
+              }}
+            />
           </FormControl>
           <FormControl>
             <Button variant="contained" type="submit" disabled={loading}>
-            {loading ? "Creating..." : "Create match"}
+              {loading ? "Creating..." : "Create match"}
             </Button>
           </FormControl>
         </FormGroup>
