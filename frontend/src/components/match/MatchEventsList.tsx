@@ -100,7 +100,7 @@ export default function MatchEventsList({
                     <EditMatchEventForm
                         matchEvent={editingEvent}
                         homeTeamId={homeTeamId}
-                        // for now we just pass the same id as "awayTeamId" isn’t needed by your current UI logic
+                        //fix
                         awayTeamId={"editingEvent.teamId === homeTeamId ? homeTeamId : editingEvent.teamId"}
                         onSave={handleUpdateSave}
                         onCancel={() => setEditingEvent(null)}

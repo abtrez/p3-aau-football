@@ -50,7 +50,7 @@ export function CreateMatchEventForm({
             if (type === "GOAL") {
                 raw.assisterId = null;
             } else {
-                raw.cardType = "YELLOW_CARD"; // default until you add UI for cardType
+                raw.cardType = "YELLOW_CARD"; // default until adding specific goal and card ui
             }
 
             // Validate against Zod request schema (optional but nice)
