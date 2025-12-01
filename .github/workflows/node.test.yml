@@ -1,5 +1,3 @@
-# (Replace the existing .github/workflows/node.yml with this content or
-# merge the test-run steps into your current workflow.)
 name: Node.js build and test
 
 on:
@@ -18,6 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -27,8 +26,8 @@ jobs:
 
       - name: Print Node & npm versions and env
         run: |
-          echo "node: $(node -v)"
-          echo "npm:  $(npm -v)"
+          node -v
+          npm -v
           echo "---- ENV ----"
           env | sort
         shell: bash
@@ -38,16 +37,19 @@ jobs:
         working-directory: frontend
 
       - name: Run tests (verbose) and save output
+        working-directory: frontend
+        continue-on-error: true
         run: |
-          # ensure BACKEND_URI/NEXT_PHASE match your current test env
           echo "BACKEND_URI=${BACKEND_URI:-unset}"
           echo "NEXT_PHASE=${NEXT_PHASE:-unset}"
-          npm run test:runInBand -- --verbose --testLocationInResults 2>&1 | tee frontend/test-output.txt
-        working-directory: frontend
+          # write test output to test-output.txt inside the frontend directory
+          npm run test:runInBand -- --verbose --testLocationInResults 2>&1 | tee test-output.txt || true
+          # show that the file exists and print first lines for quick debugging
+          ls -la test-output.txt || true
+          sed -n '1,200p' test-output.txt || true
         env:
           BACKEND_URI: http://mock
           NEXT_PHASE: ""
-        continue-on-error: true
 
       - name: Upload test output
         uses: actions/upload-artifact@v4
@@ -58,4 +60,9 @@ jobs:
       - name: Fail if tests failed
         if: always()
         run: |
-          grep -q "FAIL" frontend/test-output.txt && (echo "Tests failed; see artifact frontend-test-output" && exit 1) || echo "Tests passed"
+          if grep -q "FAIL" frontend/test-output.txt; then
+            echo "Tests failed; see artifact frontend-test-output"
+            exit 1
+          else
+            echo "Tests passed"
+          fi
