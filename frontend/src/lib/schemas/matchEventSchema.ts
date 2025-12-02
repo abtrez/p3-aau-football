@@ -23,7 +23,7 @@ const baseMatchEventResponseSchema = z.object({
     id: z.string().nullish(),        //Always present once persisted
     teamId: z.string().nullish(),    //Required in domain
     playerId: z.string().nullish(),  //Optional
-    minute: z.number().int().nonnegative().nullish() //Optional >= 0 if present, consider max()
+    minute: z.coerce.number().int().nonnegative().nullish() //Optional >= 0 if present, consider max()
 });
 
 const goalEventResponseSchema = baseMatchEventResponseSchema.extend({
