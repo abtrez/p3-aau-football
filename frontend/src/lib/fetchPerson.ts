@@ -23,7 +23,7 @@ export async function fetchPersonById(PersonId: string): Promise<Person> {
   const res = await fetch(`${BACKEND_URL}/api/person/get/${PersonId}`);
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch person ${PersonId}: ${res.status} ${res.statusText}`
+      `Failed to fetch person ${PersonId}: ${res.status} ${res.statusText}`,
     );
   }
   const json = await res.json();
@@ -42,9 +42,10 @@ export default async function addPlayerToTeam(formData: unknown) {
   // Validate the form data with zod
   const parsed = addPlayerToTeamSchema.safeParse(formData);
   if (!parsed.success) {
+    console.error("Invalid team member payload:", parsed.error);
     return {
       result: null,
-      error: "Received invalid form data from the frontend",
+      error: "Received invalid team member form data from the frontend",
     };
   }
 
@@ -59,10 +60,7 @@ export default async function addPlayerToTeam(formData: unknown) {
     body: JSON.stringify(validatedFormData),
   };
 
-  const res = await fetch(
-    `${BACKEND_URL}/api/person/addPlayer`,
-    options,
-  );
+  const res = await fetch(`${BACKEND_URL}/api/person/addPlayer`, options);
 
   if (!res.ok) {
     return {

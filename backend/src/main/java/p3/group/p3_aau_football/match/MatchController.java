@@ -1,9 +1,7 @@
 package p3.group.p3_aau_football.match;
 
-import java.lang.annotation.Repeatable;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +36,18 @@ public class MatchController {
     public ResponseEntity<Match> addMatch(@RequestBody Match match) {
         try {
             Match insertedMatch = matchService.insertMatch(match);
+            return ResponseEntity.ok(insertedMatch);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Matches created by leaders and coaches from the frontend
+    @PostMapping("/add-friendly")
+    public ResponseEntity<Match> addFriendlyMatch(@RequestBody CreateMatchDTO request) {
+        try {
+            Match insertedMatch = matchService.insertFriendlyMatch(request);
             return ResponseEntity.ok(insertedMatch);
         } catch (Exception e) {
             System.out.println(e.getMessage());
