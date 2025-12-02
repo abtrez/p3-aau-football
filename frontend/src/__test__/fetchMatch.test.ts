@@ -75,6 +75,7 @@ describe("fetchMatchOverview", () => {
           kickoff: "test",
           homeScore: 0,
           awayScore: 0,
+          matchEvents: []
         },
       ])
     );
@@ -105,6 +106,7 @@ describe("fetchMatchOverview", () => {
         kickoff: "test",
         homeScore: 0,
         awayScore: 0,
+        matchEvents: []
       },
     ]);
   });
@@ -160,6 +162,7 @@ describe("fetchMatchById", () => {
         kickoff: "test",
         homeScore: 0,
         awayScore: 0,
+        matchEvents: []
       })
     );
 
@@ -188,6 +191,7 @@ describe("fetchMatchById", () => {
       kickoff: "test",
       homeScore: 0,
       awayScore: 0,
+      matchEvents: []
     });
   });
 
