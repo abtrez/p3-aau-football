@@ -1,78 +1,41 @@
 "use client"
 
-import MatchEventRow from "./MatchEventRow";
-import {MatchEventRequest, matchEventRequestSchema, MatchEventResponse} from "@/lib/schemas/matchEventSchema";
 import {useState} from "react";
-import {deleteMatchEvent, updateMatchEvent} from "@/lib/fetchMatchEvent";
+import MatchEventRow from "./MatchEventRow";
+import {MatchEventRequest, matchEventRequestSchema,
+        MatchEventResponse
+} from "@/lib/schemas/matchEventSchema";
 import {EditMatchEventForm} from "@/components/match/EditMatchEventForm";
 
 interface MatchEventsListProps {
-    matchId: string;
-    initialMatchEvents: MatchEventResponse[]
+    events: MatchEventResponse[],
     homeTeamId: string;
+    awayTeamId: string;
+    onDeleteEvent: (eventId: string) => Promise<void> | void;
+    onUpdateEvent: (eventId: string, dto: MatchEventRequest) => Promise<void> | void
 }
 
 export default function MatchEventsList({
-    matchId,
-    initialMatchEvents,
-    homeTeamId
+    events,
+    homeTeamId,
+    awayTeamId,
+    onDeleteEvent,
+    onUpdateEvent,
 } : MatchEventsListProps) {
 
-    // Local state variable for the component. Essentially holds the list of MatchEvents.
-    const [events, setEvents] = useState(initialMatchEvents);
-    const [editingEvent, setEditingEvent] = useState<MatchEventResponse | null>(null);
+    // Track which single event is currently being edited.
+    const [eventBeingEdited, setEventBeingEdited] = useState<MatchEventResponse | null>(null);
 
-    /** Event Handler passed down to subcomponents, async due to backend request*/
-    async function handleDelete(eventId: string) {
-
-        //Call server action to send request to backend
-        const updatedMatch = await deleteMatchEvent({matchId: matchId, eventId: eventId});
-
-        //Update local state with updated events list from backend
-        setEvents(updatedMatch.matchEvents)
+    async function handleEditSave(eventId: string, dto: MatchEventRequest) {
+        await onUpdateEvent(eventId, dto)
+        setEventBeingEdited(null);
     }
 
-    function handleEditClick(event: MatchEventResponse) {
-        setEditingEvent(event);
+    /** Row-level: user pressed "delete" on a specific event. */
+    async function handleDeleteEvent(eventId: string) {
+        await onDeleteEvent(eventId);
     }
 
-    async function handleUpdateSave(input: {
-        eventId: string;
-        type: "GOAL" | "CARD";
-        teamId: string;
-        minute: number;
-    }) {
-
-        //TODO: fix on new branch.
-        //Build DTO from edit form
-        const base = {
-            type: input.type,
-            teamId: input.teamId,
-            playerId: null,
-            minute: input.minute,
-        };
-
-        const eventDto: MatchEventRequest = matchEventRequestSchema.parse(
-            input.type === "GOAL"
-                ? {
-                    ...base,
-                    assisterId: null,
-                }
-                : {
-                    ...base,
-                    cardType: "YELLOW_CARD" as const, // refine later
-                },
-        );
-
-        const updatedMatch = await updateMatchEvent({
-            matchId,
-            eventId: input.eventId,
-            event: eventDto,
-        });
-
-        setEvents(updatedMatch.matchEvents);
-        setEditingEvent(null);
-    }
     if (events.length === 0 ) {
         return (<p>No events recorded yet</p>);
     }
@@ -92,21 +55,21 @@ export default function MatchEventsList({
                         key={matchEvent.id}
                         matchEvent={matchEvent}
                         isHomeTeamEvent={matchEvent.teamId === homeTeamId}
-                        onEdit={handleEditClick}
-                        onDelete = {handleDelete}
+                        onEdit={setEventBeingEdited}
+                        onDelete = {handleDeleteEvent}
                     />
                 ))}
             </div>
 
-            {editingEvent && (
+            {/* In-place edit form for the chosen event */}
+            {eventBeingEdited && (
                 <div className="px-4 pb-4">
                     <EditMatchEventForm
-                        matchEvent={editingEvent}
+                        matchEvent={eventBeingEdited}
                         homeTeamId={homeTeamId}
-                        //fix
-                        awayTeamId={"editingEvent.teamId === homeTeamId ? homeTeamId : editingEvent.teamId"}
-                        onSave={handleUpdateSave}
-                        onCancel={() => setEditingEvent(null)}
+                        awayTeamId={awayTeamId}
+                        onSave={handleEditSave}
+                        onCancel={() => setEventBeingEdited(null)}
                     />
                 </div>
             )}

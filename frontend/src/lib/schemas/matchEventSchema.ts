@@ -55,7 +55,7 @@ const baseMatchEventRequestSchema = z.object({
     //TODO: tighten schema, nullish, nullable, optional
     teamId: z.string().nullable(),
     playerId: z.string().nullable(),
-    minute: z.number().int().nonnegative().nullable(), //Optional >= 0 if present, consider max()
+    minute: z.coerce.number().int().nonnegative().nullable(), //Optional >= 0 if present, consider max() //coerce
 });
 
 const goalEventRequestSchema = baseMatchEventRequestSchema.extend({

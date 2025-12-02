@@ -24,7 +24,6 @@ export default function MatchEventRow({
     const leftContent = isHomeTeamEvent ? text : minuteLabel;
     const rightContent = isHomeTeamEvent ? minuteLabel : text;
 
-
     return (
     <div className=" p-4">
       <div className="grid grid-cols-[1fr_auto_1fr_auto_auto] items-center gap-2">
@@ -42,14 +41,21 @@ export default function MatchEventRow({
         <MatchEventInfo label={rightContent}/>
 
         {/* Edit button */}
-        <IconButton aria-label="edit" onClick={() => onEdit(matchEvent)}>
+        <IconButton
+            aria-label="edit"
+            onClick={() => onEdit(matchEvent)}
+        >
               <EditIcon />
         </IconButton>
 
         {/* Delete button */}
-        <IconButton aria-label="delete" onClick={() => onDelete("" + matchEvent.id)}>
+        <IconButton
+            aria-label="delete"
+            onClick={() => onDelete(String(matchEvent.id))}
+        >
               <DeleteIcon />
         </IconButton>
+
       </div>
     </div>
   );

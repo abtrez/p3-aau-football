@@ -2,25 +2,20 @@
 
 import { useState } from "react";
 import { Paper, FormControl, Button } from "@mui/material";
-import { MatchEventResponse } from "@/lib/schemas/matchEventSchema";
-import {
-    MatchEventFields,
-    MatchEventType,
-} from "@/components/match/MatchEventFields";
+import {MatchEventRequest, MatchEventResponse} from "@/lib/schemas/matchEventSchema";
+import MatchEventFormFields from "@/components/match/MatchEventFormFields";
+import {formStateToMatchEventRequest, MatchEventFormState} from "@/lib/matchEventFormAdapter";
 
 interface EditMatchEventFormProps {
     matchEvent: MatchEventResponse;
     homeTeamId: string;
     awayTeamId: string;
-    onSave: (input: {
-        eventId: string;
-        type: "GOAL" | "CARD";
-        teamId: string;
-        minute: number;
-    }) => Promise<void> | void;
+    onSave: (eventId: string, dto: MatchEventRequest) => Promise<void> | void;
     onCancel: () => void;
 }
 
+/** Edit form (existing event)
+ * Backend invariant: type and team cannot be changed.*/
 export function EditMatchEventForm({
     matchEvent,
     homeTeamId,
@@ -28,26 +23,45 @@ export function EditMatchEventForm({
     onSave,
     onCancel,
     }: EditMatchEventFormProps) {
-    const [type, setType] = useState<MatchEventType>(matchEvent.type);
-    const [teamId, setTeamId] = useState(matchEvent.teamId);
-    const [minute, setMinute] = useState(
-        matchEvent.minute != null ? String(matchEvent.minute) : "",
-    );
+
+    //Initialise state based on backend/response match event object
+    const [formState, setFormState] = useState<MatchEventFormState>(() => {
+        if (matchEvent.type === "GOAL") {
+            return {
+                type: "GOAL",
+                teamId: matchEvent.teamId ?? homeTeamId, //drop when zod non-null
+                playerId: matchEvent.playerId ?? "",
+                minute: matchEvent.minute != null ? String(matchEvent.minute) : "",
+                assisterId: matchEvent.assisterId ?? "",
+            };
+        }
+
+        return {
+            type: "CARD",
+            teamId: matchEvent.teamId ?? homeTeamId,
+            playerId: matchEvent.playerId ?? "",
+            minute: matchEvent.minute != null ? String(matchEvent.minute) : "",
+            assisterId: "",
+            cardType: matchEvent.cardType,
+        };
+    });
+
     const [loading, setLoading] = useState(false);
+
+    //patch function, passed down. Called by subcomponents when fields change. Merges partial updates to state variable
+    function updateFormState(update: Partial<MatchEventFormState>) {
+        setFormState((prev) => ({ ...prev, ...update }));
+    }
 
     async function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
         setLoading(true);
 
         try {
-            await onSave({
-                eventId: String(matchEvent.id),
-                type: type,
-                teamId: teamId? teamId : "",
-                minute: Number(minute),
-            });
+            const dto = formStateToMatchEventRequest(formState);
+            await onSave(String(matchEvent.id), dto);
         } catch (err) {
-            console.error("Failed to update event:", err);
+            console.error("Invalid match event:", err);
         } finally {
             setLoading(false);
         }
@@ -55,38 +69,28 @@ export function EditMatchEventForm({
 
     return (
         <Paper className="mt-4 p-4">
-            <form onSubmit={handleSubmit}>
-                <MatchEventFields
-                    type={type}
-                    teamId={teamId? teamId : ""}
-                    minute={minute}
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                {/*Main Content*/}
+                <MatchEventFormFields
+                    formState={formState}
+                    mode="edit"
                     homeTeamId={homeTeamId}
                     awayTeamId={awayTeamId}
-                    onTypeChange={setType}
-                    onTeamChange={setTeamId}
-                    onMinuteChange={setMinute}
+                    onChange={updateFormState}
                 />
 
-                <div className="mt-4 flex gap-2 justify-end">
-                    <FormControl>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            disabled={loading}
-                        >
-                            {loading ? "Saving..." : "Save"}
-                        </Button>
-                    </FormControl>
-                    <FormControl>
-                        <Button
-                            type="button"
-                            variant="outlined"
-                            onClick={onCancel}
-                        >
-                            Cancel
-                        </Button>
-                    </FormControl>
-                </div>
+                {/*Submit button*/}
+                <FormControl>
+                    <Button type="submit" variant="contained" disabled={loading}>
+                        {loading ? "Saving..." : "Save"}
+                    </Button>
+                </FormControl>
+                {/*Cancel button*/}
+                <FormControl>
+                    <Button type="button" variant="outlined" onClick={onCancel}>
+                        Cancel
+                    </Button>
+                </FormControl>
             </form>
         </Paper>
     );

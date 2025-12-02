@@ -1,98 +1,77 @@
 "use client"
 
-import {FormEvent, useState} from "react";
-import {MatchEventFields, MatchEventType} from "@/components/match/MatchEventFields";
 import { Paper, FormControl, Button } from "@mui/material";
-import {createMatchEvents} from "@/lib/fetchMatchEvent";
-import {MatchEventRequest, matchEventRequestSchema} from "@/lib/schemas/matchEventSchema";
-
-// Remember to remove
-export type NewMatchEventInput = {
-    type: "GOAL" | "CARD";
-    teamId: string;
-    minute: number;
-};
+import {MatchEventRequest} from "@/lib/schemas/matchEventSchema";
+import MatchEventFormFields from "@/components/match/MatchEventFormFields";
+import {useState} from "react";
+import {formStateToMatchEventRequest, MatchEventFormState} from "@/lib/matchEventFormAdapter";
 
 interface CreateMatchEventFormProps {
-    matchId: string;
     homeTeamId: string;
     awayTeamId: string;
+    onSubmit: (dto: MatchEventRequest) => Promise<void> | void;
 }
 
+/** Create form: logging new event*/
 export function CreateMatchEventForm({
-    matchId,
     homeTeamId,
     awayTeamId,
+    onSubmit
 }: CreateMatchEventFormProps) {
-    const [type, setType] = useState<MatchEventType>("GOAL");
-    const [teamId, setTeamId] = useState(homeTeamId);
-    const [minute, setMinute] = useState("");
 
-    const [loading, setLoading] = useState(false)
+    //Form holds state, passes it down
+    const [formState, setFormState] = useState<MatchEventFormState>({
+        type: "GOAL",
+        teamId: homeTeamId,
+        playerId: "",
+        minute: "",
+        assisterId: "",
+        cardType: "YELLOW_CARD", // used if user switches to CARD
+    });
+    const [loading, setLoading] = useState(false);
+
+    //patch function, passed down. Called by subcomponents when fields change. Merges partial updates to state variable
+    function updateFormState(update: Partial<MatchEventFormState>) {
+        setFormState((prev) => ({ ...prev, ...update }));
+    }
 
     /** Event handler */
     async function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
         setLoading(true);
 
-        const numericMinute = Number(minute);
-
         try {
-            //TODO: fix on a new branch
-            //Build raw DTO payload matching MatchEventRequestDTO
-            const numericMinute = Number(minute);
+            const dto = formStateToMatchEventRequest(formState);
+            await onSubmit(dto);
 
-            const base = {
-                type,
-                teamId,
-                playerId: null,
-                minute: numericMinute,
-            };
-
-            // Validate against Zod request schema
-            const eventDto: MatchEventRequest = matchEventRequestSchema.parse(
-                type === "GOAL"
-                    ? {
-                        ...base,
-                        assisterId: null,
-                    }
-                    : {
-                        ...base,
-                        cardType: "YELLOW_CARD" as const,
-                    },
-            );
-
-            await createMatchEvents({
-                matchId,
-                events: [eventDto],
-            });
-
-            // e.g. reset minute only
-            setMinute("");
+            // Clear fields
+            setFormState((prev) => ({
+                ...prev,
+                playerId: "",
+                minute: "",
+                assisterId: "",
+            }));
         } catch (err) {
-            console.error("Failed to create event:", err);
+            console.error("Invalid match event:", err);
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <Paper>
-            <form onSubmit={handleSubmit}>
+        <Paper className="mt-4 p-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 {/*Main Content*/}
-                <MatchEventFields
-                    type={type}
-                    teamId={teamId}
-                    minute={minute}
+                <MatchEventFormFields
+                    formState={formState}
+                    mode="create"
                     homeTeamId={homeTeamId}
                     awayTeamId={awayTeamId}
-                    onTypeChange={setType}
-                    onTeamChange={setTeamId}
-                    onMinuteChange={setMinute}
+                    onChange={updateFormState}
                 />
 
                 {/*Submit button*/}
-                <FormControl className="mt-4">
+                <FormControl className="mt-2">
                     <Button type="submit" variant="contained" disabled={loading}>
                         {loading ? "Saving..." : "Add event"}
                     </Button>
