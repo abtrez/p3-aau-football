@@ -17,7 +17,7 @@ const refereeSchema = z.object({
 export const matchSchema = z.object({
   id: z.string(),
   season: z.string().nullish(),
-  competition: z.string().nullish(),
+  competitionId: z.string().nullish(),
   homeTeam: teamSchema,
   awayTeam: teamSchema,
   venue: venueSchema.nullish(),
