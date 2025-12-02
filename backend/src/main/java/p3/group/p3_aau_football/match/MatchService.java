@@ -54,7 +54,6 @@ public class MatchService {
         //} else {
         //   throw new Exception("Team not found");
         //}
-
     }
 
     public Match addMatchEvents(String matchId, List<MatchEventRequestDTO> requestsDTOs) {
