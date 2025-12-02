@@ -73,31 +73,6 @@ public class MatchService {
         return this.matchRepository.insert(match);
     }
 
-    /**
-     * Intermediate step DTO --> Model Object to be persisted with Mongo
-     * @param dto required fields of a match event excluding id, as this is generated in model constructor
-     * @return Goal object, Card object, or throws exception
-     */
-    private MatchEvent matchEventDtoToModel(MatchEventRequestDTO dto) {
-        //Switch Expression on DTO record. Evaluates to a single value, which is returned.
-        return switch (dto.type()) {
-            // -> syntax no need for 'break' statements
-            case "GOAL" -> new Goal(
-                    dto.teamId(),
-                    dto.playerId(),
-                    dto.minute(),
-                    dto.assisterId()
-            );
-            case "CARD" -> new Card(
-                    dto.teamId(),
-                    dto.playerId(),
-                    dto.minute(),
-                    dto.cardType()
-            );
-            default -> throw new IllegalArgumentException("Unknown type: " + dto.type()); //TODO: Figure out exact Exception type later
-        };
-    }
-
     public Match addMatchEvents(String matchId, List<MatchEventRequestDTO> requestsDTOs) {
         /// Get match on which to add events. Reuse validation/error handling of getMatch() method
         Match match = getMatch(matchId);  //may throw NoSuchElementException
