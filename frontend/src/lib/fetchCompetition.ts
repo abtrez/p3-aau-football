@@ -79,9 +79,10 @@ export async function fetchCompetitionBySeasonAndName(
   }
 
   const res = await fetch(
-    `${BACKEND_URL}/api/competition/get/${name}/${season}`,
+    `${BACKEND_URL}/api/competition/get-by-season-and-name?name=${encodeURIComponent(
+      name,
+    )}&season=${encodeURIComponent(season)}`,
   );
-
   if (!res.ok) {
     throw new Error(
       `Failed to fetch competition: ${res.status} ${res.statusText}`,

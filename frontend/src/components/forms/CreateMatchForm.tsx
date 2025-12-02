@@ -21,13 +21,14 @@ export function CreateMatchForm({
   homeTeamId,
   opponentTeams,
   competition,
+  season,
 }: {
   homeTeamId: string;
   opponentTeams: Team[];
   competition: Competition;
+  season: string;
 }) {
-  const [season, setSeason] = useState("");
-  const [awayTeam, setAwayTeam] = useState("");
+  const [awayTeamId, setAwayTeamId] = useState("");
   const [venue, setVenue] = useState("");
   const [kickoff, setKickoff] = useState("");
 
@@ -42,45 +43,35 @@ export function CreateMatchForm({
     setErrorMessage("");
     setMatchCreated(false);
 
-    if (!awayTeam || !venue || !kickoff) {
+    if (!awayTeamId || !venue || !kickoff) {
       setErrorMessage("Please fill all fields");
       setLoading(false);
       return;
     }
 
     const formValues = event.currentTarget;
-    const formData = new FormData(event.currentTarget);
 
-    // Create payload with the form data
+    // Payload for post request
     const payload = {
-      season,
-      competition: competition || null,
-      homeTeam: homeTeamId,
-      awayTeam: awayTeam,
+      homeTeamId: homeTeamId,
+      awayTeamId: awayTeamId,
+      season: season,
+      competitionId: competition.id,
+      venue: venue,
+      kickoff: new Date(kickoff).toISOString(),
     };
 
-    const response = await addMatch({
-      season,
-      competition,
-      homeTeam: homeTeamId,
-      awayTeam,
-      venue,
-      kickoff: new Date(kickoff).toISOString(),
-    });
+    const response = await addMatch(payload);
 
     if (response.error) {
-      if (response.error) {
-        setErrorMessage(response.error);
-      }
+      setErrorMessage(response.error);
     } else {
       setMatchCreated(true);
-      event.currentTarget.reset();
-      setSeason("");
-      setAwayTeam("");
+      formValues.reset();
+      setAwayTeamId("");
       setVenue("");
       setKickoff("");
     }
-
     setLoading(false);
   }
 
@@ -110,10 +101,10 @@ export function CreateMatchForm({
             <Select
               id="awayTeam"
               name="awayTeam"
-              value={awayTeam}
+              value={awayTeamId}
               label="awayTeam"
               onChange={(event) => {
-                setAwayTeam(event.target.value as string);
+                setAwayTeamId(event.target.value as string);
               }}
             >
               {opponentTeams.map((team) => {

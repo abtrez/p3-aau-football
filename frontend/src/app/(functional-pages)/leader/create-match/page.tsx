@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { CreateMatchForm } from "@/components/forms/CreateMatchForm";
 import { fetchCompetitions } from "@/lib/fetchCompetition";
+import { getCurrentSeason } from "@/lib/utils/getCurrentSeason";
 
 export default async function Page() {
   const session = await auth.api.getSession({
@@ -15,11 +16,12 @@ export default async function Page() {
     redirect("/sign-in");
   }
 
+  const currentSeason = getCurrentSeason();
   const homeTeamId = session.user.team;
   const opponentTeams = await fetchTeams();
   const competition = await fetchCompetitionBySeasonAndName(
     "Friendlies",
-    "2025/26",
+    currentSeason,
   );
 
   console.log(competition);
@@ -30,6 +32,7 @@ export default async function Page() {
         homeTeamId={homeTeamId}
         opponentTeams={opponentTeams}
         competition={competition}
+        season={currentSeason}
       />
     </div>
   );
