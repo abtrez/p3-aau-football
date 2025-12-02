@@ -52,7 +52,7 @@ export const matchSchema = z.object({
   awayTeam: teamSchema,
   //venue: venueSchema.nullish(),
   venue: z.string().nullish(),
-  kickoff: z.string().nullish(),
+  kickoff: z.string(),
   referees: z.array(refereeSchema).nullish(),
   homeScore: z.number(),
   awayScore: z.number(),
