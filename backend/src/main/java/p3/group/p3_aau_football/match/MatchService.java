@@ -11,6 +11,7 @@ import p3.group.p3_aau_football.match.event.Goal;
 import p3.group.p3_aau_football.match.event.MatchEvent;
 import p3.group.p3_aau_football.match.event.MatchEventRequestDTO;
 import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
+import p3.group.p3_aau_football.team.Team;
 import p3.group.p3_aau_football.team.TeamService;
 
 @Service
@@ -53,7 +54,22 @@ public class MatchService {
         //} else {
         //   throw new Exception("Team not found");
         //}
+    }
 
+    public Match insertFriendlyMatch(CreateMatchDTO request) {
+        Team homeTeam = teamService.getTeamById(request.homeTeamId())
+                .orElseThrow(() -> new NoSuchElementException("Team not found: " + request.homeTeamId()));
+        Team awayTeam = teamService.getTeamById(request.awayTeamId())
+                .orElseThrow(() -> new NoSuchElementException("Team not found: " + request.awayTeamId()));
+
+        Match match = new Match(homeTeam, awayTeam);
+        match.setSeason(request.season());
+        match.setCompetition(request.competitionId());
+        match.setVenue(request.venue());
+        match.setKickoff(request.kickoff());
+        // TODO Figure out how we add referees - should have option to be null untill a referee is found
+
+        return this.matchRepository.insert(match);
     }
 
     /**

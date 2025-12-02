@@ -4,6 +4,7 @@ import {
   matchesArraySchema,
   matchSchema,
 } from "@/lib/schemas/matchSchema";
+import { createMatchSchema } from "@/lib/schemas/createMatchSchema";
 
 const BACKEND_URL = process.env.BACKEND_URI;
 
@@ -18,7 +19,7 @@ export async function fetchMatchOverview(): Promise<Match[]> {
   const res = await fetch(`${BACKEND_URL}/api/match/get`);
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch match overview: ${res.status} ${res.statusText}`
+      `Failed to fetch match overview: ${res.status} ${res.statusText}`,
     );
   }
   // Validate returned json with Zod
@@ -43,7 +44,7 @@ export async function fetchMatchById(matchId: string): Promise<Match> {
   const res = await fetch(`${BACKEND_URL}/api/match/get/${matchId}`);
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch match ${matchId}: ${res.status} ${res.statusText}`
+      `Failed to fetch match ${matchId}: ${res.status} ${res.statusText}`,
     );
   }
   // Validate returned json with Zod
@@ -59,24 +60,31 @@ export async function fetchMatchById(matchId: string): Promise<Match> {
   return result.data;
 }
 
-//add match 
-export async function addMatch(data: {
-  season: string;
-  competition: string
-  homeTeam: string;
-  awayTeam: string;
-  venue: string;
-  kickoff: string;
-}) {
+//add match
+export async function addMatch(formData: unknown) {
+  // Validate the form data with zod
+  const parsed = createMatchSchema.safeParse(formData);
+
+  if (!parsed.success) {
+    console.error("Invalid match payload:", parsed.error);
+    return {
+      result: null,
+      error: "Received invalid match form data from the frontend",
+    };
+  }
+
+  // Validated form data
+  const validatedFormData = parsed.data;
+
   const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ data }),
+    body: JSON.stringify(validatedFormData),
   };
 
-  const res = await fetch(`${BACKEND_URL}/api/match/add`, options);
+  const res = await fetch(`${BACKEND_URL}/api/match/add-friendly`, options);
 
   if (!res.ok) {
     return {
