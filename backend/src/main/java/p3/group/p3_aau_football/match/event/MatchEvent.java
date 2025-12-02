@@ -56,5 +56,4 @@ public abstract class MatchEvent {
     public void setMinute(Integer minute) {
         this.minute = minute;
     }
-
 }
