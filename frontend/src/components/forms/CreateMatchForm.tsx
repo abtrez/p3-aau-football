@@ -60,6 +60,7 @@ export function CreateMatchForm({
       venue: venue,
       kickoff: new Date(kickoff).toISOString(),
     };
+    console.log("THIS IS THE PAYLOAD: ", payload);
 
     const response = await addMatch(payload);
 

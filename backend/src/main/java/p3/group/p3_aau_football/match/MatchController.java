@@ -44,7 +44,7 @@ public class MatchController {
     }
 
     // Matches created by leaders and coaches from the frontend
-    @PostMapping("add-friendly")
+    @PostMapping("/add-friendly")
     public ResponseEntity<Match> addFriendlyMatch(@RequestBody CreateMatchDTO request) {
         try {
             Match insertedMatch = matchService.insertFriendlyMatch(request);

@@ -21,9 +21,8 @@ public class TeamService {
         return this.teamRepository.findAll();
     }
 
-    public Team getTeamById(String id) {
-        return this.teamRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Team not found: " + id));
+    public Optional<Team> getTeamById(String id) {
+        return this.teamRepository.findById(id);
     }
 
     public Team addTeam(Team team) {

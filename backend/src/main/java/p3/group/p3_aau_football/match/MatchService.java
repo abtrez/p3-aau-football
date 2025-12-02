@@ -57,8 +57,10 @@ public class MatchService {
     }
 
     public Match insertFriendlyMatch(CreateMatchDTO request) {
-        Team homeTeam = teamService.getTeamById(request.homeTeamId());
-        Team awayTeam = teamService.getTeamById(request.awayTeamId());
+        Team homeTeam = teamService.getTeamById(request.homeTeamId())
+                .orElseThrow(() -> new NoSuchElementException("Team not found: " + request.homeTeamId()));
+        Team awayTeam = teamService.getTeamById(request.awayTeamId())
+                .orElseThrow(() -> new NoSuchElementException("Team not found: " + request.awayTeamId()));
 
         Match match = new Match(homeTeam, awayTeam);
         match.setSeason(request.season());
