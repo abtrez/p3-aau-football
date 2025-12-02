@@ -20,5 +20,4 @@ public class Goal extends MatchEvent {
     public void setAssisterId(String assisterId) {
         this.assisterId = assisterId;
     }
-
 }
