@@ -16,5 +16,4 @@ public class Card extends MatchEvent {
     public void setCardType(CardType cardType) {
         this.cardType = cardType;
     }
-
 }
