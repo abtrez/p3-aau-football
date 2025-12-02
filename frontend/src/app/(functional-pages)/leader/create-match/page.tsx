@@ -24,7 +24,6 @@ export default async function Page() {
     currentSeason,
   );
 
-  console.log(competition);
 
   return (
     <div className="flex flex-col justify-center items-center h-screen w-full">
