@@ -19,7 +19,7 @@ export async function fetchCompetitions(): Promise<Competition[]> {
   const res = await fetch(`${BACKEND_URL}/api/competition/get`);
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch competitions: ${res.status} ${res.statusText}`
+      `Failed to fetch competitions: ${res.status} ${res.statusText}`,
     );
   }
 
@@ -38,7 +38,7 @@ export async function fetchCompetitions(): Promise<Competition[]> {
 }
 
 export async function fetchCompetitionById(
-  competitionId: string
+  competitionId: string,
 ): Promise<Competition> {
   const safePattern = /^[a-zA-Z0-9_-]+$/;
   if (!safePattern.test(competitionId)) {
@@ -46,11 +46,11 @@ export async function fetchCompetitionById(
   }
 
   const res = await fetch(
-    `${BACKEND_URL}/api/competition/get/${competitionId}`
+    `${BACKEND_URL}/api/competition/get/${competitionId}`,
   );
   if (!res.ok) {
     throw new Error(
-      `Failed to fetch competition ${competitionId}: ${res.status} ${res.statusText}`
+      `Failed to fetch competition ${competitionId}: ${res.status} ${res.statusText}`,
     );
   }
   const json = await res.json();
@@ -61,11 +61,47 @@ export async function fetchCompetitionById(
   if (!result.success) {
     console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
     throw new Error(
-      `Backend returned invalid team data for id ${competitionId}`
+      `Backend returned invalid competition data for id ${competitionId}`
     );
   }
 
   // Return validated single team data
+  return result.data;
+}
+
+export async function fetchCompetitionBySeasonAndName(
+  name: string,
+  season: string,
+): Promise<Competition> {
+  const safePattern = /^[a-zA-Z0-9_-]+$/;
+  if (!safePattern.test(name)) {
+    throw new Error(`Invalid competitionId parameter.`);
+  }
+
+  const res = await fetch(
+    `${BACKEND_URL}/api/competition/get-by-season-and-name?name=${encodeURIComponent(
+      name,
+    )}&season=${encodeURIComponent(season)}`,
+  );
+  if (!res.ok) {
+    throw new Error(
+      `Failed to fetch competition: ${res.status} ${res.statusText}`,
+    );
+  }
+
+  const json = await res.json();
+
+  // Validate returned data with zod
+  const result = competitionSchema.safeParse(json);
+
+  if (!result.success) {
+    console.error("Raw JSON from backend:", JSON.stringify(json, null, 2));
+    throw new Error(
+      `Backend returned invalid competition data for competition: ${name}`,
+    );
+  }
+
+  // Return validated competition
   return result.data;
 }
 

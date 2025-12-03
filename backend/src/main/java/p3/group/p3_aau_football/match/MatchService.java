@@ -6,11 +6,11 @@ import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
-import p3.group.p3_aau_football.match.event.Card;
-import p3.group.p3_aau_football.match.event.Goal;
 import p3.group.p3_aau_football.match.event.MatchEvent;
 import p3.group.p3_aau_football.match.event.MatchEventRequestDTO;
+import p3.group.p3_aau_football.match.event.MatchEventRequestMapperRegistry;
 import p3.group.p3_aau_football.statistic.league.LeagueStatisticsService;
+import p3.group.p3_aau_football.team.Team;
 import p3.group.p3_aau_football.team.TeamService;
 
 @Service
@@ -19,11 +19,13 @@ public class MatchService {
     private MatchRepository matchRepository;
     private TeamService teamService;
     private LeagueStatisticsService leagueStatsService;
+    private MatchEventRequestMapperRegistry matchEventRequestMapperRegistry;
 
-    public MatchService(MatchRepository matchRepository, TeamService teamService, LeagueStatisticsService leagueStatsService) {
+    public MatchService(MatchRepository matchRepository, TeamService teamService, LeagueStatisticsService leagueStatsService, MatchEventRequestMapperRegistry matchEventRequestMapperRegistry) {
         this.matchRepository = matchRepository;
         this.teamService = teamService;
         this.leagueStatsService = leagueStatsService;
+        this.matchEventRequestMapperRegistry = matchEventRequestMapperRegistry;
     }
 
     public List<Match> getOverview() {
@@ -53,36 +55,25 @@ public class MatchService {
         //} else {
         //   throw new Exception("Team not found");
         //}
-
     }
 
-    /**
-     * Intermediate step DTO --> Model Object to be persisted with Mongo
-     * @param dto required fields of a match event excluding id, as this is generated in model constructor
-     * @return Goal object, Card object, or throws exception
-     */
-    private MatchEvent matchEventDtoToModel(MatchEventRequestDTO dto) {
-        //Switch Expression on DTO record. Evaluates to a single value, which is returned.
-        return switch (dto.type()) {
-            // -> syntax no need for 'break' statements
-            case "GOAL" -> new Goal(
-                    dto.teamId(),
-                    dto.playerId(),
-                    dto.minute(),
-                    dto.assisterId()
-            );
-            case "CARD" -> new Card(
-                    dto.teamId(),
-                    dto.playerId(),
-                    dto.minute(),
-                    dto.cardType()
-            );
-            default -> throw new IllegalArgumentException("Unknown type: " + dto.type()); //TODO: Figure out exact Exception type later
-        };
+    public Match insertFriendlyMatch(CreateMatchDTO request) {
+        Team homeTeam = teamService.getTeamById(request.homeTeamId())
+                .orElseThrow(() -> new NoSuchElementException("Team not found: " + request.homeTeamId()));
+        Team awayTeam = teamService.getTeamById(request.awayTeamId())
+                .orElseThrow(() -> new NoSuchElementException("Team not found: " + request.awayTeamId()));
+
+        Match match = new Match(homeTeam, awayTeam);
+        match.setSeason(request.season());
+        match.setCompetition(request.competitionId());
+        match.setVenue(request.venue());
+        match.setKickoff(request.kickoff());
+        // TODO Figure out how we add referees - should have option to be null untill a referee is found
+
+        return this.matchRepository.insert(match);
     }
 
-    // Works, but improvements pending
-    public Match addMatchEvents(String matchId, List<MatchEventRequestDTO> requests) {
+    public Match addMatchEvents(String matchId, List<MatchEventRequestDTO> requestsDTOs) {
         /// Get match on which to add events. Reuse validation/error handling of getMatch() method
         Match match = getMatch(matchId);  //may throw NoSuchElementException
 
@@ -90,9 +81,10 @@ public class MatchService {
         List<MatchEvent> newMatchEvents = new ArrayList<>();
 
         // Create Match Event objects (of appropriate subclass) from each request dto, append to the temporary list
-        for (MatchEventRequestDTO dto : requests ) {
+        for (MatchEventRequestDTO dto : requestsDTOs ) {
             //TODO: dto validation, expeption handling? validate team belongs to this match?
-            newMatchEvents.add(matchEventDtoToModel(dto));
+            MatchEvent model = matchEventRequestMapperRegistry.toModel(dto);
+            newMatchEvents.add(model);
         }
 
         /// Delegate addition to model logic, passing the new events
@@ -128,8 +120,8 @@ public class MatchService {
             throw new IllegalArgumentException("Team cannot change");
         }
 
-        /// Delegate updating to polymorphic model logic
-        event.applyUpdate(dto);
+        /// Delegate all DTO -> model update logic to mappers + registry
+        matchEventRequestMapperRegistry.applyUpdate(dto, event);
 
         /// Persist changes
         return matchRepository.save(match);

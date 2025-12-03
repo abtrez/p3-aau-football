@@ -1,9 +1,7 @@
 package p3.group.p3_aau_football.match;
 
-import java.lang.annotation.Repeatable;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +43,18 @@ public class MatchController {
         }
     }
 
+    // Matches created by leaders and coaches from the frontend
+    @PostMapping("/add-friendly")
+    public ResponseEntity<Match> addFriendlyMatch(@RequestBody CreateMatchDTO request) {
+        try {
+            Match insertedMatch = matchService.insertFriendlyMatch(request);
+            return ResponseEntity.ok(insertedMatch);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     /*
      * @PatchMapping("/{id}/edit")
      * public String editMatch(@PathVariable("id") String id, @RequestParam("test1")
@@ -58,10 +68,10 @@ public class MatchController {
     @PostMapping("/add/{matchId}/events")
     public ResponseEntity<Match> createMatchEvents(
             @PathVariable("matchId") String matchId,
-            @RequestBody List<MatchEventRequestDTO> matchEventRequestDTOS // deserialize/parse the req body (json formatted array) to a list of MatchEventsReqDtos //TODO: bean validation @Valid
+            @RequestBody List<MatchEventRequestDTO> dtos // deserialize/parse the req body (json formatted array) to a list of MatchEventsReqDtos //TODO: bean validation @Valid
     ) {
         try {
-            Match updatedMatch = matchService.addMatchEvents(matchId, matchEventRequestDTOS);
+            Match updatedMatch = matchService.addMatchEvents(matchId, dtos);
             return ResponseEntity.ok(updatedMatch);
         } catch(NoSuchElementException e) { //TODO: Improve Exception handling
             System.out.println(e.getMessage());
@@ -83,7 +93,6 @@ public class MatchController {
         }
     }
 
-    // Considering patch mapping, however less complexity
     @PutMapping("/update/{matchId}/events/{eventId}")
     public ResponseEntity<Match> updateMatchEvent(
             @PathVariable("matchId") String matchId,
