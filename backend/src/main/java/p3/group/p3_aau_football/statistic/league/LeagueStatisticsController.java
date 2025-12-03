@@ -1,6 +1,5 @@
 package p3.group.p3_aau_football.statistic.league;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import p3.group.p3_aau_football.statistic.common.StatisticsController;
@@ -13,7 +12,6 @@ public class LeagueStatisticsController implements StatisticsController {
 
     private final LeagueStatisticsService leagueStatsService;
 
-    @Autowired
     public LeagueStatisticsController(LeagueStatisticsService leagueStatsService) {
         this.leagueStatsService = leagueStatsService;
     }
@@ -42,8 +40,7 @@ public class LeagueStatisticsController implements StatisticsController {
                 0,
                 0,
                 0,
-                0
-        );
+                0);
         return ResponseEntity.ok(savedLeagueStatistic);
     }
 
