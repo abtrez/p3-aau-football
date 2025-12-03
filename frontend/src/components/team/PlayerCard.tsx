@@ -11,7 +11,7 @@ export default function PlayerCard({ member }: PlayerCardInterface) {
   const router = useRouter();
 
   return (
-    <div key={member.id} className="nb-1 cursor-pointer" onClick={() => router.push(`/player/${member.id}`)}>
+    <div key={member.id} className="nb-1 cursor-pointer hover:bg-gray-100" onClick={() => router.push(`/player/${member.id}`)}>
       <span className="font-medium">
         {member.firstName} {member.lastName}
       </span>
