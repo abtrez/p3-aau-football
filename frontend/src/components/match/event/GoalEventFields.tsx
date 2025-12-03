@@ -6,15 +6,20 @@ import {
     MenuItem,
     Select
 } from "@mui/material";
+import {Person} from "@/lib/schemas/personSchema";
 
 interface GoalEventFieldsProps {
     assisterId: string;
+    scorerId: string;
+    players: Person[]; //for current team
     onAssisterChange: (value: string) => void;
 }
 
 /** GOAL specific fields: assister */
 export default function GoalEventFields({
         assisterId,
+        scorerId,
+        players,
         onAssisterChange
     }: GoalEventFieldsProps) {
     return (
@@ -26,8 +31,17 @@ export default function GoalEventFields({
                 label="Assister"
                 onChange={(event) => onAssisterChange(event.target.value as string)}
             >
+                {/* TODO: remove? */}
                 <MenuItem value="">Unreported</MenuItem>
-                {/* TODO: populate players of selected team */}
+                {/* Populate with players of selected team */}
+                {players.map((player) => {
+                    if (player.id === scorerId) return null
+                    return (
+                        <MenuItem key={player.id} value={player.id}>
+                            {player.firstName} {player.lastName}
+                        </MenuItem>
+                    );
+                })}
             </Select>
         </FormControl>
     );

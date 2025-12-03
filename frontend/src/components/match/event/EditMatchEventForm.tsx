@@ -3,13 +3,15 @@
 import { useState } from "react";
 import { Paper, FormControl, Button } from "@mui/material";
 import {MatchEventRequest, MatchEventResponse} from "@/lib/schemas/matchEventSchema";
-import MatchEventFormFields from "@/components/match/MatchEventFormFields";
+import MatchEventFormFields from "@/components/match/event/MatchEventFormFields";
 import {formStateToMatchEventRequest, MatchEventFormState} from "@/lib/matchEventFormAdapter";
+import {Person} from "@/lib/schemas/personSchema";
 
 interface EditMatchEventFormProps {
     matchEvent: MatchEventResponse;
     homeTeamId: string;
     awayTeamId: string;
+    playersByTeamId: Record<string, Person[]>;
     onSave: (eventId: string, dto: MatchEventRequest) => Promise<void> | void;
     onCancel: () => void;
 }
@@ -20,6 +22,7 @@ export function EditMatchEventForm({
     matchEvent,
     homeTeamId,
     awayTeamId,
+    playersByTeamId,
     onSave,
     onCancel,
     }: EditMatchEventFormProps) {
@@ -76,6 +79,7 @@ export function EditMatchEventForm({
                     mode="edit"
                     homeTeamId={homeTeamId}
                     awayTeamId={awayTeamId}
+                    playersByTeamId={playersByTeamId}
                     onChange={updateFormState}
                 />
 
