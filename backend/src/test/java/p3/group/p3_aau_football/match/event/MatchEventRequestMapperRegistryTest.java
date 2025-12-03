@@ -1,6 +1,7 @@
 package p3.group.p3_aau_football.match.event;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class MatchEventRequestMapperRegistryTest {
 
     // Integration tests with Spring Beans
+    @Autowired
     private MatchEventRequestMapperRegistry registry;
 
     // Registry uses DTO to create new appropriate model, using correct mapper
