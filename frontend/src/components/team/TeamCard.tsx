@@ -12,12 +12,13 @@ interface TeamCardProps {
 
 export default async function TeamCard({ team }: TeamCardProps) {
   const members: Person[] = await fetchPersonsFromTeamId(team.id);
+  const logoPath = `/logos/${team.abbreviation}.svg`;
   return (
     <Link href={`/teams/${team.id}`}>
       <div className="flex rounded-2xl bg-white shadow-sm border border-gray-100 gap-4 p-4">
         <div className="flex justify-start">
           <div className="flex justify-center items-center">
-            <TeamLogo logo={"/placeholder-logo.png"} width={70} height={70} />
+            <TeamLogo logo={logoPath} width={70} height={70} />
           </div>
         </div>
         <div className="flex flex-col grow justify-center gap-2">

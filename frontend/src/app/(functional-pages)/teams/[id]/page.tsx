@@ -109,7 +109,7 @@ export default async function Page({
           </div>
         ))}
       </section>
-      {session && (
+      {session && session.user.team === team.id && (
         <FloatingActionButton icon={AddIcon} link="/leader/add-member" />
       )}
     </div>
