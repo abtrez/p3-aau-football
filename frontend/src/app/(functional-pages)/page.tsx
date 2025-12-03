@@ -13,12 +13,12 @@ export default async function Home() {
   });
 
   return (
-    <>
-      <h1 className="text-3xl text-center mb-3">Match Overview</h1>
+    <div>
+      <h1 className="text-3xl text-left sm:text-center mb-3">Match Overview</h1>
       <MatchOverview matches={matches} />
       {session && (
         <FloatingActionButton icon={AddIcon} link="/leader/create-match" />
       )}
-    </>
+    </div>
   );
 }

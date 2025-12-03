@@ -6,7 +6,7 @@ export default async function Page() {
   const teams: Team[] = await fetchTeams();
   return (
     <>
-      <h1 className="text-3xl text-center mb-3">Teams Overview</h1>
+      <h1 className="text-3xl text-left sm:text-center mb-3">Teams Overview</h1>
       <TeamOverview teams={teams} />
     </>
   );

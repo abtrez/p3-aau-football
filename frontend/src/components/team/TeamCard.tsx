@@ -15,10 +15,15 @@ export default async function TeamCard({ team }: TeamCardProps) {
   const logoPath = `/logos/${team.abbreviation}.svg`;
   return (
     <Link href={`/teams/${team.id}`}>
-      <div className="flex rounded-2xl bg-white shadow-sm border border-gray-100 gap-4 p-4">
+      <div className="flex rounded-2xl bg-white shadow-sm border border-gray-100 transition-all duration-200 hover:shadow-md hover:-translate-y-1 gap-4 p-4">
         <div className="flex justify-start">
           <div className="flex justify-center items-center">
-            <TeamLogo logo={logoPath} width={70} height={70} />
+            <TeamLogo
+              logo={logoPath}
+              width={70}
+              height={70}
+              className="w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24"
+            />
           </div>
         </div>
         <div className="flex flex-col grow justify-center gap-2">

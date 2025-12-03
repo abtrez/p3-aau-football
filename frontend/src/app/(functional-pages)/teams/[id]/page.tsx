@@ -37,7 +37,12 @@ export default async function Page({
   return (
     <div className="container mx-auto">
       <div className="flex flex-col items-center gap-4">
-        <TeamLogo logo={"/placeholder-logo.png"} height={120} width={120} />
+        <TeamLogo
+          logo={`/logos/${team.abbreviation}.svg`}
+          height={120}
+          width={120}
+          className="w-24 h-24 sm:w-42 sm:h-42"
+        />
         <h1 className="text-4xl font-semibold  text-neutral-900 text-center">
           {team.name}
         </h1>
@@ -57,8 +62,8 @@ export default async function Page({
           value={
             leader.length > 0
               ? leader
-                .map((leader) => `${leader.firstName} ${leader.lastName}`)
-                .join(", ")
+                  .map((leader) => `${leader.firstName} ${leader.lastName}`)
+                  .join(", ")
               : "N/A"
           }
         />
@@ -67,8 +72,8 @@ export default async function Page({
           value={
             coach.length > 0
               ? coach
-                .map((coach) => `${coach.firstName} ${coach.lastName}`)
-                .join(", ")
+                  .map((coach) => `${coach.firstName} ${coach.lastName}`)
+                  .join(", ")
               : "N/A"
           }
         />
