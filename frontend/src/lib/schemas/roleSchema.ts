@@ -1,4 +1,3 @@
-import { phoneNumber } from "better-auth/plugins";
 import { z } from "zod";
 
 export const playerRoleSchema = z.object({
@@ -17,12 +16,12 @@ export const playerRoleSchema = z.object({
     "CAM",
     "LM",
     "RM",
-    "ST",
-    "CF",
     "LW",
     "RW",
     "LA",
     "RA",
+    "CF",
+    "ST",
   ]),
 });
 

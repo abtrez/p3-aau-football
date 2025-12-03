@@ -2,7 +2,6 @@ package p3.group.p3_aau_football.statistic.league;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import p3.group.p3_aau_football.match.Match;
@@ -16,20 +15,24 @@ public class LeagueStatisticsService implements StatisticsService {
 
     LeagueStatisticsRepository leagueStatisticsRepository;
 
-    @Autowired
     public LeagueStatisticsService(LeagueStatisticsRepository leagueRepo) {
         this.leagueStatisticsRepository = leagueRepo;
     }
 
-    public LeagueStatistics enrollTeam(Team team, String season, String competitionId, int matchesPlayed, int won, int drawn,
-                                       int lost, int goalsFor, int goalsAgainst, int points) {
-        boolean exists = this.leagueStatisticsRepository.existsByTeamAndSeasonAndCompetitionId(team, season, competitionId);
+    public LeagueStatistics enrollTeam(Team team, String season, String competitionId, int matchesPlayed, int won,
+            int drawn,
+            int lost, int goalsFor, int goalsAgainst, int points) {
+        boolean exists = this.leagueStatisticsRepository.existsByTeamAndSeasonAndCompetitionId(team, season,
+                competitionId);
         if (!exists) {
-            LeagueStatistics insertedLeagueStatistics = new LeagueStatistics(team, season, competitionId, matchesPlayed, won, drawn,
+            LeagueStatistics insertedLeagueStatistics = new LeagueStatistics(team, season, competitionId, matchesPlayed,
+                    won, drawn,
                     lost, goalsFor, goalsAgainst, points);
             return this.leagueStatisticsRepository.save(insertedLeagueStatistics);
         } else {
-            String msg = String.format("A document with the same Team, Season and Competition already exists in the collection: Team: %s, Season: %s, CompetitionId: %s", team, season, competitionId);
+            String msg = String.format(
+                    "A document with the same Team, Season and Competition already exists in the collection: Team: %s, Season: %s, CompetitionId: %s",
+                    team, season, competitionId);
             throw new DocumentAlreadyExistsException(msg);
         }
 
@@ -40,7 +43,8 @@ public class LeagueStatisticsService implements StatisticsService {
         if (exists) {
             this.leagueStatisticsRepository.deleteById(id);
         } else {
-            String msg = String.format("A document with the provided ID does not exists in the collection: DocumentID: %s", id);
+            String msg = String
+                    .format("A document with the provided ID does not exists in the collection: DocumentID: %s", id);
             throw new DocumentNotFoundException(msg);
         }
     }
@@ -49,7 +53,8 @@ public class LeagueStatisticsService implements StatisticsService {
      * This method is only responsible for directly updating the fields of the
      * LeagueStatistics object not the entire process of updating from raw data.
      */
-    public List<LeagueStatistics> updateLeagueStatsObject(List<LeagueStatistics> leagueStats, List<UpdateLeagueStatistics> updateLeagueStats) {
+    public List<LeagueStatistics> updateLeagueStatsObject(List<LeagueStatistics> leagueStats,
+            List<UpdateLeagueStatistics> updateLeagueStats) {
         leagueStats.get(0).update(updateLeagueStats.get(0));
         leagueStats.get(1).update(updateLeagueStats.get(1));
         return leagueStats;
@@ -66,9 +71,11 @@ public class LeagueStatisticsService implements StatisticsService {
         String season = match.getSeason();
         String competitionId = match.getCompetitionId();
 
-        LeagueStatistics homeTeamStats = this.leagueStatisticsRepository.findByTeamAndSeasonAndCompetitionId(homeTeam, season, competitionId)
+        LeagueStatistics homeTeamStats = this.leagueStatisticsRepository
+                .findByTeamAndSeasonAndCompetitionId(homeTeam, season, competitionId)
                 .orElseThrow(() -> new LeagueStatisticsNotFoundException("Home Team League Statistics Not Found"));
-        LeagueStatistics awayTeamStats = this.leagueStatisticsRepository.findByTeamAndSeasonAndCompetitionId(awayTeam, season, competitionId)
+        LeagueStatistics awayTeamStats = this.leagueStatisticsRepository
+                .findByTeamAndSeasonAndCompetitionId(awayTeam, season, competitionId)
                 .orElseThrow(() -> new LeagueStatisticsNotFoundException("Away Team League Statistics Not Found"));
 
         List<LeagueStatistics> leagueStats = List.of(homeTeamStats, awayTeamStats);

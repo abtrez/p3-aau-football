@@ -56,22 +56,4 @@ public abstract class MatchEvent {
     public void setMinute(Integer minute) {
         this.minute = minute;
     }
-
-    /**
-     * @param data interface type to avoid direct dependency on dto from model
-     */
-    public void applyUpdate (MatchEventUpdateData data) {
-
-        // Common Editable fields for all subtypes, id and team not allowed
-        this.setPlayerId(data.playerId());
-        this.setMinute(data.minute());
-
-        // Subclass updates its own type-specific field, makes this a "Template Method"
-        applySpecificUpdate(data);
-    }
-
-    /**
-     * Force subclasses to implement their specific update logic
-     */
-    protected abstract void applySpecificUpdate(MatchEventUpdateData data);
 }

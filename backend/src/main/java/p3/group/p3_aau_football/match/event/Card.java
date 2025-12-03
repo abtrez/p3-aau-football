@@ -16,10 +16,4 @@ public class Card extends MatchEvent {
     public void setCardType(CardType cardType) {
         this.cardType = cardType;
     }
-
-    @Override
-    protected void applySpecificUpdate(MatchEventUpdateData data) {
-        // Other fields are handled by super
-        this.setCardType(data.cardType());
-    }
 }
