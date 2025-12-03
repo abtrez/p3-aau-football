@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Paper, FormControl, Button } from "@mui/material";
+import { FormControl, Button } from "@mui/material";
 import {MatchEventRequest, MatchEventResponse} from "@/lib/schemas/matchEventSchema";
-import MatchEventFormFields from "@/components/match/MatchEventFormFields";
+import MatchEventFormFields from "@/components/match/event/MatchEventFormFields";
 import {formStateToMatchEventRequest, MatchEventFormState} from "@/lib/matchEventFormAdapter";
+import {Person} from "@/lib/schemas/personSchema";
 
 interface EditMatchEventFormProps {
     matchEvent: MatchEventResponse;
     homeTeamId: string;
     awayTeamId: string;
+    playersByTeamId: Record<string, Person[]>;
     onSave: (eventId: string, dto: MatchEventRequest) => Promise<void> | void;
     onCancel: () => void;
 }
@@ -20,6 +22,7 @@ export function EditMatchEventForm({
     matchEvent,
     homeTeamId,
     awayTeamId,
+    playersByTeamId,
     onSave,
     onCancel,
     }: EditMatchEventFormProps) {
@@ -68,30 +71,29 @@ export function EditMatchEventForm({
     }
 
     return (
-        <Paper className="mt-4 p-4">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                {/*Main Content*/}
-                <MatchEventFormFields
-                    formState={formState}
-                    mode="edit"
-                    homeTeamId={homeTeamId}
-                    awayTeamId={awayTeamId}
-                    onChange={updateFormState}
-                />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/*Main Content*/}
+            <MatchEventFormFields
+                formState={formState}
+                mode="edit"
+                homeTeamId={homeTeamId}
+                awayTeamId={awayTeamId}
+                playersByTeamId={playersByTeamId}
+                onChange={updateFormState}
+            />
 
-                {/*Submit button*/}
-                <FormControl>
-                    <Button type="submit" variant="contained" disabled={loading}>
-                        {loading ? "Saving..." : "Save"}
-                    </Button>
-                </FormControl>
-                {/*Cancel button*/}
-                <FormControl>
-                    <Button type="button" variant="outlined" onClick={onCancel}>
-                        Cancel
-                    </Button>
-                </FormControl>
-            </form>
-        </Paper>
+            {/*Submit button*/}
+            <FormControl>
+                <Button type="submit" variant="contained" disabled={loading}>
+                    {loading ? "Saving..." : "Save"}
+                </Button>
+            </FormControl>
+            {/*Cancel button*/}
+            <FormControl>
+                <Button type="button" variant="outlined" onClick={onCancel}>
+                    Cancel
+                </Button>
+            </FormControl>
+        </form>
     );
 }

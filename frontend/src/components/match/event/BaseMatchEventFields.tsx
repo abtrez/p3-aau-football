@@ -9,6 +9,7 @@ import {
     TextField,
 } from "@mui/material"
 import {MatchEventType} from "@/lib/matchEventFormAdapter";
+import {Person} from "@/lib/schemas/personSchema";
 
 interface BaseMatchEventFieldsProps {
     mode: "create" | "edit";
@@ -18,6 +19,7 @@ interface BaseMatchEventFieldsProps {
     minute: string;
     homeTeamId: string;
     awayTeamId: string;
+    players: Person[]; //for current team
     onTypeChange: (value: MatchEventType) => void;
     onTeamChange: (value: string) => void;
     onMinuteChange: (value: string) => void;
@@ -34,6 +36,7 @@ export function BaseMatchEventFields({
     minute,
     homeTeamId,
     awayTeamId,
+    players, //for current team
     onTypeChange,
     onTeamChange,
     onMinuteChange,
@@ -93,8 +96,14 @@ export function BaseMatchEventFields({
                     label="Player"
                     onChange={(event) => onPlayerChange(event.target.value as string)}
                 >
+                    {/* TODO: remove? */}
                     <MenuItem value="">Unreported</MenuItem>
-                    {/* TODO: populate players of selected team */}
+                    {/* Populate with players of selected team */}
+                    {players.map((player) => (
+                        <MenuItem key={player.id} value={player.id}>
+                            {player.firstName} {player.lastName}
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
         </FormGroup>

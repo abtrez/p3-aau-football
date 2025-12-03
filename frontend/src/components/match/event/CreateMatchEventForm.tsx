@@ -2,13 +2,15 @@
 
 import { Paper, FormControl, Button } from "@mui/material";
 import {MatchEventRequest} from "@/lib/schemas/matchEventSchema";
-import MatchEventFormFields from "@/components/match/MatchEventFormFields";
+import MatchEventFormFields from "@/components/match/event/MatchEventFormFields";
 import {useState} from "react";
 import {formStateToMatchEventRequest, MatchEventFormState} from "@/lib/matchEventFormAdapter";
+import {Person} from "@/lib/schemas/personSchema";
 
 interface CreateMatchEventFormProps {
     homeTeamId: string;
     awayTeamId: string;
+    playersByTeamId: Record<string, Person[]>,
     onSubmit: (dto: MatchEventRequest) => Promise<void> | void;
 }
 
@@ -16,6 +18,7 @@ interface CreateMatchEventFormProps {
 export function CreateMatchEventForm({
     homeTeamId,
     awayTeamId,
+    playersByTeamId,
     onSubmit
 }: CreateMatchEventFormProps) {
 
@@ -59,24 +62,23 @@ export function CreateMatchEventForm({
     }
 
     return (
-        <Paper className="mt-4 p-4">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                {/*Main Content*/}
-                <MatchEventFormFields
-                    formState={formState}
-                    mode="create"
-                    homeTeamId={homeTeamId}
-                    awayTeamId={awayTeamId}
-                    onChange={updateFormState}
-                />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/*Main Content*/}
+            <MatchEventFormFields
+                formState={formState}
+                mode="create"
+                homeTeamId={homeTeamId}
+                awayTeamId={awayTeamId}
+                playersByTeamId={playersByTeamId}
+                onChange={updateFormState}
+            />
 
-                {/*Submit button*/}
-                <FormControl className="mt-2">
-                    <Button type="submit" variant="contained" disabled={loading}>
-                        {loading ? "Saving..." : "Add event"}
-                    </Button>
-                </FormControl>
-            </form>
-        </Paper>
+            {/*Submit button*/}
+            <FormControl className="mt-2">
+                <Button type="submit" variant="contained" disabled={loading}>
+                    {loading ? "Saving..." : "Add event"}
+                </Button>
+            </FormControl>
+        </form>
     );
 }

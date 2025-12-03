@@ -45,6 +45,8 @@ export const matchEventResponseSchema = z.discriminatedUnion("type", [
 
 /** Typescript type to use in React Components */
 export type MatchEventResponse = z.infer<typeof matchEventResponseSchema>;
+export type GoalMatchEventResponse = z.infer<typeof goalEventResponseSchema>;
+export type CardMatchEventResponse = z.infer<typeof cardEventResponseSchema>;
 
 
 /** _________________________________________________________________________________

@@ -1,15 +1,17 @@
 "use client";
 
-import {BaseMatchEventFields} from "@/components/match/BaseMatchEventFields";
-import GoalEventFields from "@/components/match/GoalEventFields";
-import CardEventFields from "@/components/match/CardEventFields";
+import {BaseMatchEventFields} from "@/components/match/event/BaseMatchEventFields";
+import GoalEventFields from "@/components/match/event/GoalEventFields";
+import CardEventFields from "@/components/match/event/CardEventFields";
 import {MatchEventFormState} from "@/lib/matchEventFormAdapter";
+import {Person} from "@/lib/schemas/personSchema";
 
 interface MatchEventFormFieldsProps {
     formState: MatchEventFormState;
     mode: "create" | "edit";
     homeTeamId: string;
     awayTeamId: string;
+    playersByTeamId: Record<string, Person[]>,
     onChange: (update: Partial<MatchEventFormState>) => void;
 }
 
@@ -22,8 +24,11 @@ export default function MatchEventFormFields({
     mode,
     homeTeamId,
     awayTeamId,
+    playersByTeamId,
     onChange,
 }: MatchEventFormFieldsProps) {
+    //Lookup once
+    const playersForTeam = playersByTeamId[formState.teamId]
     return (
         <div className="flex flex-col gap-4">
             {/*Always render base fields*/}
@@ -35,6 +40,7 @@ export default function MatchEventFormFields({
                 minute={formState.minute}
                 homeTeamId={homeTeamId}
                 awayTeamId={awayTeamId}
+                players={playersForTeam}
                 onTypeChange={(type) => onChange({ type })}
                 onTeamChange={(teamId) => onChange({ teamId })}
                 onMinuteChange={(minute) => onChange({ minute })}
@@ -45,6 +51,8 @@ export default function MatchEventFormFields({
             {formState.type === "GOAL" && (
                 <GoalEventFields
                     assisterId={formState.assisterId ?? ""}
+                    scorerId={formState.playerId}
+                    players={playersForTeam}
                     onAssisterChange={(assisterId) => onChange({ assisterId })}
                 />
             )}
