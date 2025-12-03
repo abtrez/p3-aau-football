@@ -14,21 +14,20 @@ public class MatchEventRequestMapperRegistryTest {
     @Autowired
     private MatchEventRequestMapperRegistry registry;
 
-    //Registry uses DTO to create new appropriate model,  using correct mapper
+    // Registry uses DTO to create new appropriate model, using correct mapper
     @Test
     void goalDtoIsMappedToGoal() {
-        //Arrange
+        // Arrange
         GoalEventRequestDTO goalDto = new GoalEventRequestDTO(
                 "someTeamId",
                 "somePlayerId",
                 22,
-                "someAssisterId"
-        );
+                "someAssisterId");
 
-        //Act
+        // Act
         Goal goalModel = registry.toModel(goalDto);
 
-        //Assert
+        // Assert
         assertEquals("someTeamId", goalModel.getTeamId());
         assertEquals("somePlayerId", goalModel.getPlayerId());
         assertEquals(22, goalModel.getMinute());
@@ -37,39 +36,38 @@ public class MatchEventRequestMapperRegistryTest {
 
     @Test
     void cardDtoIsMappedToCard() {
-        //Arrange
+        // Arrange
         CardEventRequestDTO cardDto = new CardEventRequestDTO(
                 "someTeamId",
                 "somePlayerId",
                 63,
-                CardType.RED_CARD
-        );
+                CardType.RED_CARD);
 
-        //Act
+        // Act
         Card cardModel = registry.toModel(cardDto);
 
-        //Assert
+        // Assert
         assertEquals("someTeamId", cardModel.getTeamId());
         assertEquals("somePlayerId", cardModel.getPlayerId());
         assertEquals(63, cardModel.getMinute());
         assertEquals(CardType.RED_CARD, cardModel.getCardType());
     }
 
-    //Registry applying model updates with dto, using correct mapper
+    // Registry applying model updates with dto, using correct mapper
     @Test
     void updatesGoalWithGoalDto() {
-        //Arrange
+        // Arrange
         Goal model = new Goal("team1", null, null, null);
         String originalId = model.getId();
 
         GoalEventRequestDTO dto = new GoalEventRequestDTO("triedChangingTeam", "player", 42, "assister");
 
-        //Act
+        // Act
         registry.applyUpdate(dto, model);
 
-        //Assert
-        assertEquals(originalId, model.getId());              //id must be unchanged
-        assertEquals("team1", model.getTeamId());    //team should not change
+        // Assert
+        assertEquals(originalId, model.getId()); // id must be unchanged
+        assertEquals("team1", model.getTeamId()); // team should not change
 
         assertEquals("player", model.getPlayerId());
         assertEquals(42, model.getMinute());
@@ -78,36 +76,35 @@ public class MatchEventRequestMapperRegistryTest {
 
     @Test
     void updatesCardWithCardDto() {
-        //Arrange
+        // Arrange
         Card model = new Card("team1", null, null, CardType.RED_CARD);
         String originalId = model.getId();
 
         CardEventRequestDTO dto = new CardEventRequestDTO("triedChangingTeam", "player", 42, CardType.YELLOW_CARD);
 
-        //Act
+        // Act
         registry.applyUpdate(dto, model);
 
-        //Assert
-        assertEquals(originalId, model.getId());              //id must be unchanged
-        assertEquals("team1", model.getTeamId());    //team should not change
+        // Assert
+        assertEquals(originalId, model.getId()); // id must be unchanged
+        assertEquals("team1", model.getTeamId()); // team should not change
 
         assertEquals("player", model.getPlayerId());
         assertEquals(42, model.getMinute());
         assertEquals(CardType.YELLOW_CARD, model.getCardType());
     }
 
-    //Guards mismatch between provided requestDto and event
+    // Guards mismatch between provided requestDto and event
     @Test
     void guardsAgainstUpdateOnDtoModelTypeMismatch() {
-        //Arrange
+        // Arrange
         Goal goalModel = new Goal("team1", null, null, null);
         CardEventRequestDTO cardDto = new CardEventRequestDTO("team1", "player", 42, CardType.YELLOW_CARD);
 
-        //Act & assert
+        // Act & assert
         assertThrows(
                 IllegalArgumentException.class,
-                () -> registry.applyUpdate(cardDto, goalModel)
-        );
+                () -> registry.applyUpdate(cardDto, goalModel));
     }
 
     // Invariant test: duplicate mappers must be rejected
@@ -118,7 +115,6 @@ public class MatchEventRequestMapperRegistryTest {
 
         assertThrows(
                 IllegalStateException.class,
-                () -> new MatchEventRequestMapperRegistry(List.of(mapper, duplicateMapper))
-        );
+                () -> new MatchEventRequestMapperRegistry(List.of(mapper, duplicateMapper)));
     }
 }

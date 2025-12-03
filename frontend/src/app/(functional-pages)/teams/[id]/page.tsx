@@ -1,6 +1,7 @@
 import InfoItem from "@/components/statistics/InfoItem";
 import TeamLogo from "@/components/team/TeamLogo";
 import FloatingActionButton from "@/components/FloatingActionButton";
+import PlayerCard from "@/components/team/PlayerCard";
 import { fetchTeamById } from "@/lib/fetchTeam";
 import { Team } from "@/lib/schemas/teamSchema";
 import { Person } from "@/lib/schemas/personSchema";
@@ -56,8 +57,8 @@ export default async function Page({
           value={
             leader.length > 0
               ? leader
-                  .map((leader) => `${leader.firstName} ${leader.lastName}`)
-                  .join(", ")
+                .map((leader) => `${leader.firstName} ${leader.lastName}`)
+                .join(", ")
               : "N/A"
           }
         />
@@ -66,8 +67,8 @@ export default async function Page({
           value={
             coach.length > 0
               ? coach
-                  .map((coach) => `${coach.firstName} ${coach.lastName}`)
-                  .join(", ")
+                .map((coach) => `${coach.firstName} ${coach.lastName}`)
+                .join(", ")
               : "N/A"
           }
         />
@@ -96,17 +97,7 @@ export default async function Page({
           Members
         </h3>
         {members.map((member) => (
-          <div key={member.id} className="nb-1">
-            <span className="font-medium">
-              {member.firstName} {member.lastName}
-            </span>
-            {member.roles && member.roles.length > 0 && (
-              <span className="text-sm text-neutral-600">
-                {" "}
-                — {member.roles.map((role) => role.name).join(",")}
-              </span>
-            )}
-          </div>
+          <PlayerCard member={member} key={member.id} />
         ))}
       </section>
       {session && (
