@@ -1,14 +1,12 @@
 package p3.group.p3_aau_football.match;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+
 import p3.group.p3_aau_football.team.Team;
 import p3.group.p3_aau_football.team.TeamService;
 
@@ -47,35 +45,35 @@ public class MatchService {
 
     public Optional<Match> updateMatch(String id, String date, Venue venue, Boolean cancel) {
 
-        Query query = new Query(Criteria.where("_id").is(id));
-        Update update = new Update();
+        Optional<Match> optionalMatch = matchRepository.findById(id);
 
+        if (optionalMatch.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Match existingMatch = optionalMatch.get();
         boolean hasUpdates = false;
 
         if (date != null) {
-            update.set("date", date);
+            existingMatch.setKickoff(LocalDateTime.parse(date));
             hasUpdates = true;
         }
         if (venue != null) {
-            update.set("venue", venue);
+            existingMatch.setVenue(venue);
             hasUpdates = true;
         }
 
         if (cancel != null) {
-            update.set("cancel", cancel);
+            existingMatch.setCanceled(cancel);
             hasUpdates = true;
         }
         if (!hasUpdates) {
             return matchRepository.findById(id);
         }
 
-        Match updatedMatch = mongoTemplate.findAndModify(
-                query,
-                update,
-                org.springframework.data.mongodb.core.FindAndModifyOptions.options().returnNew(true),
-                Match.class
-        );
-        return Optional.ofNullable(updatedMatch);
+        Match updatedMatch = matchRepository.save(existingMatch);
+
+        return Optional.of(updatedMatch);
     }
 
 }
