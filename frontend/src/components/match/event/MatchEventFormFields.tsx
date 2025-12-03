@@ -51,6 +51,7 @@ export default function MatchEventFormFields({
             {formState.type === "GOAL" && (
                 <GoalEventFields
                     assisterId={formState.assisterId ?? ""}
+                    scorerId={formState.playerId}
                     players={playersForTeam}
                     onAssisterChange={(assisterId) => onChange({ assisterId })}
                 />

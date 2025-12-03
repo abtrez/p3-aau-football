@@ -62,25 +62,23 @@ export function CreateMatchEventForm({
     }
 
     return (
-        <Paper className="mt-4 p-4">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                {/*Main Content*/}
-                <MatchEventFormFields
-                    formState={formState}
-                    mode="create"
-                    homeTeamId={homeTeamId}
-                    awayTeamId={awayTeamId}
-                    playersByTeamId={playersByTeamId}
-                    onChange={updateFormState}
-                />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/*Main Content*/}
+            <MatchEventFormFields
+                formState={formState}
+                mode="create"
+                homeTeamId={homeTeamId}
+                awayTeamId={awayTeamId}
+                playersByTeamId={playersByTeamId}
+                onChange={updateFormState}
+            />
 
-                {/*Submit button*/}
-                <FormControl className="mt-2">
-                    <Button type="submit" variant="contained" disabled={loading}>
-                        {loading ? "Saving..." : "Add event"}
-                    </Button>
-                </FormControl>
-            </form>
-        </Paper>
+            {/*Submit button*/}
+            <FormControl className="mt-2">
+                <Button type="submit" variant="contained" disabled={loading}>
+                    {loading ? "Saving..." : "Add event"}
+                </Button>
+            </FormControl>
+        </form>
     );
 }

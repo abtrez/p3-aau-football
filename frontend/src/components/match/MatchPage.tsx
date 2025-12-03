@@ -8,6 +8,8 @@ import {createMatchEvents, deleteMatchEvent, updateMatchEvent} from "@/lib/fetch
 import {MatchEventRequest, MatchEventResponse} from "@/lib/schemas/matchEventSchema";
 import {Person} from "@/lib/schemas/personSchema";
 import { useMemo } from 'react';
+import {Fab, SwipeableDrawer} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 interface MatchPageProps {
     initialMatch: Match;
@@ -22,6 +24,7 @@ export default function MatchPage( {
    } : MatchPageProps) {
     const [match, setMatch] = useState<Match>(initialMatch)
     const {homeTeam, awayTeam } = match;
+    const [addEventOpen, setAddEventOpen] = useState(false);
 
     /** Player data: prepare, memoize('useMemo' cashes computation across renders),
      * updated only if player lists change (dependency array)*/
@@ -105,12 +108,36 @@ export default function MatchPage( {
                 onUpdateEvent={handleUpdateMatchEvent}
             />
 
-            <CreateMatchEventForm
-                homeTeamId={homeTeam.id}
-                awayTeamId={awayTeam.id}
-                playersByTeamId={playersByTeamId} //for player selectors
-                onSubmit={handleCreateMatchEvent}
-            />
+            <Fab
+                color="primary"
+                aria-label="add"
+                onClick={()=>setAddEventOpen(true)}
+                sx={{
+                    position: "fixed",
+                    bottom: 75,
+                    right: 16,
+                }}
+            >
+                <AddIcon />
+            </Fab>
+
+            <SwipeableDrawer
+                anchor="bottom"
+                open={addEventOpen}
+                onClose={() => setAddEventOpen(false)}
+                onOpen={() => setAddEventOpen(true)}
+            >
+                <div style={{ padding: 24 }}>
+                    <h2>Add Event</h2>
+
+                    <CreateMatchEventForm
+                        homeTeamId={homeTeam.id}
+                        awayTeamId={awayTeam.id}
+                        playersByTeamId={playersByTeamId} //for player selectors
+                        onSubmit={handleCreateMatchEvent}
+                    />
+                </div>
+            </SwipeableDrawer>
         </div>
     );
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Paper, FormControl, Button } from "@mui/material";
+import { FormControl, Button } from "@mui/material";
 import {MatchEventRequest, MatchEventResponse} from "@/lib/schemas/matchEventSchema";
 import MatchEventFormFields from "@/components/match/event/MatchEventFormFields";
 import {formStateToMatchEventRequest, MatchEventFormState} from "@/lib/matchEventFormAdapter";
@@ -71,31 +71,29 @@ export function EditMatchEventForm({
     }
 
     return (
-        <Paper className="mt-4 p-4">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                {/*Main Content*/}
-                <MatchEventFormFields
-                    formState={formState}
-                    mode="edit"
-                    homeTeamId={homeTeamId}
-                    awayTeamId={awayTeamId}
-                    playersByTeamId={playersByTeamId}
-                    onChange={updateFormState}
-                />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/*Main Content*/}
+            <MatchEventFormFields
+                formState={formState}
+                mode="edit"
+                homeTeamId={homeTeamId}
+                awayTeamId={awayTeamId}
+                playersByTeamId={playersByTeamId}
+                onChange={updateFormState}
+            />
 
-                {/*Submit button*/}
-                <FormControl>
-                    <Button type="submit" variant="contained" disabled={loading}>
-                        {loading ? "Saving..." : "Save"}
-                    </Button>
-                </FormControl>
-                {/*Cancel button*/}
-                <FormControl>
-                    <Button type="button" variant="outlined" onClick={onCancel}>
-                        Cancel
-                    </Button>
-                </FormControl>
-            </form>
-        </Paper>
+            {/*Submit button*/}
+            <FormControl>
+                <Button type="submit" variant="contained" disabled={loading}>
+                    {loading ? "Saving..." : "Save"}
+                </Button>
+            </FormControl>
+            {/*Cancel button*/}
+            <FormControl>
+                <Button type="button" variant="outlined" onClick={onCancel}>
+                    Cancel
+                </Button>
+            </FormControl>
+        </form>
     );
 }
