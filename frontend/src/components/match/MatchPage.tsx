@@ -10,6 +10,7 @@ import {Person} from "@/lib/schemas/personSchema";
 import { useMemo } from 'react';
 import {Fab, SwipeableDrawer} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import MatchHeader from "@/components/match/MatchHeader";
 
 interface MatchPageProps {
     initialMatch: Match;
@@ -88,15 +89,13 @@ export default function MatchPage( {
 
     return(
         <div className="text-center">
-            {/*TODO: Extract to MatchHeader component */}
-            <h1>Match with id: {match.id}</h1>
-            <p>
-                {match.homeTeam.name} vs {match.awayTeam.name}
-            </p>
 
-            <p>
-                {match.homeScore} - {match.awayScore}
-            </p>
+            <MatchHeader
+                homeTeamName={match.homeTeam.name}
+                awayTeamName={match.awayTeam.name}
+                homeScore={match.homeScore}
+                awayScore={match.awayScore}
+            />
 
             <MatchEventsList
                 events={match.matchEvents as MatchEventResponse[]}
