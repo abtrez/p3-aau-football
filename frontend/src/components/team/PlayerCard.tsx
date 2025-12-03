@@ -1,12 +1,17 @@
+"use client"
+
 import { Person } from "@/lib/schemas/personSchema";
+import { useRouter } from "next/navigation";
 
 interface PlayerCardInterface {
   member: Person;
 }
 
 export default function PlayerCard({ member }: PlayerCardInterface) {
+  const router = useRouter();
+
   return (
-    <div key={member.id} className="nb-1">
+    <div key={member.id} className="nb-1 cursor-pointer" onClick={() => router.push(`/player/${member.id}`)}>
       <span className="font-medium">
         {member.firstName} {member.lastName}
       </span>
