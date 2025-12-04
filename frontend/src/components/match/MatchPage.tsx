@@ -23,12 +23,14 @@ interface MatchPageProps {
   initialMatch: Match;
   homePlayers: Person[];
   awayPlayers: Person[];
+  canEditMatch: boolean;
 }
 //Owns match state, calls server actions, passes data and callbacks to presentational components
 export default function MatchPage({
   initialMatch,
   homePlayers,
   awayPlayers,
+  canEditMatch,
 }: MatchPageProps) {
   const [match, setMatch] = useState<Match>(initialMatch);
   const { homeTeam, awayTeam } = match;
@@ -112,42 +114,48 @@ export default function MatchPage({
         awayTeamName={match.awayTeam.name}
         playersById={playersById} //for displaying names
         playersByTeamId={playersByTeamId} //for edit form player selectors
+        canEdit={canEditMatch}
         onDeleteEvent={handleDeleteMatchEvent}
         onUpdateEvent={handleUpdateMatchEvent}
       />
+      {canEditMatch && (
+        <div>
+          <Fab
+            color="primary"
+            aria-label="add"
+            onClick={() => setAddEventOpen(true)}
+            sx={{
+              position: "fixed",
+              bottom: 75,
+              right: 16,
+            }}
+          >
+            <AddIcon />
+          </Fab>
+          <SwipeableDrawer
+            anchor="bottom"
+            open={addEventOpen}
+            onClose={() => setAddEventOpen(false)}
+            onOpen={() => setAddEventOpen(true)}
+          >
+            <div style={{ padding: 24 }}>
+              <h2 className="text-lg font-semibold mb-4 center">
+                New Match Event
+              </h2>
 
-      <Fab
-        color="primary"
-        aria-label="add"
-        onClick={() => setAddEventOpen(true)}
-        sx={{
-          position: "fixed",
-          bottom: 75,
-          right: 16,
-        }}
-      >
-        <AddIcon />
-      </Fab>
-
-      <SwipeableDrawer
-        anchor="bottom"
-        open={addEventOpen}
-        onClose={() => setAddEventOpen(false)}
-        onOpen={() => setAddEventOpen(true)}
-      >
-        <div style={{ padding: 24 }}>
-          <h2 className="text-lg font-semibold mb-4 center">New Match Event</h2>
-
-          <CreateMatchEventForm
-            homeTeamId={homeTeam.id}
-            awayTeamId={awayTeam.id}
-            homeTeamName={match.homeTeam.name}
-            awayTeamName={match.awayTeam.name}
-            playersByTeamId={playersByTeamId} //for player selectors
-            onSubmit={handleCreateMatchEvent}
-          />
+              <CreateMatchEventForm
+                homeTeamId={homeTeam.id}
+                awayTeamId={awayTeam.id}
+                homeTeamName={match.homeTeam.name}
+                awayTeamName={match.awayTeam.name}
+                playersByTeamId={playersByTeamId} //for player selectors
+                onSubmit={handleCreateMatchEvent}
+              />
+            </div>
+          </SwipeableDrawer>
+          )
         </div>
-      </SwipeableDrawer>
+      )}
     </div>
   );
 }

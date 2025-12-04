@@ -6,12 +6,14 @@ import Link from "next/link";
 
 export interface MatchEventRowProps {
   viewModel: MatchEventView;
+  canEdit: boolean;
   onEdit: () => void;
   onDelete: (eventId: string) => void;
 }
 
 export default function MatchEventRow({
   viewModel,
+  canEdit,
   onEdit,
   onDelete,
 }: MatchEventRowProps) {
@@ -69,15 +71,19 @@ export default function MatchEventRow({
         {/*right  event info */}
         {isHomeTeamEvent ? minuteContent : eventContent}
 
-        {/* Edit button */}
-        <IconButton aria-label="edit" onClick={() => onEdit()}>
-          <EditIcon />
-        </IconButton>
+        {canEdit && (
+          <div>
+            {/* Edit button */}
+            <IconButton aria-label="edit" onClick={() => onEdit()}>
+              <EditIcon />
+            </IconButton>
 
-        {/* Delete button */}
-        <IconButton aria-label="delete" onClick={() => onDelete(id)}>
-          <DeleteIcon />
-        </IconButton>
+            {/* Delete button */}
+            <IconButton aria-label="delete" onClick={() => onDelete(id)}>
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        )}
       </div>
     </div>
   );

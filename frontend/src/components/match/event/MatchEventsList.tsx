@@ -19,6 +19,7 @@ interface MatchEventsListProps {
   awayTeamName: string;
   playersById: Record<string, Person>;
   playersByTeamId: Record<string, Person[]>;
+  canEdit: boolean;
   onDeleteEvent: (eventId: string) => Promise<void> | void;
   onUpdateEvent: (
     eventId: string,
@@ -47,6 +48,7 @@ export default function MatchEventsList({
   awayTeamName,
   playersById,
   playersByTeamId,
+  canEdit,
   onDeleteEvent,
   onUpdateEvent,
 }: MatchEventsListProps) {
@@ -90,6 +92,7 @@ export default function MatchEventsList({
             <MatchEventRow
               key={viewModel.id}
               viewModel={viewModel}
+              canEdit={canEdit}
               onEdit={() => setEventBeingEdited(matchEvent)}
               onDelete={handleDeleteEvent}
             />
@@ -98,13 +101,13 @@ export default function MatchEventsList({
       </div>
 
       {/* Edit form in a modal dialog */}
-      <Dialog
-        open={!!eventBeingEdited} // Coercion boolean operator, forces value to be treated as a boolean
-        onClose={() => setEventBeingEdited(null)}
-        fullWidth
-        maxWidth="sm"
-      >
-        {eventBeingEdited && (
+      {canEdit && eventBeingEdited && (
+        <Dialog
+          open={!!eventBeingEdited} // Coercion boolean operator, forces value to be treated as a boolean
+          onClose={() => setEventBeingEdited(null)}
+          fullWidth
+          maxWidth="sm"
+        >
           <DialogContent>
             <DialogTitle>Edit Match Event</DialogTitle>
             <EditMatchEventForm
@@ -118,8 +121,8 @@ export default function MatchEventsList({
               onCancel={() => setEventBeingEdited(null)}
             />
           </DialogContent>
-        )}
-      </Dialog>
+        </Dialog>
+      )}
     </div>
   );
 }
