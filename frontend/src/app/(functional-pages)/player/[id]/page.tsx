@@ -22,7 +22,7 @@ export default async function Page({
   let statistics = null;
   let aggregatedStatistics = null;
   if (player.roles?.some(role => role.type === "PLAYER")) {
-    statistics = await fetchPlayerStatistics(id, "2024/25", "69259efacd3900a562867eb0");
+    statistics = await fetchPlayerStatistics(id, "2024/25", "69202ce5dc518752097d74a3");
 
     if (statistics != null) {
       aggregatedStatistics = aggregatePlayerStatistics(statistics);
