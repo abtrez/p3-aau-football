@@ -52,7 +52,7 @@ export default function PlayerPage({ player, team, statistics }: PlayerPageInter
         <InfoItem label="Losses" value={statistics?.lost ?? 0} />
         <InfoItem label="Draws" value={statistics?.drawn ?? 0} />
         <InfoItem label="Played" value={statistics?.matchesPlayed ?? 0} />
-        <InfoItem label="Win Percentage" value={`${((statistics?.won ?? 0) / (statistics?.matchesPlayed ?? 1)) * 100}%`} />
+        <InfoItem label="Win Percentage" value={`${(((statistics?.won ?? 0) / (statistics?.matchesPlayed ?? 1)) * 100).toFixed(2) ?? "N/A"}%`} />
         <InfoItem label="Goals" value={statistics?.goals ?? 0} />
         <InfoItem label="Assists" value={statistics?.assists ?? 0} />
         <InfoItem
