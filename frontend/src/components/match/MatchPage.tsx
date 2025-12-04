@@ -104,6 +104,7 @@ export default function MatchPage({
         awayTeamName={match.awayTeam.name}
         homeScore={match.homeScore}
         awayScore={match.awayScore}
+        kickoff={match.kickoff}
       />
 
       <MatchEventsList
@@ -153,7 +154,6 @@ export default function MatchPage({
               />
             </div>
           </SwipeableDrawer>
-          )
         </div>
       )}
     </div>

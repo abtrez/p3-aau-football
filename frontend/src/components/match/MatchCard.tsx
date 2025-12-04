@@ -11,6 +11,9 @@ export default function MatchCard({ match }: MatchCardProps) {
   const { date, time } = splitKickoffTime(match.kickoff);
   const logoPathHomeTeam = `/logos/${match.homeTeam.abbreviation}.svg`;
   const logoPathAwayTeam = `/logos/${match.awayTeam.abbreviation}.svg`;
+
+  const isPastMatch = new Date(match.kickoff) < new Date();
+
   return (
     <Link href={`/match/${match.id}`}>
       <div
@@ -37,7 +40,7 @@ export default function MatchCard({ match }: MatchCardProps) {
           </div>
           <div className="flex flex-col items-center justify-center gap-1 text-gray-500">
             <span className="px-3 py-0.5 rounded-full bg-neutral-100 text-[11px] font-medium text-neutral-700">
-              VS
+              {isPastMatch ? `${match.homeScore} - ${match.awayScore}` : "VS"}
             </span>
 
             <div className="flex flex-col items-center text-sm font-medium text-neutral-700 leading-tight mt-0.5">
