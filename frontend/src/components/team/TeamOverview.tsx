@@ -7,7 +7,7 @@ interface TeamOverviewProps {
 
 export default function TeamOverview({ teams }: TeamOverviewProps) {
   return (
-    <div className="grid gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
       {teams.map((t) => (
         <TeamCard key={t.id} team={t} />
       ))}
