@@ -1,4 +1,5 @@
 import { LeagueStatistics } from "@/lib/schemas/leagueStatisticsSchema";
+import Link from "next/link";
 
 interface LeagueTableRowProps {
   position: number;
@@ -21,7 +22,9 @@ export default function LeagueTableRow({
 
           <span className="text-gray-400">-</span>
 
-          <span className="font-semibold">{stat.team.name}</span>
+          <Link href={`/teams/${stat.team.id}`}>
+            <span className="font-semibold">{stat.team.name}</span>
+          </Link>
         </div>
       </td>
 
