@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import p3.group.p3_aau_football.role.Referee;
 import p3.group.p3_aau_football.team.Team;
 import p3.group.p3_aau_football.team.TeamService;
 
@@ -35,7 +36,18 @@ public class MatchService {
         Optional<Team> awayTeam = teamService.findByName(awayTeamName);
 
         if (homeTeam.isPresent() && awayTeam.isPresent()) {
-            Match insertedMatch = new Match(homeTeam.get(), awayTeam.get());
+            Venue venue = null;
+            LocalDateTime kickoff = LocalDateTime.now();
+
+            List<Referee> referees = List.of();
+
+            Match insertedMatch = new Match(
+                    homeTeam.get(),
+                    awayTeam.get(),
+                    venue,
+                    kickoff,
+                    referees
+            );
             return this.matchRepository.insert(insertedMatch);
         } else {
             throw new Exception("Team not found");

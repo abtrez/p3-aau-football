@@ -1,15 +1,15 @@
 package p3.group.p3_aau_football.match;
 
-public class MatchEditRequest {
+public class MatchEditRequestDTO {
 
     private String date;
     private Venue venue;
     private Boolean cancel;
 
-    public MatchEditRequest() {
+    public MatchEditRequestDTO() {
     }
 
-    public MatchEditRequest(String date, Venue venue, Boolean cancel) {
+    public MatchEditRequestDTO(String date, Venue venue, Boolean cancel) {
         this.date = date;
         this.venue = venue;
         this.cancel = cancel;

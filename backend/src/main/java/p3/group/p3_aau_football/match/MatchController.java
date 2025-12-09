@@ -3,7 +3,6 @@ package p3.group.p3_aau_football.match;
 import java.util.List;
 import java.util.Optional;
 
-import p3.group.p3_aau_football.match.MatchEditRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,7 +49,7 @@ public class MatchController {
     @PatchMapping("/{id}/edit")
     public ResponseEntity<Match> editMatch(
             @PathVariable("id") String id,
-            @RequestBody MatchEditRequest request
+            @RequestBody MatchEditRequestDTO request
     ) {
         Optional<Match> updatedMatch = matchService.updateMatch(id, request.getDate(), request.getVenue(), request.getCancel());
 

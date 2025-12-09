@@ -1,15 +1,14 @@
 package p3.group.p3_aau_football.match;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
+
 import p3.group.p3_aau_football.role.Referee;
 import p3.group.p3_aau_football.team.Team;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import java.util.List;
 
 @Document(collection = "matches")
 public class Match {
@@ -18,16 +17,15 @@ public class Match {
     private String id;
 
     @DocumentReference
-    private final Team homeTeam;
+    private Team homeTeam;
     @DocumentReference
-    private final Team awayTeam;
+    private Team awayTeam;
 
     @DocumentReference
     private Venue venue;
     private LocalDateTime kickoff;
     private Boolean canceled = false;
     private List<Referee> referees;
-    private LocalDate date;
 
     private int homeScore;
     private int awayScore;
@@ -40,13 +38,22 @@ public class Match {
     Venue venue
     List<Referee> referees
     int squadSize
+    
      */
     //Constructor, should probably have date, venue
-    public Match(Team homeTeam, Team awayTeam) {
+    public Match() {
+        this.canceled = false;
+    }
+
+    public Match(Team homeTeam, Team awayTeam, Venue venue, LocalDateTime kickoff, List<Referee> referees) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
-        //date
-        //venue
+        this.venue = venue;
+        this.kickoff = kickoff;
+        this.referees = referees;
+
+        this.canceled = false;
+
     }
 
     //Getters
@@ -97,10 +104,6 @@ public class Match {
 
     public void setVenue(Venue venue) {
         this.venue = venue;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public Boolean getCanceled() {
