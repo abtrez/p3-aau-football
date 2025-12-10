@@ -100,6 +100,8 @@ export default function MatchPage({
   return (
     <div className="text-center">
       <MatchHeader
+        homeTeamId={match.homeTeam.id}
+        awayTeamId={match.awayTeam.id}
         homeTeamName={match.homeTeam.name}
         awayTeamName={match.awayTeam.name}
         homeScore={match.homeScore}

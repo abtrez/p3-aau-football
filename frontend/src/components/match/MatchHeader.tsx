@@ -1,4 +1,8 @@
+import Link from "next/link";
+
 interface MatchHeaderProps {
+  homeTeamId: string;
+  awayTeamId: string;
   homeTeamName: string;
   awayTeamName: string;
   homeScore: number;
@@ -7,6 +11,8 @@ interface MatchHeaderProps {
 }
 
 export default function MatchHeader({
+  homeTeamId,
+  awayTeamId,
   homeTeamName,
   awayTeamName,
   homeScore,
@@ -32,9 +38,9 @@ export default function MatchHeader({
         "
       >
         <h1 className="text-xl sm:text-2xl font-semibold text-neutral-800 tracking-tight text-center">
-          {homeTeamName}{" "}
+          <Link href={`/teams/${homeTeamId}`}>{homeTeamName}</Link>{" "}
           <span className="text-neutral-400 font-normal">vs</span>{" "}
-          {awayTeamName}
+          <Link href={`/teams/${awayTeamId}`}>{awayTeamName}</Link>
         </h1>
 
         <h2 className="text-3xl sm:text-4xl font-bold tabular-nums text-neutral-900">

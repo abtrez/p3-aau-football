@@ -4,6 +4,7 @@ import { Person } from "@/lib/schemas/personSchema";
 import { PlayerStatistics } from "@/lib/schemas/playerStatisticsSchema";
 import { Team } from "@/lib/schemas/teamSchema";
 import Divider from "@mui/material/Divider";
+import Link from "next/link";
 
 interface PlayerPageInterface {
   player: Person;
@@ -11,8 +12,12 @@ interface PlayerPageInterface {
   statistics: PlayerStatistics | null;
 }
 
-export default function PlayerPage({ player, team, statistics }: PlayerPageInterface) {
-  const playerRole = player.roles?.find(role => role.type === "PLAYER");
+export default function PlayerPage({
+  player,
+  team,
+  statistics,
+}: PlayerPageInterface) {
+  const playerRole = player.roles?.find((role) => role.type === "PLAYER");
 
   if (statistics == null) {
     return (
@@ -32,7 +37,7 @@ export default function PlayerPage({ player, team, statistics }: PlayerPageInter
           </h1>
         </div>
       </>
-    )
+    );
   }
 
   return (
@@ -42,9 +47,11 @@ export default function PlayerPage({ player, team, statistics }: PlayerPageInter
         <h1 className="text-4xl font-semibold  text-neutral-900 text-center">
           {player.firstName} {player.lastName}
         </h1>
-        <h2 className="text-2xl font-semibold  text-neutral-900 text-center -m-4">
-          {team ? team.name : player.teamId}
-        </h2>
+        <Link href={`/teams/${team ? team.id : player.teamId}`}>
+          <h2 className="text-2xl font-semibold  text-neutral-900 text-center -m-4">
+            {team ? team.name : player.teamId}
+          </h2>
+        </Link>
       </div>
       <Divider sx={{ borderBottomWidth: 3, my: 3 }} />
       <div className="grid grid-cols-2 gap-3">
@@ -52,17 +59,30 @@ export default function PlayerPage({ player, team, statistics }: PlayerPageInter
         <InfoItem label="Losses" value={statistics?.lost ?? 0} />
         <InfoItem label="Draws" value={statistics?.drawn ?? 0} />
         <InfoItem label="Played" value={statistics?.matchesPlayed ?? 0} />
-        <InfoItem label="Win Percentage" value={`${(((statistics?.won ?? 0) / (statistics?.matchesPlayed ?? 1)) * 100).toFixed(2) ?? "N/A"}%`} />
+        <InfoItem
+          label="Win Percentage"
+          value={`${(((statistics?.won ?? 0) / (statistics?.matchesPlayed ?? 1)) * 100).toFixed(2) ?? "N/A"}%`}
+        />
         <InfoItem label="Goals" value={statistics?.goals ?? 0} />
         <InfoItem label="Assists" value={statistics?.assists ?? 0} />
         <InfoItem
           label="Discipline"
           value={`Y (${statistics?.yellowCards ?? 0}) R (${statistics?.redCards ?? 0})`}
         />
-        <InfoItem label="Shirt Number" value={playerRole?.shirtNumber ?? "N/A"} />
-        <InfoItem label="Position" value={(playerRole?.positionGroup ?? "N/A") + ", " + (playerRole?.position ?? "N/A")} />
+        <InfoItem
+          label="Shirt Number"
+          value={playerRole?.shirtNumber ?? "N/A"}
+        />
+        <InfoItem
+          label="Position"
+          value={
+            (playerRole?.positionGroup ?? "N/A") +
+            ", " +
+            (playerRole?.position ?? "N/A")
+          }
+        />
         {/* <InfoItem label="Joined Team" value={2025} /> */}
       </div>
     </>
-  )
+  );
 }
