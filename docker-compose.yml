@@ -21,12 +21,14 @@ services:
       dockerfile: Dockerfile
       args:
         BACKEND_URI: http://backend:8080
+        MONGODB_URI: mongodb://root:root@database:27017/football?authSource=admin
     ports:
       - "80:3000"
     networks:
       - p3-aau-football
     environment:
       BACKEND_URI: http://backend:8080
+      MONGODB_URI: mongodb://root:root@database:27017/football?authSource=admin
     restart: always
     depends_on:
       - backend
@@ -46,7 +48,7 @@ services:
     volumes:
       - "./db:/data/db:rw"
     healthcheck:
-      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping')" ]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 5s
       timeout: 3s
       retries: 10
