@@ -22,13 +22,12 @@ public abstract class MatchEvent {
     private String playerId; //Optional. Don't force teams to log
     private Integer minute; //Optional. Integer wrapper class to allow null, rather than primitive int that defaults to 0.
 
+    //Mongo-required no-args constructor
     public MatchEvent() {
-        this.id = new ObjectId().toHexString(); // Consider deleting. Should only create a new id on new events, which is handled by the other constructor. This is a no args for mongo, where ids are already stored, this is overwritten by mongo (reflection?)
     }
 
-    /** Used by matchService (indirectly through subclasses) to create an MatchEvent object from DTO */
+    /** Used (indirectly through subclasses) to create a new domain instance */
     public MatchEvent(String teamId, String playerId, Integer minute) {
-        // consider wether to use the ObjectId().toHexString here in addition/instead of above
         this.id = new ObjectId().toHexString();
         this.teamId = teamId;
         this.playerId = playerId;

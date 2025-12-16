@@ -6,9 +6,7 @@ public class Goal extends MatchEvent {
     //Mongo-required no-args constructor
     public Goal() { super(); }
 
-    /**
-     * Used by matchService to create an MatchEvent object from DTO in post flow
-     */
+    /** Used to create a new domain instance */
     public Goal(String teamId, String playerId, Integer minute, String assisterId) {
         super(teamId, playerId, minute);
         this.assisterId = assisterId;
