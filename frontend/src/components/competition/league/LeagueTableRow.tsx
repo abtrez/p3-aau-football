@@ -30,6 +30,10 @@ export default function LeagueTableRow({
 
       <td className="py-2 text-center">{stat.matchesPlayed}</td>
       <td className="py-2 text-center">{stat.won}</td>
+      <td className="py-2 text-center">{stat.drawn}</td>
+      <td className="py-2 text-center">{stat.lost}</td>
+      <td className="py-2 text-center">{stat.goalsFor}</td>
+      <td className="py-2 text-center">{stat.goalsAgainst}</td>
       <td className="py-2 text-center">{stat.goalsFor - stat.goalsAgainst}</td>
       <td className="py-2 text-center">{stat.points}</td>
     </tr>
