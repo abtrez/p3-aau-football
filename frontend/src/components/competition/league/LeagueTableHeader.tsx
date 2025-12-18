@@ -7,6 +7,10 @@ export default function LeagueTableHeader() {
         </th>
         <th className="py-2 text-center font-semibold">PL</th>
         <th className="py-2 text-center font-semibold">W</th>
+        <th className="py-2 text-center font-semibold">D</th>
+        <th className="py-2 text-center font-semibold">L</th>
+        <th className="py-2 text-center font-semibold">GF</th>
+        <th className="py-2 text-center font-semibold">GA</th>
         <th className="py-2 text-center font-semibold">GD</th>
         <th className="py-2 text-center font-semibold">Pts</th>
       </tr>

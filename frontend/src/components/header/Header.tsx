@@ -16,7 +16,7 @@ export default function Header() {
           </Link>
 
           <span className="text-[12px] sm:text-xs font-medium px-3 py-1 rounded-full bg-black text-white">
-            BETA
+            ALPHA
           </span>
         </div>
       </div>
